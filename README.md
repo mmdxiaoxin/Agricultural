@@ -2,7 +2,11 @@
 
 ### 介绍 📖
 
-基于 Vue3.3、TypeScript、Vite4、Pinia、Element-Plus 开源的后台管理框架，使用目前最新技术栈开发。
+使用了
+
+[Geeker-Admin]: https://github.com/HalseySpicy/Geeker-Admin
+
+后台管理框架开发。
 
 ### 项目功能 🔨
 
@@ -19,15 +23,6 @@
 - 使用 husky、lint-staged、commitlint、czg、cz-git 规范提交信息
 
 ### 安装使用步骤 📔
-
-- **Clone：**
-
-```text
-# Gitee
-git clone https://gitee.com/HalseySpicy/Geeker-Admin.git
-# GitHub
-git clone https://github.com/HalseySpicy/Geeker-Admin.git
-```
 
 - **Install：**
 

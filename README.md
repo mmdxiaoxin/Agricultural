@@ -2,11 +2,7 @@
 
 ### 介绍 📖
 
-使用了
-
-[Geeker-Admin]: https://github.com/HalseySpicy/Geeker-Admin
-
-后台管理框架开发。
+使用了Geeker-Admin后台管理框架开发。
 
 ### 项目功能 🔨
 

@@ -2,8 +2,8 @@
   <!-- 热门板块 -->
   <div class="echarts-header">
     <span>排名</span>
-    <span>景区</span>
-    <span>预约数量</span>
+    <span>设备</span>
+    <span>预警阈值</span>
   </div>
   <div id="HotPlateChart" class="echarts"></div>
 </template>

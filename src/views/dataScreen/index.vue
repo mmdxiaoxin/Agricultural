@@ -7,7 +7,7 @@
         </div>
         <div class="header-ct">
           <div class="header-ct-title">
-            <span>智慧旅游可视化大数据展示平台</span>
+            <span>数据可视化大数据展示平台</span>
             <div class="header-ct-warning">平台高峰预警信息（2条）</div>
           </div>
         </div>
@@ -20,7 +20,7 @@
         <div class="dataScreen-lf">
           <div class="dataScreen-top">
             <div class="dataScreen-main-title">
-              <span>实时游客统计</span>
+              <span>实时降水量统计</span>
               <img src="./images/dataScreen-title.png" alt="" />
             </div>
             <!-- chart区域 -->
@@ -70,7 +70,7 @@
           </div>
           <div class="dataScreen-cb">
             <div class="dataScreen-main-title">
-              <span>未来30天游客量趋势图</span>
+              <span>最近30天天气温度趋势图</span>
               <img src="./images/dataScreen-title.png" alt="" />
             </div>
             <!-- chart区域 -->
@@ -82,7 +82,7 @@
         <div class="dataScreen-rg">
           <div class="dataScreen-top">
             <div class="dataScreen-main-title">
-              <span>热门景区排行</span>
+              <span>当前设备预警阈值</span>
               <img src="./images/dataScreen-title.png" alt="" />
             </div>
             <!-- chart区域 -->
@@ -92,7 +92,7 @@
           </div>
           <div class="dataScreen-center">
             <div class="dataScreen-main-title">
-              <span>年度游客量对比</span>
+              <span>年度平均温度对比</span>
               <img src="./images/dataScreen-title.png" alt="" />
             </div>
             <!-- chart区域 -->
@@ -128,9 +128,9 @@ import AgeRatioChart from "./components/AgeRatioChart.vue";
 import AnnualUseChart from "./components/AnnualUseChart.vue";
 import HotPlateChart from "./components/HotPlateChart.vue";
 import MaleFemaleRatioChart from "./components/MaleFemaleRatioChart.vue";
-import OverNext30Chart from "./components/OverNext30Chart.vue";
+import OverNext30Chart from "./components/EverNext30Chart.vue";
 import PlatformSourceChart from "./components/PlatformSourceChart.vue";
-import RealTimeAccessChart from "./components/RealTimeAccessChart.vue";
+import RealTimeAccessChart from "./components/RealTimeRainfullChart.vue";
 
 const router = useRouter();
 const dataScreenRef = ref<HTMLElement | null>(null);
@@ -229,34 +229,34 @@ let ageData = [
 ];
 let hotData = [
   {
-    value: 79999,
-    name: "峨眉山",
+    value: 79,
+    name: "设备1",
     percentage: "80%",
-    maxValue: 100000
+    maxValue: 100
   },
   {
-    value: 59999,
-    name: "稻城亚丁",
+    value: 59,
+    name: "设备2",
     percentage: "60%",
-    maxValue: 100000
+    maxValue: 100
   },
   {
-    value: 49999,
-    name: "九寨沟",
+    value: 49,
+    name: "设备3",
     percentage: "50%",
-    maxValue: 100000
+    maxValue: 100
   },
   {
-    value: 39999,
-    name: "万里长城",
+    value: 39,
+    name: "设备4",
     percentage: "40%",
-    maxValue: 100000
+    maxValue: 100
   },
   {
-    value: 29999,
-    name: "北京故宫",
+    value: 29,
+    name: "设备5",
     percentage: "30%",
-    maxValue: 100000
+    maxValue: 100
   }
 ];
 let platFromData = [
@@ -383,7 +383,7 @@ const initCharts = (): void => {
   dataScreen.chart6 = OverNext30Ref.value?.initChart({
     unit: ["访问量"],
     data: new Array(30).fill("").map(val => {
-      val = randomNum(1, 20000);
+      val = randomNum(19, 36);
       return val;
     })
   }) as ECharts;

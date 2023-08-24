@@ -78,7 +78,7 @@ const initChart = (data: any = {}): ECharts => {
     ],
     yAxis: data.unit.map((val: ChartProp, index: number) => {
       return {
-        name: "(访问量)",
+        name: "(温度℃)",
         nameTextStyle: {
           color: "#7ec7ff",
           fontSize: 12,

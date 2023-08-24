@@ -1,12 +1,12 @@
 <template>
   <!-- 实时访问 -->
   <div class="actual-total">
-    <div class="expect-total">可预约总量<i>999999</i>人</div>
+    <div class="expect-total">当前降水量<i>12.3</i>mm</div>
     <div class="actual-total">
       <div v-for="(item, index) in actualTotal.split('')" :key="index" class="actual-item">
         {{ item }}
       </div>
-      <div class="actual-item">人</div>
+      <div class="actual-item">mm</div>
     </div>
   </div>
   <div id="RealTimeAccessChart" class="echarts"></div>
@@ -16,7 +16,7 @@
 import { ref, Ref } from "vue";
 import { ECharts, init } from "echarts";
 import "echarts-liquidfill";
-const actualTotal: Ref<string> = ref("216908");
+const actualTotal: Ref<string> = ref("12.3");
 const initChart = (data: number = 1): ECharts => {
   const charEle = document.getElementById("RealTimeAccessChart") as HTMLElement;
   const charEch: ECharts = init(charEle);
@@ -40,7 +40,7 @@ const initChart = (data: number = 1): ECharts => {
         }
       },
       {
-        text: "预约量",
+        text: "预警阈值",
         left: "49%",
         top: "25%",
         textAlign: "center",
@@ -216,7 +216,7 @@ defineExpose({
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 52px;
+    width: 76px;
     height: 50px;
     margin-right: 1px;
     font-family: MetroDF;

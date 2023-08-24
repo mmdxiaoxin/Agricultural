@@ -63,7 +63,65 @@
           "component": "/dashboard/embedded/index",
           "meta": {
             "icon": "Menu",
-            "title": "内嵌页面",
+            "title": "搜索引擎",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/deviceManagement",
+      "name": "deviceManagement",
+      "redirect": "/deviceManagement/sensorDataView",
+      "meta": {
+        "icon": "box",
+        "title": "设备管理",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/deviceManagement/sensorDataView",
+          "name": "sensorDataView",
+          "component": "/deviceManagement/sensorDataView/index",
+          "meta": {
+            "icon": "cpu",
+            "title": "传感器数据查看",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/deviceManagement/sensorDeviceManagement",
+          "name": "sensorDeviceManagement",
+          "component": "/deviceManagement/sensorDeviceManagement/index",
+          "meta": {
+            "icon": "search",
+            "title": "传感器设备管理",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/deviceManagement/cameraDeviceManagement",
+          "name": "cameraDeviceManagement",
+          "component": "/deviceManagement/cameraDeviceManagement/index",
+          "meta": {
+            "icon": "camera",
+            "title": "摄像头设备管理",
             "isLink": "",
             "isHide": false,
             "isFull": false,

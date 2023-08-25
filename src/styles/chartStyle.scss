@@ -1,0 +1,27 @@
+@import "@/styles/element.scss";
+@import "@/styles/element-dark.scss";
+
+.chart-container {
+  @extend .card;
+  @extend .content-box;
+  border-radius: 1rem;
+  margin: 20px;
+}
+
+.chart-container-small {
+  @extend .chart-container;
+  width: 400px;
+  height: 300px;
+}
+
+.chart-container-high {
+  @extend .chart-container;
+  width: 400px;
+  height: 600px;
+}
+
+.chart-container-wide {
+  @extend .chart-container;
+  width: 800px;
+  height: 300px;
+}

@@ -48,8 +48,8 @@
           "name": "dataVisualize",
           "component": "/dashboard/dataVisualize/index",
           "meta": {
-            "icon": "Menu",
-            "title": "数据可视化",
+            "icon": "Histogram",
+            "title": "数据统计",
             "isLink": "",
             "isHide": false,
             "isFull": false,
@@ -62,7 +62,7 @@
           "name": "embedded",
           "component": "/dashboard/embedded/index",
           "meta": {
-            "icon": "Menu",
+            "icon": "Search",
             "title": "搜索引擎",
             "isLink": "",
             "isHide": false,
@@ -274,6 +274,20 @@
       ]
     },
     {
+      "path": "/modelApplication",
+      "name": "modelApplication",
+      "component": "/modelApplication/index",
+      "meta": {
+        "icon": "Suitcase",
+        "title": "模型应用模块",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      }
+    },
+    {
       "path": "/system",
       "name": "system",
       "redirect": "/system/accountManage",
@@ -408,7 +422,7 @@
           "meta": {
             "icon": "Menu",
             "title": "Gitee 仓库",
-            "isLink": "https://gitee.com/HalseySpicy/Geeker-Admin",
+            "isLink": "#",
             "isHide": false,
             "isFull": false,
             "isAffix": false,
@@ -422,35 +436,7 @@
           "meta": {
             "icon": "Menu",
             "title": "GitHub 仓库",
-            "isLink": "https://github.com/HalseySpicy/Geeker-Admin",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/link/geekerDocs",
-          "name": "geekerDocs",
-          "component": "/link/geekerDocs/index",
-          "meta": {
-            "icon": "Menu",
-            "title": "项目文档",
-            "isLink": "https://docs.spicyboy.cn",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/link/juejin",
-          "name": "juejin",
-          "component": "/link/juejin/index",
-          "meta": {
-            "icon": "Menu",
-            "title": "掘金主页",
-            "isLink": "https://juejin.cn/user/3263814531551816/posts",
+            "isLink": "https://github.com/mmdxiaoxin/Agricultural",
             "isHide": false,
             "isFull": false,
             "isAffix": false,

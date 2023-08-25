@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container" ref="windDirectionChart"></div>
+  <div class="chart-container-small" ref="windDirectionChart"></div>
 </template>
 
 <script setup name="WindChart">
@@ -71,5 +71,5 @@ watch(
 </script>
 
 <style scoped lang="scss">
-@import "./chartStyle.scss";
+@import "../../../../styles/chartStyle.scss";
 </style>

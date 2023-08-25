@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container" ref="humidityChart"></div>
+  <div class="chart-container-small" ref="humidityChart"></div>
 </template>
 
 <script setup name="SoilHumidityChart">
@@ -75,5 +75,5 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import "./chartStyle.scss";
+@import "../../../../styles/chartStyle.scss";
 </style>

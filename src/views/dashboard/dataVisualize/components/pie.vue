@@ -12,8 +12,8 @@ const initChart = (data: any) => {
   const myChart: echarts.ECharts = echarts.init(echartsRef.value as HTMLElement);
   const option: echarts.EChartsOption = {
     title: {
-      text: "Gitee / GitHub",
-      subtext: "访问占比",
+      text: "正常 / 异常",
+      subtext: "记录占比",
       left: "56%",
       top: "45%",
       textAlign: "center",

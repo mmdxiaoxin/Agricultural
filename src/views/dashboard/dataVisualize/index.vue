@@ -1,19 +1,16 @@
 <template>
   <div class="dataVisualize-box">
     <div class="card top-box">
-      <div class="top-title">数据可视化</div>
-      <el-tabs v-model="tabActive" class="demo-tabs">
-        <el-tab-pane v-for="item in tab" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
-      </el-tabs>
+      <div class="top-title">数据统计</div>
       <div class="top-content">
         <el-row :gutter="40">
           <el-col class="mb40" :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="item-left sle">
-              <span class="left-title">访问总数</span>
+              <span class="left-title">设备总数</span>
               <div class="img-box">
                 <img src="./images/book-sum.png" alt="" />
               </div>
-              <span class="left-number">848.132w</span>
+              <span class="left-number">32个</span>
             </div>
           </el-col>
           <el-col class="mb40" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
@@ -22,35 +19,35 @@
                 <div class="traffic-img">
                   <img src="./images/add_person.png" alt="" />
                 </div>
-                <span class="item-value">2222</span>
-                <span class="traffic-name sle">Gitee 访问量</span>
+                <span class="item-value">2682</span>
+                <span class="traffic-name sle">设备记录总数</span>
               </div>
               <div class="gitHub-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/add_team.png" alt="" />
                 </div>
-                <span class="item-value">2222</span>
-                <span class="traffic-name sle">GitHub 访问量</span>
+                <span class="item-value">8</span>
+                <span class="traffic-name sle">站点总数</span>
               </div>
               <div class="today-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/today.png" alt="" />
                 </div>
-                <span class="item-value">4567</span>
-                <span class="traffic-name sle">今日访问量</span>
+                <span class="item-value">426</span>
+                <span class="traffic-name sle">今日设备记录</span>
               </div>
               <div class="yesterday-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/book_sum.png" alt="" />
                 </div>
-                <span class="item-value">1234</span>
-                <span class="traffic-name sle">昨日访问量</span>
+                <span class="item-value">623</span>
+                <span class="traffic-name sle">昨日设备记录</span>
               </div>
             </div>
           </el-col>
           <el-col class="mb40" :xs="24" :sm="24" :md="24" :lg="10" :xl="10">
             <div class="item-right">
-              <div class="echarts-title">Gitee / GitHub 访问量占比</div>
+              <div class="echarts-title">正常记录 / 异常记录占比</div>
               <div class="book-echarts">
                 <Pie ref="pieRef" />
               </div>
@@ -96,19 +93,19 @@ const tab = [
   { label: "近一年", name: 6 }
 ];
 const pieData = [
-  { value: 5000, name: "Gitee 访问量" },
-  { value: 5000, name: "GitHub 访问量" }
+  { value: 3684, name: "正常记录" },
+  { value: 23, name: "异常记录" }
 ];
 const curveData = [
-  { value: 30, spotName: "掘金" },
-  { value: 90, spotName: "CSDN" },
-  { value: 10, spotName: "Gitee" },
-  { value: 70, spotName: "GitHub" },
-  { value: 20, spotName: "知乎" },
-  { value: 60, spotName: "MyBlog" },
-  { value: 55, spotName: "简书" },
-  { value: 80, spotName: "StackOverFlow" },
-  { value: 50, spotName: "博客园" }
+  { value: 30, spotName: "武功猕猴桃试验站" },
+  { value: 90, spotName: "泾阳蔬菜示范站" },
+  { value: 10, spotName: "临渭葡萄研究所" },
+  { value: 70, spotName: "白水苹果试验站" },
+  { value: 20, spotName: "北京猕猴桃试验站" },
+  { value: 60, spotName: "南京蔬菜示范站" },
+  { value: 55, spotName: "重庆葡萄研究所" },
+  { value: 80, spotName: "深圳苹果试验站" },
+  { value: 50, spotName: "广州猕猴桃试验站" }
 ];
 </script>
 

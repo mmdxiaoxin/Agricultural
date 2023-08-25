@@ -6,41 +6,25 @@
         <el-tab-pane v-for="item in tab" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
       </el-tabs>
       <div class="dashboard">
-        <el-card shadow="hover">
-          <WindDirectionChart />
-        </el-card>
+        <WindDirectionChart />
 
-        <el-card shadow="hover">
-          <WindSpeedChart />
-        </el-card>
+        <WindSpeedChart />
 
-        <el-card shadow="hover">
-          <HumidityChart />
-        </el-card>
+        <HumidityChart />
 
-        <el-card shadow="hover">
-          <TemperatureChart />
-        </el-card>
+        <TemperatureChart />
 
-        <el-card shadow="hover">
-          <SoilTemperatureChart />
-        </el-card>
+        <SoilTemperatureChart />
 
-        <el-card shadow="hover">
-          <SoilHumidityChart />
-        </el-card>
+        <SoilHumidityChart />
 
-        <el-card shadow="hover">
-          <SoilECChart />
-        </el-card>
+        <SoilECChart />
 
-        <el-card shadow="hover">
-          <IlluminanceChart />
-        </el-card>
+        <IlluminanceChart />
 
-        <el-card shadow="hover">
-          <RainfallChart />
-        </el-card>
+        <RainfallChart />
+
+        <TestEcharts />
       </div>
     </div>
   </div>
@@ -57,6 +41,7 @@ import SoilHumidityChart from "./components/SoilHumidityChart.vue";
 import SoilECChart from "./components/SoilECChart.vue";
 import IlluminanceChart from "./components/IlluminanceChart.vue";
 import RainfallChart from "./components/RainfallChart.vue";
+import TestEcharts from "@/views/diseaseWarning/dataVisualization/components/TestEcharts.vue";
 
 const tabActive = ref(1);
 const tab = [
@@ -77,16 +62,16 @@ const tab = [
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     background-color: white;
+    .top-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
   }
-
   .dashboard {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .el-card {
-    margin-bottom: 1rem;
   }
 }
 </style>

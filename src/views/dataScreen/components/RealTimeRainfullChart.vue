@@ -1,7 +1,7 @@
 <template>
   <!-- 实时访问 -->
   <div class="actual-total">
-    <div class="expect-total">当前降水量<i>12.3</i>mm</div>
+    <div class="expect-total">当前地区降水量</div>
     <div class="actual-total">
       <div v-for="(item, index) in actualTotal.split('')" :key="index" class="actual-item">
         {{ item }}

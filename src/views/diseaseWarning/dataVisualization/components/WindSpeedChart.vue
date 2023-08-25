@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container" ref="windSpeedChart"></div>
+  <div class="chart-container-small" ref="windSpeedChart"></div>
 </template>
 
 <script setup name="WindSpeedChart">
@@ -19,7 +19,7 @@ const drawWindSpeedChart = () => {
   const chart = echarts.init(windSpeedChart.value);
   const option = {
     title: {
-      text: "实时风速"
+      text: "风速"
     },
     tooltip: {},
     xAxis: {
@@ -58,5 +58,5 @@ watch(
 </script>
 
 <style scoped lang="scss">
-@import "./chartStyle.scss";
+@import "../../../../styles/chartStyle.scss";
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container" ref="chartContainer"></div>
+  <div class="chart-container-small" ref="chartContainer"></div>
 </template>
 
 <script>
@@ -96,5 +96,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "./chartStyle.scss";
+@import "../../../../styles/chartStyle.scss";
 </style>

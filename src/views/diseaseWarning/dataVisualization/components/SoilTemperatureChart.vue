@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container" ref="temperatureChart"></div>
+  <div class="chart-container-small" ref="temperatureChart"></div>
 </template>
 
 <script setup name="SoilTemperatureChart">
@@ -75,5 +75,5 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import "./chartStyle.scss";
+@import "../../../../styles/chartStyle.scss";
 </style>

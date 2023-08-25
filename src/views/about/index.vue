@@ -3,8 +3,8 @@
     <div class="card mb10">
       <h4 class="title">简介</h4>
       <span class="text">
-        <el-link type="primary" href="#" target="_blank">农业监控系统</el-link>
-        一款基于 Vue3.3、TypeScript、Vite4、Pinia、Element-Plus 开源的后台管理框架，使用目前最新技术栈开发。
+        <el-link type="primary" href="https://github.com/mmdxiaoxin/Agricultural" target="_blank">农业监控系统</el-link>
+        基于 Vue3.3、TypeScript、Vite4、Pinia、Element-Plus 开源的后台管理平台，使用目前最新技术栈开发。
       </span>
     </div>
     <div class="card mb10">
@@ -20,7 +20,7 @@
           <el-link type="primary" href="#" target="_blank"> Gitee </el-link>
         </el-descriptions-item>
         <el-descriptions-item label="Github" label-align="left">
-          <el-link type="primary" href="#" target="_blank"> Github </el-link>
+          <el-link type="primary" href="https://github.com/mmdxiaoxin/Agricultural" target="_blank"> Github </el-link>
         </el-descriptions-item>
       </el-descriptions>
     </div>

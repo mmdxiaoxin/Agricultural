@@ -1,7 +1,7 @@
 <template>
   <!-- 热门板块 -->
   <div class="echarts-header">
-    <span>排名</span>
+    <span>排序</span>
     <span>设备</span>
     <span>预警阈值</span>
   </div>

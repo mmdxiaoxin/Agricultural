@@ -23,7 +23,7 @@ const initChart = (data: any = {}): ECharts => {
     },
     tooltip: {
       trigger: "item",
-      formatter: "{b} :  {c}人"
+      formatter: "{b} :  {c}个"
     },
     legend: {
       show: true,

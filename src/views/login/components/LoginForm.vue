@@ -83,7 +83,7 @@ const login = (formEl: FormInstance | undefined) => {
       router.push(HOME_URL);
       ElNotification({
         title: getTimeState(),
-        message: "欢迎登录 Geeker-Admin",
+        message: "欢迎登录 😊农业监控系统",
         type: "success",
         duration: 3000
       });

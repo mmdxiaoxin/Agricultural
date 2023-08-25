@@ -102,7 +102,7 @@
           </div>
           <div class="dataScreen-bottom">
             <div class="dataScreen-main-title">
-              <span>预约渠道数据统计</span>
+              <span>不同站点数据统计</span>
               <img src="./images/dataScreen-title.png" alt="" />
             </div>
             <!-- chart区域 -->
@@ -262,22 +262,22 @@ let hotData = [
 let platFromData = [
   {
     value: 40,
-    name: "智慧文旅平台",
+    name: "武功猕猴桃试验站",
     percentage: "40%"
   },
   {
     value: 10,
-    name: "携程",
+    name: "泾阳蔬菜示范站",
     percentage: "10%"
   },
   {
     value: 20,
-    name: "飞猪",
+    name: "临渭葡萄研究所",
     percentage: "20%"
   },
   {
     value: 30,
-    name: "其他渠道",
+    name: "其他站点",
     percentage: "30%"
   }
 ];

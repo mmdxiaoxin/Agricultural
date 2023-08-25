@@ -1,0 +1,19 @@
+.dataVisualize-box {
+  .top-box {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    background-color: white;
+    .top-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+  }
+  .dashboard {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

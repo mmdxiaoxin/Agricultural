@@ -16,7 +16,7 @@ const drawTestChart = () => {
   const chart = echarts.init(TestChart.value);
   const option = {
     title: {
-      text: "一天中温度变化",
+      text: "温度变化",
       subtext: "温度"
     },
     tooltip: {
@@ -81,32 +81,7 @@ const drawTestChart = () => {
         type: "line",
         smooth: true,
         // prettier-ignore
-        data: [20, 18, 15, 16, 17, 20, 35, 40, 30, 29, 28, 29, 30, 35, 39, 40, 41, 39, 36, 34],
-        markArea: {
-          itemStyle: {
-            color: "rgba(255, 173, 177, 0.4)"
-          },
-          data: [
-            [
-              {
-                name: "早高峰",
-                xAxis: "07:30"
-              },
-              {
-                xAxis: "10:00"
-              }
-            ],
-            [
-              {
-                name: "晚高峰",
-                xAxis: "17:30"
-              },
-              {
-                xAxis: "21:15"
-              }
-            ]
-          ]
-        }
+        data: [20, 18, 15, 16, 17, 20, 35, 40, 30, 29, 28, 29, 30, 35, 39, 40, 41, 39, 36, 34]
       }
     ]
   };
@@ -115,5 +90,5 @@ const drawTestChart = () => {
 </script>
 
 <style scoped lang="scss">
-@import "../../../../styles/chartStyle.scss";
+@import "@/styles/chartStyle.scss";
 </style>

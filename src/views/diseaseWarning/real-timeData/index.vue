@@ -1,5 +1,5 @@
 <template>
-  <div class="real-timeData-box">
+  <div class="real-timeData-box card">
     <div class="top-box">
       <div class="top-title">当前数据</div>
       <div class="dashboard">

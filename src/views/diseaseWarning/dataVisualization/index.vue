@@ -23,8 +23,6 @@
         <IlluminanceChart />
 
         <RainfallChart />
-
-        <TestEcharts />
       </div>
     </div>
   </div>
@@ -41,7 +39,6 @@ import SoilHumidityChart from "./components/SoilHumidityChart.vue";
 import SoilECChart from "./components/SoilECChart.vue";
 import IlluminanceChart from "./components/IlluminanceChart.vue";
 import RainfallChart from "./components/RainfallChart.vue";
-import TestEcharts from "@/views/diseaseWarning/dataVisualization/components/TestEcharts.vue";
 
 const tabActive = ref(1);
 const tab = [

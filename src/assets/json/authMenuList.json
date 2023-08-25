@@ -279,7 +279,7 @@
       "component": "/modelApplication/index",
       "meta": {
         "icon": "Suitcase",
-        "title": "模型应用模块",
+        "title": "模型应用",
         "isLink": "",
         "isHide": false,
         "isFull": false,

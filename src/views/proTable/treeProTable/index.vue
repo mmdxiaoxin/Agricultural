@@ -4,7 +4,7 @@
       label="name"
       title="部门列表(单选)"
       :data="treeFilterData"
-      :default-value="initParam.departmentId"
+      :default-value="initParam.device"
       @change="changeTreeFilter"
     />
     <div class="table-box">
@@ -48,7 +48,7 @@ import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { getUserTreeList, deleteUser, editUser, addUser, getUserStatus, getUserDepartment } from "@/api/modules/user";
+import { getUserTreeList, deleteUser, editUser, addUser, getUserStatus, getUserDevice } from "@/api/modules/user";
 
 onMounted(() => {
   getTreeFilter();
@@ -72,22 +72,22 @@ onMounted(() => {
 const proTable = ref<ProTableInstance>();
 
 // 如果表格需要初始化请求参数，直接定义传给 ProTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上，改变此参数会自动刷新表格数据)
-const initParam = reactive({ departmentId: "" });
+const initParam = reactive({ device: "" });
 
 // 获取 treeFilter 数据
 // 当 proTable 的 requestAuto 属性为 false，不会自动请求表格数据，等待 treeFilter 数据回来之后，更改 initParam.departmentId 的值，才会触发请求 proTable 数据
 const treeFilterData = ref<any>([]);
 const getTreeFilter = async () => {
-  const { data } = await getUserDepartment();
+  const { data } = await getUserDevice();
   treeFilterData.value = data;
-  initParam.departmentId = treeFilterData.value[1].id;
+  initParam.device = treeFilterData.value[1].id;
 };
 
 // 树形筛选切换
 const changeTreeFilter = (val: string) => {
   ElMessage.success("请注意查看请求参数变化 🤔");
   proTable.value!.pageable.pageNum = 1;
-  initParam.departmentId = val;
+  initParam.device = val;
 };
 
 // 模拟远程加载性别搜索框数据

@@ -1,5 +1,5 @@
 <template>
-  <!-- 未来30天访问量趋势预测图 -->
+  <!-- 最近30天温度趋势图 -->
   <div id="OverNext30Chart" class="echarts"></div>
 </template>
 
@@ -19,7 +19,7 @@ const initChart = (data: any = {}): ECharts => {
       formatter: (params: any) => {
         let tipData = params[0];
         let html = `<div class="lineChart-bg">
-                        <span style="">${tipData.name} <i >${tipData.value}</i> 人次访问</span>
+                        <span style="">${tipData.name} <i >${tipData.value}</i> ℃</span>
                     </div>`;
         return html;
       },

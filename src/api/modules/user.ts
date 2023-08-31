@@ -60,8 +60,8 @@ export const getUserGender = () => {
   return http.get<User.ResGender[]>(PORT1 + `/user/gender`);
 };
 
-// 获取用户部门列表
-export const getUserDepartment = () => {
+// 获取用户设备列表
+export const getUserDevice = () => {
   return http.get<User.ResDepartment[]>(PORT1 + `/user/department`);
 };
 

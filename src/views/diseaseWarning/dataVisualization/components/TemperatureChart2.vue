@@ -2,7 +2,7 @@
   <div class="chart-container-small" ref="TestChart"></div>
 </template>
 
-<script setup name="TestEcharts">
+<script setup name="TemperatureChart2">
 import { onMounted, ref } from "vue";
 import * as echarts from "echarts";
 

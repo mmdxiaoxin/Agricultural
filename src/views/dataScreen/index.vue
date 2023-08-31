@@ -20,38 +20,38 @@
         <div class="dataScreen-lf">
           <div class="dataScreen-top">
             <div class="dataScreen-main-title">
-              <span>实时降水量统计</span>
+              <span>实时降水量</span>
               <img src="./images/dataScreen-title.png" alt="" />
             </div>
             <!-- chart区域 -->
             <div class="dataScreen-main-chart">
-              <RealTimeAccessChart ref="RealTimeAccessRef" />
+              <RealTimeRainfullChart ref="RealTimeRainfullRef" />
             </div>
           </div>
           <div class="dataScreen-center">
             <div class="dataScreen-main-title">
-              <span>男女比例</span>
+              <span>气象信息</span>
               <img src="./images/dataScreen-title.png" alt="" />
             </div>
             <!-- chart区域 -->
             <div class="dataScreen-main-chart">
-              <MaleFemaleRatioChart ref="MaleFemaleRatioRef" />
+              <WindDataVisualChart :wind-direction="36.5" :wind-speed="24" :light="16" />
             </div>
           </div>
           <div class="dataScreen-bottom">
             <div class="dataScreen-main-title">
-              <span>年龄比例</span>
+              <span>土壤情况</span>
               <img src="./images/dataScreen-title.png" alt="" />
             </div>
             <!-- chart区域 -->
             <div class="dataScreen-main-chart">
-              <AgeRatioChart ref="AgeRatioRef" />
+              <SoilDataVisual :soil-conductivity="160" :soil-humidity="32" :soil-temperature="16" />
             </div>
           </div>
         </div>
         <div class="dataScreen-ct">
           <div class="dataScreen-map">
-            <div class="dataScreen-map-title">景区实时客流量</div>
+            <div class="dataScreen-map-title">实时监控</div>
             <!-- <vue3-seamless-scroll
 							:list="alarmData"
 							class="dataScreen-alarm"
@@ -124,14 +124,13 @@ import { useRouter } from "vue-router";
 import { useTime } from "@/hooks/useTime";
 import { ECharts } from "echarts";
 import mapChart from "./components/chinaMapChart.vue";
-import AgeRatioChart from "./components/AgeRatioChart.vue";
 import AnnualUseChart from "./components/AnnualUseChart.vue";
 import HotPlateChart from "./components/HotPlateChart.vue";
-import MaleFemaleRatioChart from "./components/MaleFemaleRatioChart.vue";
 import OverNext30Chart from "./components/EverNext30Chart.vue";
 import PlatformSourceChart from "./components/PlatformSourceChart.vue";
-import RealTimeAccessChart from "./components/RealTimeRainfullChart.vue";
-
+import RealTimeRainfullChart from "./components/RealTimeRainfullChart.vue";
+import WindDataVisualChart from "./components/WindDataVisual.vue";
+import SoilDataVisual from "@/views/dataScreen/components/SoilDataVisual.vue";
 const router = useRouter();
 const dataScreenRef = ref<HTMLElement | null>(null);
 
@@ -185,48 +184,14 @@ const dataScreen: ChartProps = {
 interface ChartExpose {
   initChart: (params: any) => ECharts;
 }
-const RealTimeAccessRef = ref<ChartExpose>();
-const AgeRatioRef = ref<ChartExpose>();
+const RealTimeRainfullRef = ref<ChartExpose>();
 const AnnualUseRef = ref<ChartExpose>();
 const HotPlateRef = ref<ChartExpose>();
-const MaleFemaleRatioRef = ref<ChartExpose>();
 const OverNext30Ref = ref<ChartExpose>();
 const PlatformSourceRef = ref<ChartExpose>();
 const MapChartRef = ref<ChartExpose>();
 
 // 初始化 charts参数
-let ageData = [
-  {
-    value: 200,
-    name: "10岁以下",
-    percentage: "16%"
-  },
-  {
-    value: 110,
-    name: "10 - 18岁",
-    percentage: "8%"
-  },
-  {
-    value: 150,
-    name: "18 - 30岁",
-    percentage: "12%"
-  },
-  {
-    value: 310,
-    name: "30 - 40岁",
-    percentage: "24%"
-  },
-  {
-    value: 250,
-    name: "40 - 60岁",
-    percentage: "20%"
-  },
-  {
-    value: 260,
-    name: "60岁以上",
-    percentage: "20%"
-  }
-];
 let hotData = [
   {
     value: 79,
@@ -364,8 +329,7 @@ let mapData = [
 
 // 初始化 echarts
 const initCharts = (): void => {
-  dataScreen.chart1 = RealTimeAccessRef.value?.initChart(0.5) as ECharts;
-  dataScreen.chart2 = AgeRatioRef.value?.initChart(ageData) as ECharts;
+  dataScreen.chart1 = RealTimeRainfullRef.value?.initChart(0.5) as ECharts;
   dataScreen.chart3 = AnnualUseRef.value?.initChart({
     data: annualData,
     unit: annualData.map(val => val.label),
@@ -376,12 +340,8 @@ const initCharts = (): void => {
     data: hotData,
     colors: ["#1089E7", "#F57474", "#56D0E3", "#F8B448", "#8B78F6"]
   }) as ECharts;
-  dataScreen.chart5 = MaleFemaleRatioRef.value?.initChart({
-    man: 0.6,
-    woman: 0.4
-  }) as ECharts;
   dataScreen.chart6 = OverNext30Ref.value?.initChart({
-    unit: ["访问量"],
+    unit: ["温度"],
     data: new Array(30).fill("").map(val => {
       val = randomNum(19, 36);
       return val;

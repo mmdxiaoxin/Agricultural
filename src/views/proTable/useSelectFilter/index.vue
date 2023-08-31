@@ -4,8 +4,8 @@
       title="部门列表(多选)"
       multiple
       label="name"
-      :request-api="getUserDepartment"
-      :default-value="treeFilterValues.departmentId"
+      :request-api="getUserDevice"
+      :default-value="treeFilterValues.device"
       @change="changeTreeFilter"
     />
     <div class="table-box">
@@ -68,7 +68,7 @@ import {
   resetUserPassWord,
   exportUserInfo,
   BatchAddUser,
-  getUserDepartment,
+  getUserDevice,
   getUserRole
 } from "@/api/modules/user";
 
@@ -153,11 +153,11 @@ const changeSelectFilter = (value: typeof selectFilterValues.value) => {
 };
 
 // 默认 treeFilter 参数
-const treeFilterValues = reactive({ departmentId: ["11"] });
+const treeFilterValues = reactive({ device: ["11"] });
 const changeTreeFilter = (val: string[]) => {
   ElMessage.success("请注意查看请求参数变化 🤔");
   proTable.value!.pageable.pageNum = 1;
-  treeFilterValues.departmentId = val;
+  treeFilterValues.device = val;
 };
 
 // 选择行

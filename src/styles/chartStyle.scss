@@ -10,8 +10,9 @@
 
 .chart-container-small {
   @extend .chart-container;
-  width: 400px;
-  height: 300px;
+  width: 30%;
+  min-width: 400px;
+  min-height: 300px;
 }
 
 .chart-container-high {

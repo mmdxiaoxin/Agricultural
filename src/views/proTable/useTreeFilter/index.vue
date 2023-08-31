@@ -3,8 +3,8 @@
     <TreeFilter
       label="name"
       title="部门列表(单选)"
-      :request-api="getUserDepartment"
-      :default-value="initParam.departmentId"
+      :request-api="getUserDevice"
+      :default-value="initParam.device"
       @change="changeTreeFilter"
     />
     <div class="table-box">
@@ -59,7 +59,7 @@ import {
   BatchAddUser,
   getUserStatus,
   getUserGender,
-  getUserDepartment
+  getUserDevice
 } from "@/api/modules/user";
 
 const router = useRouter();
@@ -73,13 +73,13 @@ const toDetail = () => {
 const proTable = ref<ProTableInstance>();
 
 // 如果表格需要初始化请求参数，直接定义传给 ProTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上，改变此参数会自动刷新表格数据)
-const initParam = reactive({ departmentId: "1" });
+const initParam = reactive({ device: "1" });
 
 // 树形筛选切换
 const changeTreeFilter = (val: string) => {
   ElMessage.success("请注意查看请求参数变化 🤔");
   proTable.value!.pageable.pageNum = 1;
-  initParam.departmentId = val;
+  initParam.device = val;
 };
 
 // 表格配置项

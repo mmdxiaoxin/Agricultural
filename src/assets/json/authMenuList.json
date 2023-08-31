@@ -35,7 +35,7 @@
       "redirect": "/dashboard/dataVisualize",
       "meta": {
         "icon": "Odometer",
-        "title": "Dashboard",
+        "title": "仪表盘",
         "isLink": "",
         "isHide": false,
         "isFull": false,
@@ -137,7 +137,7 @@
       "redirect": "/diseaseWarning/dataVisualization",
       "meta": {
         "icon": "WarningFilled",
-        "title": "病虫害预警",
+        "title": "农业预警",
         "isLink": "",
         "isHide": false,
         "isFull": false,
@@ -150,22 +150,8 @@
           "name": "dataVisualization",
           "component": "/diseaseWarning/dataVisualization/index",
           "meta": {
-            "icon": "eleme",
-            "title": "数据可视化",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/diseaseWarning/historicalData",
-          "name": "historicalData",
-          "component": "/diseaseWarning/historicalData/index",
-          "meta": {
             "icon": "Histogram",
-            "title": "历史数据",
+            "title": "数据可视化",
             "isLink": "",
             "isHide": false,
             "isFull": false,
@@ -179,7 +165,7 @@
           "component": "/diseaseWarning/real-timeData/index",
           "meta": {
             "icon": "Grid",
-            "title": "当前数据",
+            "title": "实时数据",
             "isLink": "",
             "isHide": false,
             "isFull": false,
@@ -279,7 +265,7 @@
       "component": "/modelApplication/index",
       "meta": {
         "icon": "Suitcase",
-        "title": "模型应用",
+        "title": "模型应用模块",
         "isLink": "",
         "isHide": false,
         "isFull": false,
@@ -316,68 +302,12 @@
           }
         },
         {
-          "path": "/system/roleManage",
-          "name": "roleManage",
-          "component": "/system/roleManage/index",
-          "meta": {
-            "icon": "Menu",
-            "title": "角色管理",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
           "path": "/system/menuMange",
           "name": "menuMange",
           "component": "/system/menuMange/index",
           "meta": {
             "icon": "Menu",
             "title": "菜单管理",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/system/departmentManage",
-          "name": "departmentManage",
-          "component": "/system/departmentManage/index",
-          "meta": {
-            "icon": "Menu",
-            "title": "部门管理",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/system/dictManage",
-          "name": "dictManage",
-          "component": "/system/dictManage/index",
-          "meta": {
-            "icon": "Menu",
-            "title": "字典管理",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/system/timingTask",
-          "name": "timingTask",
-          "component": "/system/timingTask/index",
-          "meta": {
-            "icon": "Menu",
-            "title": "定时任务",
             "isLink": "",
             "isHide": false,
             "isFull": false,

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3>{{ text }}</h3>
     <div class="chart-container-high" ref="temperatureGaugeChart"></div>
   </div>
 </template>
@@ -9,16 +8,20 @@
 import { ref, onMounted, defineProps } from "vue";
 import * as echarts from "echarts";
 
-const props = defineProps(["type"]);
-let text = ref("");
+const props = defineProps({
+  type: String,
+  temperaturedata: Number
+});
+
+let chartType = ref("");
 if (props.type === "air") {
-  text.value = "空气温度";
+  chartType.value = "空气温度";
 } else if (props.type === "soil") {
-  text.value = "土壤温度";
+  chartType.value = "土壤温度";
 } else {
-  text.value = "Unknown";
+  chartType.value = "Unknown";
 }
-let value = 41.0;
+let value = props.temperaturedata;
 let kd = [];
 // 刻度使用柱状图模拟，短设置3，长的设置5；构造一个数据
 for (let i = 0, len = 130; i <= len; i++) {
@@ -43,8 +46,7 @@ let borderColor = "#fd4d49";
 // ECharts 配置
 const option = {
   title: {
-    text: "温度计",
-    show: false
+    text: chartType.value
   },
   yAxis: [
     {

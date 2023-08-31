@@ -2,7 +2,7 @@
   <div class="chart-container-small" ref="windDirectionChart"></div>
 </template>
 
-<script setup name="WindChart">
+<script setup name="WindDirectionChart">
 import { onMounted, ref } from "vue";
 import * as echarts from "echarts";
 

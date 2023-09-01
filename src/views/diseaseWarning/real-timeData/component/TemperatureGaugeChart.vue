@@ -4,9 +4,10 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, defineProps } from "vue";
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
 import * as echarts from "echarts";
+import { useEcharts } from "@/hooks/useEcharts";
 
 const props = defineProps({
   type: String,
@@ -37,7 +38,7 @@ for (let i = 0, len = 130; i <= len; i++) {
 }
 console.log(kd);
 // 因为柱状初始化为0，温度存在负值，所以，原本的0-100，改为0-130，0-30用于表示负值
-function getData(value) {
+function getData(value: any) {
   return [value + 30];
 }
 let data = getData(value);
@@ -98,12 +99,12 @@ const option = {
         normal: {
           show: true,
           position: "top",
-          formatter: function (param) {
+          formatter: function (param: any) {
             // 因为柱状初始化为0，温度存在负值，所以，原本的0-100，改为0-130，0-30用于表示负值
             return param.value - 30 + "°C";
           },
           textStyle: {
-            color: "#ccc",
+            color: "#030303",
             fontSize: "10"
           }
         }
@@ -195,9 +196,9 @@ const option = {
           show: true,
           position: "right",
           distance: 5,
-          color: "#525252",
+          color: "#000000",
           fontSize: 10,
-          formatter: function (params) {
+          formatter: function (params: any) {
             // 因为柱状初始化为0，温度存在负值，所以，原本的0-100，改为0-130，0-30用于表示负值
             if (params.dataIndex > 100 || params.dataIndex < 30) {
               return "";
@@ -225,11 +226,11 @@ const option = {
   ]
 };
 
-const temperatureGaugeChart = ref(null);
+const temperatureGaugeChart = ref<HTMLElement>();
 
 onMounted(() => {
-  const myChart = echarts.init(temperatureGaugeChart.value);
-  myChart.setOption(option);
+  let myChart: echarts.ECharts = echarts.init(temperatureGaugeChart.value as HTMLElement);
+  useEcharts(myChart, option);
 });
 </script>
 

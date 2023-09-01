@@ -7,9 +7,23 @@ import { ref } from "vue";
 import { ECharts, EChartsOption, init } from "echarts";
 
 const chartContainer = ref<HTMLElement>();
-const initChart = (): ECharts => {
+
+/*
+ * @description: 传入数据标准
+ * */
+interface SoilData {
+  xAxisData: string[];
+  conductivityData: number[];
+  humidityData: number[];
+  temperatureData: number[];
+}
+
+// 初始化图表
+const initChart = (data: SoilData): ECharts => {
   const charEle = document.getElementById("SoilDataVisual") as HTMLElement;
   const charEch: ECharts = init(charEle);
+
+  // 使用传入的数据来设置图表配置
   const option: EChartsOption = {
     tooltip: {
       trigger: "axis",
@@ -29,7 +43,6 @@ const initChart = (): ECharts => {
     toolbox: {
       feature: {
         dataView: { show: true, readOnly: false },
-        magicType: { show: true, type: ["line", "bar"] },
         restore: { show: true }
       }
     },
@@ -39,7 +52,7 @@ const initChart = (): ECharts => {
     xAxis: [
       {
         type: "category",
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        data: data.xAxisData, // 使用传入的x轴数据
         axisPointer: {
           type: "shadow"
         }
@@ -76,7 +89,7 @@ const initChart = (): ECharts => {
             return (value as number) + " us";
           }
         },
-        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+        data: data.conductivityData // 使用传入的导电率数据
       },
       {
         name: "湿度",
@@ -86,7 +99,7 @@ const initChart = (): ECharts => {
             return (value as number) + " RH%";
           }
         },
-        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+        data: data.humidityData // 使用传入的湿度数据
       },
       {
         name: "温度",
@@ -97,10 +110,11 @@ const initChart = (): ECharts => {
             return (value as number) + " °C";
           }
         },
-        data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+        data: data.temperatureData // 使用传入的温度数据
       }
     ]
   };
+
   charEch.setOption(option);
   return charEch;
 };

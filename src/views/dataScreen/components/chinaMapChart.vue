@@ -9,8 +9,6 @@ import { ECharts, EChartsOption, init } from "echarts";
 import echarts from "@/utils/echarts";
 import mapJson from "../assets/china.json";
 
-let planePath: string =
-  "path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z";
 const initChart = (data: any = []): ECharts => {
   const charEle = document.getElementById("mapChart") as HTMLElement;
   const charEch: ECharts = init(charEle);
@@ -112,45 +110,33 @@ const initChart = (data: any = []): ECharts => {
     // 要显示的散点数据
     series: [
       {
-        name: "",
-        type: "lines",
+        name: "设备数量",
+        type: "scatter", // 使用散点图类型
         coordinateSystem: "geo",
-        zlevel: 1,
-        effect: {
+        zlevel: 2, // 确保散点在上面
+        symbolSize: function (val) {
+          // 控制散点大小，你可以根据设备数量来调整
+          return val[1] / 5; // 这里做了一个简单的缩放
+        },
+        label: {
           show: true,
-          period: 6,
-          trailLength: 0.7,
-          color: "red", // arrow箭头的颜色
-          symbolSize: 3
+          formatter: function (params: any) {
+            // 在散点上显示设备数量
+            return params.value[1];
+          },
+          fontSize: 10, // 调整字体大小
+          color: "#fff" // 字体颜色
         },
-        lineStyle: {
-          color: "#fff",
-          width: 0,
-          curveness: 0.2
+        itemStyle: {
+          color: "red" // 散点的颜色
         },
-        data
-      },
-      {
-        name: "",
-        type: "lines",
-        coordinateSystem: "geo",
-        zlevel: 2,
-        symbol: ["none", "arrow"],
-        symbolSize: 10,
-        effect: {
-          show: true,
-          period: 6,
-          trailLength: 0,
-          symbol: planePath,
-          symbolSize: 15
-        },
-        lineStyle: {
-          color: "#fff",
-          width: 1,
-          opacity: 0.6,
-          curveness: 0.2
-        },
-        data
+        data: data.map(function (item: any) {
+          // 转换数据格式，以匹配散点图的要求
+          return {
+            name: item.name,
+            value: item.value
+          };
+        })
       }
     ]
   };

@@ -8,7 +8,7 @@
       @change="changeTreeFilter"
     />
     <div class="top-box card">
-      <div class="top-title">
+      <div class="top-bar">
         <span>数据可视化</span>
         <span>
           <el-button type="primary" :icon="Refresh" @click="refresh"> 刷新 </el-button>
@@ -31,7 +31,7 @@
 
         <UniversalLineChart chart-title="土壤湿度" chart-unit="RH%" :chart-theme="chartTheme5" />
 
-        <UniversalLineChart chart-title="土壤导电率" chart-unit="us" :chart-theme="chartTheme6" />
+        <UniversalLineChart chart-title="土壤导电率" chart-unit="μs" :chart-theme="chartTheme6" />
 
         <UniversalLineChart chart-title="光照强度" chart-unit="Klux" :chart-theme="chartTheme7" />
 
@@ -52,7 +52,7 @@ import { useRoute } from "vue-router";
 import WindDirectionChart from "./components/WindDirectionChart.vue";
 import RainfallChart from "./components/RainfallChart.vue";
 import TreeFilter from "@/components/TreeFilter/index.vue";
-import UniversalLineChart from "./components/UniversalLineChart.vue";
+import UniversalLineChart from "../../../components/UniversalLineChart/index.vue";
 
 const tabActive = ref(1);
 const route = useRoute();

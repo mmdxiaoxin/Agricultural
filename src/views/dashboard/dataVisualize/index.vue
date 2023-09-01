@@ -1,7 +1,7 @@
 <template>
   <div class="dataVisualize-box">
     <div class="card top-box">
-      <div class="top-title">数据统计</div>
+      <div class="top-bar">数据统计</div>
       <div class="top-content">
         <el-row :gutter="40">
           <el-col class="mb40" :xs="24" :sm="12" :md="12" :lg="6" :xl="6">

@@ -250,6 +250,12 @@ let platFromData = [
     percentage: "30%"
   }
 ];
+let soilData = {
+  xAxisData: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  conductivityData: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+  humidityData: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+  temperatureData: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+};
 let annualData = [
   {
     label: new Date().getFullYear() - 2 + "年",
@@ -265,76 +271,14 @@ let annualData = [
   }
 ];
 let mapData = [
-  {
-    fromName: "北京",
-    toName: "上海",
-    coords: [
-      [116.4551, 40.2539],
-      [121.4648, 31.2891]
-    ]
-  },
-  {
-    fromName: "上海",
-    toName: "北京",
-    coords: [
-      [121.4648, 31.2891],
-      [116.4551, 40.2539]
-    ]
-  },
-  {
-    fromName: "北京",
-    toName: "广州",
-    coords: [
-      [116.4551, 40.2539],
-      [113.5107, 23.2196]
-    ]
-  },
-  {
-    fromName: "广州",
-    toName: "北京",
-    coords: [
-      [113.5107, 23.2196],
-      [116.4551, 40.2539]
-    ]
-  },
-  {
-    fromName: "北京",
-    toName: "成都",
-    coords: [
-      [116.4551, 40.2539],
-      [103.9526, 30.7617]
-    ]
-  },
-  {
-    fromName: "成都",
-    toName: "北京",
-    coords: [
-      [103.9526, 30.7617],
-      [116.4551, 40.2539]
-    ]
-  },
-  {
-    fromName: "成都",
-    toName: "新疆维吾尔自治区",
-    coords: [
-      [103.9526, 30.7617],
-      [85.294711, 41.371801]
-    ]
-  },
-  {
-    fromName: " 新疆维吾尔自治区",
-    toName: "成都",
-    coords: [
-      [85.294711, 41.371801],
-      [103.9526, 30.7617]
-    ]
-  }
+  { name: "北京", value: 100 },
+  { name: "上海", value: 50 }
 ];
 
 // 初始化 echarts
 const initCharts = (): void => {
   dataScreen.chart1 = RealTimeRainfullRef.value?.initChart(0.5) as ECharts;
-  dataScreen.chart2 = SoilDataVisualRef.value?.initChart() as ECharts;
+  dataScreen.chart2 = SoilDataVisualRef.value?.initChart(soilData) as ECharts;
   dataScreen.chart3 = AnnualUseRef.value?.initChart({
     data: annualData,
     unit: annualData.map(val => val.label),

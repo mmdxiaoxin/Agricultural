@@ -13,20 +13,40 @@
         <div class="data-title">光照</div>
         <div class="data-value">{{ props.light }} klux</div>
       </div>
+      <div class="weather card">
+        <div class="data-title">天气</div>
+        <div class="data-value">{{ weatherData?.description || "Loading..." }}</div>
+      </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { defineProps } from "vue";
+<script setup lang="ts">
 const props = defineProps(["windSpeed", "windDirection", "light"]);
 </script>
 
 <style scoped lang="scss">
+@mixin soil-item($soil-item: Basic) {
+  text-align: center;
+  padding: 10px;
+  background-color: #11144d;
+  .data-title {
+    font-size: 20px;
+    color: #eee7e7;
+  }
+
+  .data-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1890ff;
+  }
+}
+
 .soil-data-visual-chart {
   padding: 20px;
   width: 89%;
   height: 84%;
+
   .soil-data {
     display: flex;
     flex-wrap: wrap;
@@ -35,20 +55,14 @@ const props = defineProps(["windSpeed", "windDirection", "light"]);
     .soil-temperature,
     .soil-conductivity,
     .soil-humidity {
-      text-align: center;
-      padding: 10px;
-      background-color: #11144d;
+      @include soil-item;
       width: 30%;
-      .data-title {
-        font-size: 20px;
-        color: #eee7e7;
-      }
+    }
 
-      .data-value {
-        font-size: 20px;
-        font-weight: bold;
-        color: #1890ff;
-      }
+    .weather {
+      @include soil-item;
+      width: 100%;
+      margin-top: 10%;
     }
   }
 }

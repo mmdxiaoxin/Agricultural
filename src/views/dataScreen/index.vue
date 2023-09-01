@@ -44,8 +44,8 @@
               <img src="./images/dataScreen-title.png" alt="" />
             </div>
             <!-- chart区域 -->
-            <div class="dataScreen-main-chart">
-              <SoilDataVisual :soil-conductivity="160" :soil-humidity="32" :soil-temperature="16" />
+            <div class="dataScreen-main-chart flex-extend">
+              <SoilDataVisual ref="SoilDataVisualRef" />
             </div>
           </div>
         </div>
@@ -131,6 +131,7 @@ import PlatformSourceChart from "./components/PlatformSourceChart.vue";
 import RealTimeRainfullChart from "./components/RealTimeRainfullChart.vue";
 import WindDataVisualChart from "./components/WindDataVisual.vue";
 import SoilDataVisual from "@/views/dataScreen/components/SoilDataVisual.vue";
+
 const router = useRouter();
 const dataScreenRef = ref<HTMLElement | null>(null);
 
@@ -169,6 +170,7 @@ const resize = () => {
 interface ChartProps {
   [key: string]: ECharts | null;
 }
+
 const dataScreen: ChartProps = {
   chart1: null,
   chart2: null,
@@ -184,8 +186,10 @@ const dataScreen: ChartProps = {
 interface ChartExpose {
   initChart: (params: any) => ECharts;
 }
+
 const RealTimeRainfullRef = ref<ChartExpose>();
 const AnnualUseRef = ref<ChartExpose>();
+const SoilDataVisualRef = ref<ChartExpose>();
 const HotPlateRef = ref<ChartExpose>();
 const OverNext30Ref = ref<ChartExpose>();
 const PlatformSourceRef = ref<ChartExpose>();
@@ -249,15 +253,15 @@ let platFromData = [
 let annualData = [
   {
     label: new Date().getFullYear() - 2 + "年",
-    value: ["184", "90", "120", "0", "30", "100", "80", "40", "20", "510", "350", "180"]
+    value: ["18", "9", "12", "10", "3", "10", "8", "40", "20", "51", "35", "18"]
   },
   {
     label: new Date().getFullYear() - 1 + "年",
-    value: ["118", "509", "366", "162", "380", "123", "321", "158", "352", "474", "154", "22"]
+    value: ["11", "30", "36", "16", "38", "12", "32", "15", "35", "47", "15", "22"]
   },
   {
     label: new Date().getFullYear() + "年",
-    value: ["548", "259", "113", "90", "69", "512", "23", "49", "28", "420", "313", "156"]
+    value: ["34", "25", "11", "9", "6", "12", "23", "24", "28", "42", "31", "15"]
   }
 ];
 let mapData = [
@@ -330,6 +334,7 @@ let mapData = [
 // 初始化 echarts
 const initCharts = (): void => {
   dataScreen.chart1 = RealTimeRainfullRef.value?.initChart(0.5) as ECharts;
+  dataScreen.chart2 = SoilDataVisualRef.value?.initChart() as ECharts;
   dataScreen.chart3 = AnnualUseRef.value?.initChart({
     data: annualData,
     unit: annualData.map(val => val.label),

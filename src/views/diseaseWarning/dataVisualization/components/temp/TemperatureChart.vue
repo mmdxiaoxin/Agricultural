@@ -2,30 +2,26 @@
   <div class="chart-container-small" ref="temperatureChart"></div>
 </template>
 
-<script setup name="SoilTemperatureChart">
+<script setup name="TemperatureChart" lang="ts">
 import { onMounted, ref } from "vue";
 import * as echarts from "echarts";
+import { useEcharts } from "@/hooks/useEcharts";
+const temperatureChart = ref<HTMLElement>();
 
-const temperatureChart = ref(null);
-
+// Simulated real-time data
 const temperatureData = ref([
-  { time: "08:00", temperature: 20 },
-  { time: "09:00", temperature: 22 },
-  { time: "10:00", temperature: 25 },
-  { time: "11:00", temperature: 28 },
-  { time: "12:00", temperature: 30 }
+  { time: "08:00", temperature: 25 },
+  { time: "09:00", temperature: 26 },
+  { time: "10:00", temperature: 28 },
+  { time: "11:00", temperature: 30 },
+  { time: "12:00", temperature: 32 }
 ]);
 
-onMounted(() => {
-  drawTemperatureChart();
-});
-
 const drawTemperatureChart = () => {
-  const chart = echarts.init(temperatureChart.value);
-
-  const option = {
+  let myChart: echarts.ECharts = echarts.init(temperatureChart.value as HTMLElement);
+  let option: echarts.EChartsOption = {
     title: {
-      text: "土壤温度"
+      text: "空气温度"
     },
     tooltip: {
       trigger: "axis"
@@ -40,21 +36,20 @@ const drawTemperatureChart = () => {
     },
     series: [
       {
-        name: "土壤温度",
+        name: "空气温度",
         type: "line",
         data: temperatureData.value.map(item => item.temperature)
       }
     ]
   };
-
-  chart.setOption(option);
+  useEcharts(myChart, option);
 };
 
 // Function to update data
 const updateData = () => {
   const currentTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-  // Generate random data for soil temperature and humidity
+  // Generate random data for humidity and temperature
   const newTemperatureData = {
     time: currentTime,
     temperature: Math.random() * 10 + 20 // Simulated temperature value (20°C to 30°C)
@@ -75,5 +70,5 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import "../../../../styles/chartStyle.scss";
+@import "@/styles/chartStyle";
 </style>

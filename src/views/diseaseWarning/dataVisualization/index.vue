@@ -21,19 +21,19 @@
       <div class="dashboard">
         <WindDirectionChart />
 
-        <WindSpeedChart />
+        <UniversalLineChart chart-title="风速" chart-unit="m/s" :chart-theme="chartTheme1" />
 
-        <HumidityChart />
+        <UniversalLineChart chart-title="空气湿度" chart-unit="RH%" :chart-theme="chartTheme2" />
 
-        <TemperatureChart />
+        <UniversalLineChart chart-title="空气温度" chart-unit="℃" :chart-theme="chartTheme3" />
 
-        <SoilTemperatureChart />
+        <UniversalLineChart chart-title="土壤温度" chart-unit="℃" :chart-theme="chartTheme4" />
 
-        <SoilHumidityChart />
+        <UniversalLineChart chart-title="土壤湿度" chart-unit="RH%" :chart-theme="chartTheme5" />
 
-        <SoilECChart />
+        <UniversalLineChart chart-title="土壤导电率" chart-unit="us" :chart-theme="chartTheme6" />
 
-        <IlluminanceChart />
+        <UniversalLineChart chart-title="光照强度" chart-unit="Klux" :chart-theme="chartTheme7" />
 
         <RainfallChart />
       </div>
@@ -50,15 +50,9 @@ import { useGlobalStore } from "@/stores/modules/global";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { useRoute } from "vue-router";
 import WindDirectionChart from "./components/WindDirectionChart.vue";
-import WindSpeedChart from "./components/WindSpeedChart.vue";
-import HumidityChart from "./components/HumidityChart.vue";
-import TemperatureChart from "./components/TemperatureChart.vue";
-import SoilTemperatureChart from "./components/SoilTemperatureChart.vue";
-import SoilHumidityChart from "./components/SoilHumidityChart.vue";
-import SoilECChart from "./components/SoilECChart.vue";
-import IlluminanceChart from "./components/IlluminanceChart.vue";
 import RainfallChart from "./components/RainfallChart.vue";
 import TreeFilter from "@/components/TreeFilter/index.vue";
+import UniversalLineChart from "./components/UniversalLineChart.vue";
 
 const tabActive = ref(1);
 const route = useRoute();
@@ -96,6 +90,28 @@ const refresh = () => {
 const maximize = () => {
   globalStore.setGlobalState("maximize", true);
 };
+
+// 图表主题
+const generateChartTheme = (color1: string, color2: string) => {
+  return [
+    {
+      offset: 0,
+      color: color1
+    },
+    {
+      offset: 1,
+      color: color2
+    }
+  ];
+};
+
+const chartTheme1 = generateChartTheme("rgb(128, 255, 165)", "rgb(1, 191, 236)");
+const chartTheme2 = generateChartTheme("rgb(0, 221, 255)", "rgb(77, 119, 255)");
+const chartTheme3 = generateChartTheme("rgb(55, 162, 255)", "rgb(116, 21, 219)");
+const chartTheme4 = generateChartTheme("rgb(255, 0, 135)", "rgb(135, 0, 157)");
+const chartTheme5 = generateChartTheme("rgb(255, 191, 0)", "rgb(224, 62, 76)");
+const chartTheme6 = generateChartTheme("rgb(32, 180, 255)", "rgb(3, 228, 201)");
+const chartTheme7 = generateChartTheme("rgb(255, 130, 92)", "rgb(153, 102, 255)");
 </script>
 
 <style scoped lang="scss">

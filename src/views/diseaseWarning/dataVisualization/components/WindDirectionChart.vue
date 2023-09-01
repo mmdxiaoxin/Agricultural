@@ -5,6 +5,7 @@
 <script setup name="WindDirectionChart">
 import { onMounted, ref } from "vue";
 import * as echarts from "echarts";
+import { useEcharts } from "@/hooks/useEcharts";
 
 const windDirectionChart = ref(null); // 创建DOM引用
 const roseInfosList = ref([]); // 玫瑰风向图数据
@@ -74,7 +75,7 @@ function getPosition(mychart) {
 
 function init(RoseData, roseMaxValue) {
   // 基于准备好的dom，初始化echars实例
-  let mychart = echarts.init(windDirectionChart.value);
+  let myChart = echarts.init(windDirectionChart.value);
 
   // 指定图表的配置项和数据
   let option = {
@@ -85,7 +86,7 @@ function init(RoseData, roseMaxValue) {
       trigger: "item", // 触发类型
       show: true,
       formatter: function (params) {
-        getPosition(mychart);
+        getPosition(myChart);
         const direction = [
           "正北",
           "北西北",
@@ -125,7 +126,7 @@ function init(RoseData, roseMaxValue) {
       },
       // shape: 'circle',
       indicator: [
-        { name: "N", max: roseMaxValue, axisLabel: { show: true, color: "#000" } },
+        { name: "N", max: roseMaxValue, axisLabel: { show: true, color: "#000000" } },
         { name: "NNW", max: roseMaxValue },
         { name: "NW", max: roseMaxValue },
         { name: "WNW", max: roseMaxValue },
@@ -164,7 +165,7 @@ function init(RoseData, roseMaxValue) {
       }
     ]
   };
-  mychart.setOption(option);
+  useEcharts(myChart, option);
 }
 
 onMounted(() => {

@@ -1,12 +1,12 @@
 <template>
-  <div class="chart-container-small" ref="temperatureChart"></div>
+  <div class="chart-container-small" ref="soilTemperatureChart"></div>
 </template>
 
-<script setup name="TemperatureChart">
+<script setup name="TemperatureChart" lang="ts">
 import { onMounted, ref } from "vue";
 import * as echarts from "echarts";
-
-const temperatureChart = ref(null);
+import { useEcharts } from "@/hooks/useEcharts";
+const soilTemperatureChart = ref<HTMLElement>();
 
 // Simulated real-time data
 const temperatureData = ref([
@@ -17,16 +17,11 @@ const temperatureData = ref([
   { time: "12:00", temperature: 32 }
 ]);
 
-onMounted(() => {
-  drawTemperatureChart();
-});
-
 const drawTemperatureChart = () => {
-  const chart = echarts.init(temperatureChart.value);
-
-  const option = {
+  let myChart: echarts.ECharts = echarts.init(soilTemperatureChart.value as HTMLElement);
+  let option: echarts.EChartsOption = {
     title: {
-      text: "空气温度"
+      text: "土壤温度"
     },
     tooltip: {
       trigger: "axis"
@@ -41,14 +36,13 @@ const drawTemperatureChart = () => {
     },
     series: [
       {
-        name: "空气温度",
+        name: "土壤温度",
         type: "line",
         data: temperatureData.value.map(item => item.temperature)
       }
     ]
   };
-
-  chart.setOption(option);
+  useEcharts(myChart, option);
 };
 
 // Function to update data
@@ -73,10 +67,8 @@ onMounted(() => {
   // Start the data update interval
   setInterval(updateData, 2000); // Update data every 2 seconds
 });
-
-// ...
 </script>
 
 <style scoped lang="scss">
-@import "../../../../styles/chartStyle.scss";
+@import "@/styles/chartStyle";
 </style>

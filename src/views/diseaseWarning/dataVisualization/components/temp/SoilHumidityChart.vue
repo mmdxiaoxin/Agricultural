@@ -75,5 +75,5 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import "../../../../styles/chartStyle.scss";
+@import "../../../../../styles/chartStyle";
 </style>

@@ -20,35 +20,25 @@
           <el-button type="primary" :icon="FullScreen" @click="maximize"> 全屏 </el-button>
         </span>
       </div>
+      <!-- 主要数据展示区域 -->
       <div class="dashboard">
-        <!-- 主要数据展示区域 -->
-        <!-- 风速和风向组件 -->
-        <div class="dashboard-widget">
+        <div class="dashboard-box">
+          <!-- 风速和风向组件 -->
           <WindWidget />
         </div>
-
         <!-- 气象数据图表组件 -->
-        <div class="dashboard-widget">
-          <WeatherChart />
-        </div>
+        <!--        <WeatherChart />-->
 
         <!-- 土壤数据图表组件 -->
-        <div class="dashboard-widget">
-          <SoilChart />
-        </div>
+        <SoilChart :chart-data="generateData()" />
 
         <!-- 光照强度组件 -->
-        <div class="dashboard-widget">
-          <LightIntensity />
-        </div>
+        <!--        <LightIntensity />-->
 
-        <!-- 降雨量组件 -->
-        <div class="dashboard-widget">
-          <Rainfall />
+        <div class="dashboard-box">
+          <TemperatureGaugeChart type="air" :temperaturedata="37" />
+          <TemperatureGaugeChart type="soil" :temperaturedata="36" />
         </div>
-
-        <TemperatureGaugeChart type="air" :temperaturedata="37" />
-        <TemperatureGaugeChart type="soil" :temperaturedata="36" />
       </div>
     </div>
   </div>
@@ -65,10 +55,7 @@ import { useGlobalStore } from "@/stores/modules/global";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { FullScreen, Refresh } from "@element-plus/icons-vue";
 import WindWidget from "@/views/diseaseWarning/real-timeData/component/WindWidget.vue";
-import WeatherChart from "@/views/diseaseWarning/real-timeData/component/WeatherChart.vue";
 import SoilChart from "@/views/diseaseWarning/real-timeData/component/SoilChart.vue";
-import LightIntensity from "@/views/diseaseWarning/real-timeData/component/LightIntensity.vue";
-import Rainfall from "@/views/diseaseWarning/real-timeData/component/Rainfall.vue";
 
 const route = useRoute();
 const globalStore = useGlobalStore();
@@ -95,6 +82,29 @@ const refresh = () => {
 // 当前页全屏
 const maximize = () => {
   globalStore.setGlobalState("maximize", true);
+};
+
+const generateData = () => {
+  const xAxisData: string[] = []; // x轴数据
+  const conductivityData: number[] = []; // 导电率数据
+  const humidityData: number[] = []; // 湿度数据
+  const temperatureData: number[] = []; // 温度数据
+
+  // 生成示例数据，这里只是示范，你可以根据需求生成真实数据
+  for (let i = 0; i < 10; i++) {
+    xAxisData.push(`日期${i + 1}`);
+    conductivityData.push(Math.random() * 100); // 随机生成导电率数据
+    humidityData.push(Math.random() * 100); // 随机生成湿度数据
+    temperatureData.push(Math.random() * 30); // 随机生成温度数据
+  }
+
+  // 调用绘制图表的函数，并将生成的数据传递给它
+  return {
+    xAxisData,
+    conductivityData,
+    humidityData,
+    temperatureData
+  };
 };
 </script>
 

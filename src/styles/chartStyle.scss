@@ -12,7 +12,7 @@
   @extend .chart-container;
   width: 30%;
   min-width: 400px;
-  min-height: 300px;
+  max-height: 300px;
 }
 
 .chart-container-high {

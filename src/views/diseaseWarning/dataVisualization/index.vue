@@ -52,7 +52,7 @@ import { useRoute } from "vue-router";
 import WindDirectionChart from "./components/WindDirectionChart.vue";
 import RainfallChart from "./components/RainfallChart.vue";
 import TreeFilter from "@/components/TreeFilter/index.vue";
-import UniversalLineChart from "../../../components/UniversalLineChart/index.vue";
+import UniversalLineChart from "@/components/UniversalLineChart/index.vue";
 
 const tabActive = ref(1);
 const route = useRoute();

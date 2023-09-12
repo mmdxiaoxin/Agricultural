@@ -9,10 +9,7 @@ import { useEcharts } from "@/hooks/useEcharts";
 
 interface DataItem {
   time: string;
-  chartData: {
-    data1: number;
-    data2: number;
-  };
+  chartData: number;
 }
 
 interface ColorTheme {
@@ -30,17 +27,34 @@ const props = defineProps({
     type: String,
     default: "通用折线图"
   },
-  chartItem1Text: {
-    type: String,
-    default: "数据1"
-  },
-  chartItem2Text: {
-    type: String,
-    default: "数据2"
-  },
   chartData: {
     type: Array as PropType<DataItem[]>,
-    default: () => []
+    default: () => [
+      { time: "01:00", chartData: 13 },
+      { time: "02:00", chartData: 12 },
+      { time: "03:00", chartData: 11 },
+      { time: "04:00", chartData: 12 },
+      { time: "05:00", chartData: 14 },
+      { time: "06:00", chartData: 15 },
+      { time: "07:00", chartData: 15 },
+      { time: "08:00", chartData: 16 },
+      { time: "09:00", chartData: 18 },
+      { time: "10:00", chartData: 18 },
+      { time: "11:00", chartData: 19 },
+      { time: "12:00", chartData: 24 },
+      { time: "13:00", chartData: 26 },
+      { time: "14:00", chartData: 32 },
+      { time: "15:00", chartData: 34 },
+      { time: "16:00", chartData: 33 },
+      { time: "17:00", chartData: 30 },
+      { time: "18:00", chartData: 29 },
+      { time: "19:00", chartData: 17 },
+      { time: "20:00", chartData: 16 },
+      { time: "21:00", chartData: 17 },
+      { time: "22:00", chartData: 16 },
+      { time: "23:00", chartData: 15 },
+      { time: "00:00", chartData: 14 }
+    ]
   },
   chartUnit: {
     type: String,
@@ -55,69 +69,52 @@ const props = defineProps({
   }
 });
 
-const drawTemperatureChart = () => {
+const drawConductivityChart = () => {
   let myChart: echarts.ECharts = echarts.init(lineChart.value as HTMLElement);
   let option: echarts.EChartsOption = {
+    color: ["#2368a1", "#00DDFF", "#37A2FF", "#FF0087", "#FFBF00"],
     title: {
-      text: props.chartTitle
+      text: props.chartTitle,
+      subtext: props.chartUnit
     },
     tooltip: {
-      trigger: "axis"
+      trigger: "axis",
+      axisPointer: {
+        type: "cross",
+        label: {
+          backgroundColor: "#6a7985"
+        }
+      }
     },
-    legend: {
-      data: [props.chartItem1Text, props.chartItem2Text]
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true
     },
     toolbox: {
       show: true,
       feature: {
-        magicType: { show: true, type: ["line", "bar"] },
-        restore: { show: true },
-        saveAsImage: { show: true }
+        saveAsImage: {}
       }
     },
-    calculable: true,
-    xAxis: [
-      {
-        type: "category",
-        // 根据外部导入的数据生成x轴数据
-        data: props.chartData.map((item: DataItem) => item.time)
+    xAxis: {
+      type: "category",
+      boundaryGap: false,
+      data: props.chartData.map(item => item.time) // 使用 props 中的时间数据
+    },
+    yAxis: {
+      type: "value",
+      axisPointer: {
+        snap: true
       }
-    ],
-    yAxis: [
-      {
-        type: "value"
-      }
-    ],
+    },
     series: [
       {
-        name: props.chartItem1Text,
-        type: "bar",
-        // 根据外部导入的数据生成y轴数据
-        data: props.chartData.map((item: DataItem) => item.chartData.data1),
-        markPoint: {
-          data: [
-            { type: "max", name: "Max" },
-            { type: "min", name: "Min" }
-          ]
-        },
-        markLine: {
-          data: [{ type: "average", name: "Avg" }]
-        }
-      },
-      {
-        name: props.chartItem2Text,
-        type: "bar",
-        // 根据外部导入的数据生成y轴数据
-        data: props.chartData.map((item: DataItem) => item.chartData.data2),
-        markPoint: {
-          data: [
-            { name: "Max", value: Math.max(...props.chartData.map((item: DataItem) => item.chartData.data2)) },
-            { name: "Min", value: Math.min(...props.chartData.map((item: DataItem) => item.chartData.data2)) }
-          ]
-        },
-        markLine: {
-          data: [{ type: "average", name: "Avg" }]
-        }
+        name: "导电率",
+        type: "line",
+        smooth: true,
+        data: props.chartData.map(item => item.chartData) // 使用 props 中的图表数据
       }
     ]
   };
@@ -126,7 +123,7 @@ const drawTemperatureChart = () => {
 };
 
 onMounted(() => {
-  drawTemperatureChart();
+  drawConductivityChart();
 });
 </script>
 

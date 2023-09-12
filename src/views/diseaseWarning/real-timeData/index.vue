@@ -24,8 +24,8 @@
       <div class="dashboard">
         <div class="temperature card"><TemperaturePanel /></div>
         <div class="humidity card"><HumidityPanel /></div>
-        <div class="weather card"><WeatherChart /></div>
-        <div class="conductivity card">导电率</div>
+        <div class="weather card"><WeatherPanel /></div>
+        <div class="conductivity card"><ConductivityPanel /></div>
         <div class="rain-fall card"><Rainfall /></div>
       </div>
     </div>
@@ -41,10 +41,11 @@ import { getUserDevice } from "@/api/modules/user";
 import { useGlobalStore } from "@/stores/modules/global";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { FullScreen, Refresh } from "@element-plus/icons-vue";
-import WeatherChart from "@/views/diseaseWarning/real-timeData/component/WeatherChart.vue";
+import WeatherPanel from "@/views/diseaseWarning/real-timeData/component/WeatherPanel.vue";
 import TemperaturePanel from "@/views/diseaseWarning/real-timeData/component/TemperaturePanel.vue";
 import HumidityPanel from "@/views/diseaseWarning/real-timeData/component/HumidityPanel.vue";
 import Rainfall from "@/views/diseaseWarning/real-timeData/component/Rainfall.vue";
+import ConductivityPanel from "@/views/diseaseWarning/real-timeData/component/ConductivityPanel.vue";
 // 创建一个响应式变量来存储当前时间
 const currentTime = ref("");
 
@@ -119,7 +120,7 @@ const generateData = () => {
 // 在组件挂载后开始更新当前时间
 onMounted(() => {
   updateCurrentTime(); // 初始化当前时间
-  setInterval(updateCurrentTime, 1000); // 每秒更新一次当前时间
+  setInterval(updateCurrentTime, 5000); // 每秒更新一次当前时间
 });
 </script>
 

@@ -1,18 +1,18 @@
 <template>
   <div class="weather-container">
-    <div class="wind-speed">
+    <div class="wind-speed card">
       <div class="title">风速</div>
       <div class="value">{{ windSpeed }} m/s</div>
     </div>
-    <div class="wind-direction">
+    <div class="wind-direction card">
       <div class="title">风向</div>
       <div class="value">{{ windDirection }} °</div>
     </div>
-    <div class="light-intensity">
+    <div class="light-intensity card">
       <div class="title">光照强度</div>
       <div class="value">{{ lightIntensity }} KLux</div>
     </div>
-    <div class="meteorological-information">气象信息</div>
+    <div class="meteorological-information card">气象信息</div>
   </div>
 </template>
 
@@ -34,7 +34,6 @@ setInterval(updateWindData, 5000); // 每5秒更新一次数据
 </script>
 
 <style scoped lang="scss">
-@import "src/styles/element";
 .weather-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -65,26 +64,18 @@ setInterval(updateWindData, 5000); // 每5秒更新一次数据
   .wind-speed {
     grid-column: 1/2;
     grid-row: 1/2;
-    background-color: blanchedalmond;
-    @extend .card;
   }
   .wind-direction {
     grid-column: 2/3;
     grid-row: 1/2;
-    background-color: aquamarine;
-    @extend .card;
   }
   .light-intensity {
     grid-column: 3/4;
     grid-row: 1/2;
-    background-color: #9fd990;
-    @extend .card;
   }
   .meteorological-information {
     grid-column: 1/4;
     grid-row: 2/3;
-    background-color: cadetblue;
-    @extend .card;
   }
 }
 </style>

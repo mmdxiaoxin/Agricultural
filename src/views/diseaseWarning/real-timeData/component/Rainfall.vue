@@ -204,7 +204,10 @@ onMounted(() => {
 <style scoped lang="scss">
 @import "@/styles/chartStyle.scss";
 .rain-fall-chart {
-  width: 150px;
-  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
 }
 </style>

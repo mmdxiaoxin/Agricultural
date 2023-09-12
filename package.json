@@ -1,22 +1,19 @@
 {
-  "name": "geeker-admin",
+  "name": "agricultural",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.0.0",
   "type": "module",
-  "description": "geeker-admin open source management system",
+  "description": "agricultural open source management system",
   "author": {
-    "name": "Geeker",
-    "email": "848130454@qq.com",
-    "url": "https://github.com/HalseySpicy"
+    "name": "mmdxiaoxin",
+    "email": "782446723@qq.com",
+    "url": "https://github.com/mmdxiaoxin"
   },
   "license": "MIT",
-  "homepage": "https://github.com/HalseySpicy/Geeker-Admin",
+  "homepage": "https://github.com/mmdxiaoxin/Agricultural",
   "repository": {
     "type": "git",
-    "url": "git@github.com:HalseySpicy/Geeker-Admin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/HalseySpicy/Geeker-Admin/issues"
+    "url": "git@github.com:mmdxiaoxin/Agricultural.git"
   },
   "scripts": {
     "dev": "vite",

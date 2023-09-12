@@ -17,7 +17,7 @@
           <el-tag>{{ lastBuildTime }}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="Gitee" label-align="left">
-          <el-link type="primary" href="#" target="_blank"> Gitee </el-link>
+          <el-link type="primary" href="https://gitee.com/haojingxin/Agricultural" target="_blank"> Gitee </el-link>
         </el-descriptions-item>
         <el-descriptions-item label="Github" label-align="left">
           <el-link type="primary" href="https://github.com/mmdxiaoxin/Agricultural" target="_blank"> Github </el-link>

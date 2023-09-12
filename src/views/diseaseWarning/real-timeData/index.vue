@@ -26,7 +26,7 @@
         <div class="humidity card"><HumidityPanel /></div>
         <div class="weather card"><WeatherPanel /></div>
         <div class="conductivity card"><ConductivityPanel /></div>
-        <div class="rain-fall card"><Rainfall /></div>
+        <div class="rain-fall card"><Rainfall :chart-data="22" /></div>
       </div>
     </div>
   </div>
@@ -91,30 +91,6 @@ const refresh = () => {
 // 当前页全屏
 const maximize = () => {
   globalStore.setGlobalState("maximize", true);
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const generateData = () => {
-  const xAxisData: string[] = []; // x轴数据
-  const conductivityData: number[] = []; // 导电率数据
-  const humidityData: number[] = []; // 湿度数据
-  const temperatureData: number[] = []; // 温度数据
-
-  // 生成示例数据，这里只是示范，你可以根据需求生成真实数据
-  for (let i = 0; i < 10; i++) {
-    xAxisData.push(`日期${i + 1}`);
-    conductivityData.push(Math.random() * 100); // 随机生成导电率数据
-    humidityData.push(Math.random() * 100); // 随机生成湿度数据
-    temperatureData.push(Math.random() * 30); // 随机生成温度数据
-  }
-
-  // 调用绘制图表的函数，并将生成的数据传递给它
-  return {
-    xAxisData,
-    conductivityData,
-    humidityData,
-    temperatureData
-  };
 };
 
 // 在组件挂载后开始更新当前时间

@@ -12,7 +12,10 @@
       <div class="title">光照强度</div>
       <div class="value">{{ lightIntensity }} KLux</div>
     </div>
-    <div class="meteorological-information card">气象信息</div>
+    <div class="meteorological-information card">
+      <div class="title">气象信息</div>
+      <div class="value">Loading...</div>
+    </div>
   </div>
 </template>
 
@@ -44,10 +47,8 @@ setInterval(updateWindData, 5000); // 每5秒更新一次数据
 
   .wind-speed,
   .wind-direction,
-  .light-intensity {
-    text-align: center;
-    flex: 1;
-
+  .light-intensity,
+  .meteorological-information {
     .title {
       font-size: 18px;
       color: #333;

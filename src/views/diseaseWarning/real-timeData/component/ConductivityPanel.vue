@@ -4,7 +4,7 @@
       <LineChart chart-title="导电率" chart-unit="μs" />
     </div>
     <div class="peak-value card">
-      <div class="title">峰值</div>
+      <div class="title">最近峰值</div>
       <div class="value">{{ peakValue }} μs</div>
     </div>
     <div class="current-value card">

@@ -15,7 +15,8 @@
       </div>
       <div class="weather card">
         <div class="data-title">天气</div>
-        <div class="data-value">{{ weatherData?.description || "Loading..." }}</div>
+        <div class="data-value">{{ "Loading..." }}</div>
+        <!--weatherData?.description || ↑ -->
       </div>
     </div>
   </div>

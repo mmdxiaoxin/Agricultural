@@ -88,3 +88,11 @@ export namespace User {
     children?: ResDepartment[];
   }
 }
+
+//数据相关模块
+export namespace DataHandle {
+  export interface Address {
+    id: string;
+    name: string;
+  }
+}

@@ -44,6 +44,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+@import "../index";
 .temperature-panel {
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -56,18 +57,6 @@ onMounted(() => {
   .soil-temperature {
     height: 100%;
     width: 100%;
-
-    .title {
-      font-size: 18px;
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    .value {
-      font-size: 24px;
-      color: #1890ff;
-      font-weight: bold;
-    }
   }
 
   .air-temperature {

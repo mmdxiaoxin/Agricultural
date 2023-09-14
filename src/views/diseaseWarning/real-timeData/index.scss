@@ -34,7 +34,7 @@
   .dashboard {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: 2fr 1fr;
+    grid-template-rows: 1fr 2fr 2fr;
     grid-gap: 10px;
     height: 100%;
 
@@ -75,4 +75,16 @@
       grid-row: 3/4;
     }
   }
+}
+
+.title {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.value {
+  font-size: 18px;
+  color: #1890ff;
+  font-weight: bold;
 }

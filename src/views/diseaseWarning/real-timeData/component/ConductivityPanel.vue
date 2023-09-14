@@ -1,7 +1,7 @@
 <template>
   <div class="conductivity-panel">
     <div class="conductivity-chart">
-      <LineChart chart-title="导电率" chart-unit="μs" />
+      <LineChart chart-title="导电率" chart-unit="us" />
     </div>
     <div class="peak-value card">
       <div class="title">最近峰值</div>
@@ -23,6 +23,7 @@ let currentValue = ref(14);
 </script>
 
 <style scoped lang="scss">
+@import "../index";
 .conductivity-panel {
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -33,21 +34,6 @@ let currentValue = ref(14);
   .conductivity-chart {
     grid-column: 1 / 2;
     grid-row: 1 / 3;
-  }
-
-  .peak-value,
-  .current-value {
-    .title {
-      font-size: 18px;
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    .value {
-      font-size: 24px;
-      color: #1890ff;
-      font-weight: bold;
-    }
   }
 
   .peak-value {

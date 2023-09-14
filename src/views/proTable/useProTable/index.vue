@@ -68,7 +68,7 @@ import {
   changeUserStatus,
   resetUserPassWord,
   exportUserInfo,
-  BatchAddUser,
+  BatchAddData,
   getUserStatus,
   getUserGender
 } from "@/api/modules/user";
@@ -245,7 +245,7 @@ const batchAdd = () => {
   const params = {
     title: "用户",
     tempApi: exportUserInfo,
-    importApi: BatchAddUser,
+    importApi: BatchAddData,
     getTableList: proTable.value?.getTableList
   };
   dialogRef.value?.acceptParams(params);

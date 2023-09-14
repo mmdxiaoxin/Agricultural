@@ -10,7 +10,7 @@
               <div class="img-box">
                 <img src="./images/book-sum.png" alt="" />
               </div>
-              <span class="left-number">32个</span>
+              <span class="left-number">4个</span>
             </div>
           </el-col>
           <el-col class="mb40" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
@@ -85,7 +85,7 @@ onMounted(() => {
 });
 
 const tab = [
-  { label: "未来7日", name: 1 },
+  { label: "近24小时", name: 1 },
   { label: "近七日", name: 2 },
   { label: "近一月", name: 3 },
   { label: "近三月", name: 4 },
@@ -100,12 +100,7 @@ const curveData = [
   { value: 30, spotName: "武功猕猴桃试验站" },
   { value: 90, spotName: "泾阳蔬菜示范站" },
   { value: 10, spotName: "临渭葡萄研究所" },
-  { value: 70, spotName: "白水苹果试验站" },
-  { value: 20, spotName: "北京猕猴桃试验站" },
-  { value: 60, spotName: "南京蔬菜示范站" },
-  { value: 55, spotName: "重庆葡萄研究所" },
-  { value: 80, spotName: "深圳苹果试验站" },
-  { value: 50, spotName: "广州猕猴桃试验站" }
+  { value: 70, spotName: "白水苹果试验站" }
 ];
 </script>
 

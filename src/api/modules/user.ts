@@ -20,8 +20,8 @@ export const addUser = (params: { id: string }) => {
   return http.post(PORT1 + `/user/add`, params);
 };
 
-// 批量添加用户
-export const BatchAddUser = (params: FormData) => {
+// 批量添加数据
+export const BatchAddData = (params: FormData) => {
   return http.post(PORT1 + `/user/import`, params);
 };
 

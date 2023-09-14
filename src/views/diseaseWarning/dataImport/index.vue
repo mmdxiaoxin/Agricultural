@@ -8,7 +8,7 @@
 
 <script setup lang="ts" name="dataImport">
 import { ref } from "vue";
-import { exportUserInfo, BatchAddUser } from "@/api/modules/user";
+import { exportUserInfo, BatchAddData } from "@/api/modules/user";
 import { Upload } from "@element-plus/icons-vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 
@@ -17,7 +17,7 @@ const batchAdd = () => {
   let params = {
     title: "数据",
     tempApi: exportUserInfo,
-    importApi: BatchAddUser
+    importApi: BatchAddData
   };
   importRef.value.acceptParams(params);
 };

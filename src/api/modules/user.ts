@@ -62,7 +62,7 @@ export const getUserGender = () => {
 
 // 获取用户设备列表
 export const getUserDevice = () => {
-  return http.get<User.ResDepartment[]>(PORT1 + `/user/deviceList`);
+  return http.get<User.ResDeviceList[]>(PORT1 + `/user/deviceList`);
 };
 
 // 获取用户角色字典

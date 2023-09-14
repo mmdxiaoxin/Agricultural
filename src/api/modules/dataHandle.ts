@@ -8,10 +8,10 @@ import http from "@/api";
 
 // 获取全部地区列表
 export const getRegionsList = () => {
-  return http.get<DataHandle.Address[]>(PORT1 + `/address/select`);
+  return http.get<DataHandle.ResAddress[]>(PORT1 + `/address/select`);
 };
 
-// 获取设备数据属性
-export const getDeviceDataAttributes = () => {
-  return http.get<DataHandle.Address[]>(PORT1 + `/address/select`);
+// 获取设备数据
+export const getDevice = (params: DataHandle.ReqDeviceMethod) => {
+  return http.get<DataHandle.ResRealDeviceData[]>(PORT1 + `/device/api`, params, { noLoading: true });
 };

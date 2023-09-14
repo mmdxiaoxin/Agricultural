@@ -1,7 +1,7 @@
 // 请求响应参数（不包含data）
 export interface Result {
   code: string;
-  msg: string;
+  message: string;
 }
 
 // 请求响应参数（包含data）
@@ -77,22 +77,37 @@ export namespace User {
     genderLabel: string;
     genderValue: number;
   }
-  export interface ResDepartment {
+  export interface ResDeviceList {
     id: string;
     name: string;
-    children?: ResDepartment[];
+    children?: ResDeviceList[];
   }
   export interface ResRole {
     id: string;
     name: string;
-    children?: ResDepartment[];
+    children?: ResDeviceList[];
   }
 }
 
 //数据相关模块
 export namespace DataHandle {
-  export interface Address {
+  export interface ReqDeviceMethod {
+    id: string;
+    method: string;
+  }
+  export interface ResAddress {
     id: string;
     name: string;
+  }
+  export interface ResRealDeviceData {
+    createTime: Date;
+    error: boolean;
+    errorMsg: string;
+    name: string;
+    sign: string;
+    type: number;
+    unit: string;
+    value: number;
+    valueMsg: string;
   }
 }

@@ -22,11 +22,16 @@
       </div>
       <!-- 主要数据展示区域 -->
       <div class="dashboard">
-        <div class="temperature card"><TemperaturePanel /></div>
-        <div class="humidity card"><HumidityPanel /></div>
-        <div class="weather card"><WeatherPanel /></div>
-        <div class="conductivity card"><ConductivityPanel /></div>
-        <div class="rain-fall card"><Rainfall :chart-data="22" /></div>
+        <!-- 使用 v-for 遍历 deviceDataList 中的数据 -->
+        <div v-for="(data, index) in deviceDataList" :key="index" class="data-card">
+          <el-card :header="data.name">
+            <!-- 数据内容 -->
+            <div class="data-content">
+              <p>{{ data.value }} {{ data.unit }}</p>
+              <p v-if="data.error" class="error-message">{{ data.errorMsg }}</p>
+            </div>
+          </el-card>
+        </div>
       </div>
     </div>
   </div>
@@ -41,38 +46,30 @@ import { getUserDevice } from "@/api/modules/user";
 import { useGlobalStore } from "@/stores/modules/global";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { FullScreen, Refresh } from "@element-plus/icons-vue";
-import WeatherPanel from "@/views/diseaseWarning/real-timeData/component/WeatherPanel.vue";
-import TemperaturePanel from "@/views/diseaseWarning/real-timeData/component/TemperaturePanel.vue";
-import HumidityPanel from "@/views/diseaseWarning/real-timeData/component/HumidityPanel.vue";
-import Rainfall from "@/views/diseaseWarning/real-timeData/component/Rainfall.vue";
-import ConductivityPanel from "@/views/diseaseWarning/real-timeData/component/ConductivityPanel.vue";
-// 创建一个响应式变量来存储当前时间
-const currentTime = ref("");
+import { getDevice } from "@/api/modules/dataHandle";
 
-// 更新当前时间的函数
-const updateCurrentTime = () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const day = now.getDate();
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-  currentTime.value = `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
-};
-
-// 在组件挂载后开始更新当前时间
-onMounted(() => {
-  updateCurrentTime(); // 初始化当前时间
-  setInterval(updateCurrentTime, 1000); // 每秒更新一次当前时间
-});
 const route = useRoute();
 const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
-const treeFilterValue = reactive({ device: "1" });
+const treeFilterValue = reactive({ device: "39" });
+const deviceDataList = ref([]); // 后端返回的数据
+const currentTime = ref(""); // 当前时间
+
+const useDeviceData = async (deviceId: string) => {
+  try {
+    const params = { id: deviceId, method: "deviceDataHandler" };
+    const { data } = await getDevice(params);
+    deviceDataList.value = data.deviceDataList || []; // 将数据存储到响应式变量中
+    currentTime.value = deviceDataList.value[0].createTime; // 将当前时间存储到响应式变量中
+  } catch (error) {
+    ElMessage.error("获取设备数据失败!");
+  }
+};
+
 const changeTreeFilter = (val: string) => {
   ElMessage.success(`你选择了 id 为 ${val} 的数据🤔`);
   treeFilterValue.device = val;
+  useDeviceData(val);
 };
 
 // 刷新当前页
@@ -93,11 +90,7 @@ const maximize = () => {
   globalStore.setGlobalState("maximize", true);
 };
 
-// 在组件挂载后开始更新当前时间
-onMounted(() => {
-  updateCurrentTime(); // 初始化当前时间
-  setInterval(updateCurrentTime, 5000); // 每秒更新一次当前时间
-});
+onMounted(() => useDeviceData(treeFilterValue.device));
 </script>
 
 <style scoped lang="scss">

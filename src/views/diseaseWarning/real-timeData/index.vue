@@ -23,14 +23,8 @@
       <!-- 主要数据展示区域 -->
       <div class="dashboard">
         <!-- 使用 v-for 遍历 deviceDataList 中的数据 -->
-        <div v-for="(data, index) in deviceDataList" :key="index" class="data-card">
-          <el-card :header="data.name">
-            <!-- 数据内容 -->
-            <div class="data-content">
-              <p>{{ data.value }} {{ data.unit }}</p>
-              <p v-if="data.error" class="error-message">{{ data.errorMsg }}</p>
-            </div>
-          </el-card>
+        <div v-for="(item, index) in deviceDataList" :key="index" class="data-card">
+          <DataCard :item="item" />
         </div>
       </div>
     </div>
@@ -47,12 +41,14 @@ import { useGlobalStore } from "@/stores/modules/global";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { FullScreen, Refresh } from "@element-plus/icons-vue";
 import { getDevice } from "@/api/modules/dataHandle";
+import DataCard from "./component/DataCard.vue";
+import { DataHandle } from "@/api/interface";
 
 const route = useRoute();
 const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
 const treeFilterValue = reactive({ device: "39" });
-const deviceDataList = ref([]); // 后端返回的数据
+const deviceDataList = ref<DataHandle.ResRealDeviceData>([]); // 后端返回的数据
 const currentTime = ref(""); // 当前时间
 
 const useDeviceData = async (deviceId: string) => {

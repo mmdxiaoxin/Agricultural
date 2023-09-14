@@ -36,20 +36,6 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
-
-    .data-card {
-      margin: 10px;
-      display: inline-block;
-      width: 280px;
-    }
-
-    .data-content {
-      padding: 10px;
-    }
-
-    .error-message {
-      color: red;
-    }
   }
 }
 

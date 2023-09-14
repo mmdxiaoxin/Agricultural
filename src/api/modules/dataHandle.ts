@@ -1,4 +1,4 @@
-import { DataHandle } from "@/api/interface/index";
+import { DataHandle } from "@/api/interface";
 import { PORT1 } from "@/api/config/servicePort";
 import http from "@/api";
 

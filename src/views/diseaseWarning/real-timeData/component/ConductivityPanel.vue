@@ -1,15 +1,15 @@
 <template>
   <div class="conductivity-panel">
     <div class="conductivity-chart">
-      <LineChart chart-title="导电率" chart-unit="us" />
+      <LineChart chart-title="土壤EC" chart-unit="us" />
     </div>
     <div class="peak-value card">
-      <div class="title">最近峰值</div>
-      <div class="value">{{ peakValue }} μs</div>
+      <div class="title">峰值</div>
+      <div class="value">{{ peakValue }} us</div>
     </div>
     <div class="current-value card">
       <div class="title">当前值</div>
-      <div class="value">{{ currentValue }} μs</div>
+      <div class="value">{{ currentValue }} us</div>
     </div>
   </div>
 </template>

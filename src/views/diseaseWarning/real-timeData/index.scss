@@ -31,6 +31,59 @@
     }
   }
 
+  /* 分割线样式 */
+  .divider {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .siteBoard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 1fr 2fr 2fr;
+    grid-gap: 10px;
+    height: 80vh;
+
+    .temperature,
+    .humidity,
+    .weather,
+    .conductivity,
+    .rain-fall {
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    .temperature {
+      grid-column: 1/5;
+      grid-row: 1/3;
+    }
+
+    .humidity {
+      grid-column: 5/9;
+      grid-row: 1/3;
+    }
+
+    .weather {
+      grid-column: 1/4;
+      grid-row: 3/4;
+    }
+
+    .conductivity {
+      grid-column: 4/7;
+      grid-row: 3/4;
+    }
+
+    .rain-fall {
+      grid-column: 7/9;
+      grid-row: 3/4;
+    }
+  }
+
   .dashboard {
     display: flex;
     flex-wrap: wrap;

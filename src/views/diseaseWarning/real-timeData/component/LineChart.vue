@@ -111,7 +111,7 @@ const drawConductivityChart = () => {
     },
     series: [
       {
-        name: "导电率",
+        name: "土壤EC",
         type: "line",
         smooth: true,
         data: props.chartData.map(item => item.chartData) // 使用 props 中的图表数据

@@ -13,5 +13,5 @@ export const getRegionsList = () => {
 
 // 获取设备数据
 export const getDevice = (params: DataHandle.ReqDeviceMethod) => {
-  return http.get<DataHandle.ResRealDeviceData[]>(PORT1 + `/device/api`, params, { noLoading: true });
+  return http.get<DataHandle.ResRealDeviceDataList>(PORT1 + `/device/api`, params, { noLoading: true });
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="rain-fall-chart" ref="chartContainer" id="SoilDataVisual"></div>
+  <div class="rain-fall-chart" ref="SoilDataVisual"></div>
 </template>
 
 <script setup lang="ts">
@@ -8,7 +8,7 @@ import * as echarts from "echarts";
 import { useEcharts } from "@/hooks/useEcharts";
 import "echarts-liquidfill";
 
-const chartContainer = ref<HTMLElement>();
+const SoilDataVisual = ref<HTMLElement>();
 const props = defineProps({
   chartData: {
     type: Number,
@@ -18,7 +18,7 @@ const props = defineProps({
 
 // 初始化图表
 const drawChart = () => {
-  let myChart: echarts.ECharts = echarts.init(chartContainer.value as HTMLElement);
+  let myChart: echarts.ECharts = echarts.init(SoilDataVisual.value as HTMLElement);
   const data = props.chartData;
   console.log(data);
   let option: echarts.EChartsOption = {
@@ -41,7 +41,7 @@ const drawChart = () => {
         }
       },
       {
-        text: "降水量",
+        text: "降雨量",
         left: "49%",
         top: "25%",
         textAlign: "center",

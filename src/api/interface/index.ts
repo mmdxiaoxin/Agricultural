@@ -110,4 +110,7 @@ export namespace DataHandle {
     value: number;
     valueMsg: string;
   }
+  export interface ResRealDeviceDataList {
+    deviceDataList: ResRealDeviceData[];
+  }
 }

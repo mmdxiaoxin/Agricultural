@@ -2,14 +2,14 @@
   <div class="humidity-panel">
     <div class="air-humidity card">
       <div class="title">空气湿度</div>
-      <div class="value">{{ airHumidity }} RH%</div>
+      <div class="value">{{ props.airHumidityData }} RH%</div>
     </div>
     <div class="humidity-line-chart">
       <BarChart chart-item1-text="空气" chart-item2-text="土壤" chart-title="湿度统计" v-model:chart-data="chartData" />
     </div>
     <div class="soil-humidity card">
       <div class="title">土壤湿度</div>
-      <div class="value">{{ soilHumidity }} RH%</div>
+      <div class="value">{{ props.soilHumidityData }} VOL%</div>
     </div>
   </div>
 </template>
@@ -30,8 +30,16 @@ const generateChartData = () => {
   return data;
 };
 
-let airHumidity = ref(0);
-let soilHumidity = ref(0);
+const props = defineProps({
+  airHumidityData: {
+    type: Number,
+    require: true
+  },
+  soilHumidityData: {
+    type: Number,
+    require: true
+  }
+});
 
 // 使用 ref 存储生成的数据
 const chartData = ref(generateChartData());
@@ -39,8 +47,6 @@ const chartData = ref(generateChartData());
 // 在 mounted 钩子中初始化数据
 onMounted(() => {
   chartData.value = generateChartData();
-  airHumidity.value = chartData.value[chartData.value.length - 1].chartData.data1;
-  soilHumidity.value = chartData.value[chartData.value.length - 1].chartData.data2;
 });
 </script>
 

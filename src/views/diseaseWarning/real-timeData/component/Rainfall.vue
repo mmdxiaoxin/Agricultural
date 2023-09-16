@@ -1,5 +1,5 @@
 <template>
-  <div class="rain-fall-chart" ref="SoilDataVisual"></div>
+  <div class="rain-fall-chart" ref="SoilDataPanelRef" id="SoilDataVisual"></div>
 </template>
 
 <script setup lang="ts">
@@ -8,9 +8,9 @@ import * as echarts from "echarts";
 import { useEcharts } from "@/hooks/useEcharts";
 import "echarts-liquidfill";
 
-const SoilDataVisual = ref<HTMLElement>();
+const SoilDataPanelRef = ref<HTMLElement>();
 const props = defineProps({
-  chartData: {
+  rainfallData: {
     type: Number,
     default: 0
   }
@@ -18,9 +18,8 @@ const props = defineProps({
 
 // 初始化图表
 const drawChart = () => {
-  let myChart: echarts.ECharts = echarts.init(SoilDataVisual.value as HTMLElement);
-  const data = props.chartData;
-  console.log(data);
+  let myChart: echarts.ECharts = echarts.init(SoilDataPanelRef.value as HTMLElement);
+  const data = props.rainfallData + "";
   let option: echarts.EChartsOption = {
     title: [
       {

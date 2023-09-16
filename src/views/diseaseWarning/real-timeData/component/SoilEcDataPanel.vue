@@ -3,23 +3,22 @@
     <div class="conductivity-chart">
       <LineChart chart-title="土壤EC" chart-unit="us" />
     </div>
-    <div class="peak-value card">
-      <div class="title">峰值</div>
-      <div class="value">{{ peakValue }} us</div>
-    </div>
     <div class="current-value card">
-      <div class="title">当前值</div>
-      <div class="value">{{ currentValue }} us</div>
+      <div class="title">当前EC</div>
+      <div class="value">{{ props.soilEcData }} us</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import LineChart from "@/views/diseaseWarning/real-timeData/component/LineChart.vue";
-import { ref } from "vue";
 
-let peakValue = ref(34);
-let currentValue = ref(14);
+const props = defineProps({
+  soilEcData: {
+    type: Number,
+    default: 0
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -36,14 +35,9 @@ let currentValue = ref(14);
     grid-row: 1 / 3;
   }
 
-  .peak-value {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-  }
-
   .current-value {
     grid-column: 2 / 3;
-    grid-row: 2 / 3;
+    grid-row: 1 / 3;
   }
 }
 </style>

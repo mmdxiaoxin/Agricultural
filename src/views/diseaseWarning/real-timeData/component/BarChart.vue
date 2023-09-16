@@ -111,8 +111,8 @@ const drawTemperatureChart = () => {
         data: props.chartData.map((item: DataItem) => item.chartData.data2),
         markPoint: {
           data: [
-            { name: "Max", value: Math.max(...props.chartData.map((item: DataItem) => item.chartData.data2)) },
-            { name: "Min", value: Math.min(...props.chartData.map((item: DataItem) => item.chartData.data2)) }
+            { type: "max", name: "Max" },
+            { type: "min", name: "Min" }
           ]
         },
         markLine: {

@@ -1,6 +1,6 @@
 <template>
   <div class="data-card">
-    <el-card :header="props.item.name">
+    <el-card :header="props.item.name" shadow="hover">
       <!-- 数据内容 -->
       <div class="data-content">
         <p>{{ props.item.value }} {{ props.item.unit }}</p>
@@ -25,8 +25,21 @@ const props = defineProps({
   display: inline-block;
   width: 280px;
 
+  .el-card {
+    margin: 10px;
+    border-radius: 20px;
+    border-color: #c0c4cc;
+
+    &:hover {
+      transform: translateY(-0.5rem);
+    }
+  }
+
   .data-content {
     padding: 10px;
+    font-size: 18px;
+    color: #1890ff;
+    font-weight: bold;
   }
 
   .error-message {

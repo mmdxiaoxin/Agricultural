@@ -6,36 +6,45 @@
 import { onMounted, ref } from "vue";
 import * as echarts from "echarts";
 import { useEcharts } from "@/hooks/useEcharts";
+import { PropType } from "vue/dist/vue";
+
+interface DataItem {
+  time: string;
+  chartData: number;
+}
 
 const chartContainer = ref<HTMLElement>();
-
-const data = ref([
-  { time: "01:00", rainfall: 24 },
-  { time: "02:00", rainfall: 32 },
-  { time: "03:00", rainfall: 48 },
-  { time: "04:00", rainfall: 50 },
-  { time: "05:00", rainfall: 51 },
-  { time: "06:00", rainfall: 52 },
-  { time: "07:00", rainfall: 53 },
-  { time: "08:00", rainfall: 40 },
-  { time: "09:00", rainfall: 39 },
-  { time: "10:00", rainfall: 35 },
-  { time: "11:00", rainfall: 20 },
-  { time: "12:00", rainfall: 19 },
-  { time: "13:00", rainfall: 18 },
-  { time: "14:00", rainfall: 10 },
-  { time: "15:00", rainfall: 12 },
-  { time: "16:00", rainfall: 14 },
-  { time: "17:00", rainfall: 16 },
-  { time: "18:00", rainfall: 18 },
-  { time: "19:00", rainfall: 20 },
-  { time: "20:00", rainfall: 22 },
-  { time: "21:00", rainfall: 24 },
-  { time: "22:00", rainfall: 26 },
-  { time: "23:00", rainfall: 28 },
-  { time: "00:00", rainfall: 30 }
-]);
-
+const props = defineProps({
+  chartData: {
+    type: Array as PropType<DataItem[]>,
+    default: () => [
+      { time: "01:00", chartData: 13 },
+      { time: "02:00", chartData: 12 },
+      { time: "03:00", chartData: 11 },
+      { time: "04:00", chartData: 12 },
+      { time: "05:00", chartData: 14 },
+      { time: "06:00", chartData: 15 },
+      { time: "07:00", chartData: 15 },
+      { time: "08:00", chartData: 16 },
+      { time: "09:00", chartData: 18 },
+      { time: "10:00", chartData: 18 },
+      { time: "11:00", chartData: 19 },
+      { time: "12:00", chartData: 24 },
+      { time: "13:00", chartData: 26 },
+      { time: "14:00", chartData: 32 },
+      { time: "15:00", chartData: 34 },
+      { time: "16:00", chartData: 33 },
+      { time: "17:00", chartData: 30 },
+      { time: "18:00", chartData: 29 },
+      { time: "19:00", chartData: 17 },
+      { time: "20:00", chartData: 16 },
+      { time: "21:00", chartData: 17 },
+      { time: "22:00", chartData: 16 },
+      { time: "23:00", chartData: 15 },
+      { time: "00:00", chartData: 14 }
+    ]
+  }
+});
 const drawChart = () => {
   let myChart: echarts.ECharts = echarts.init(chartContainer.value as HTMLElement);
   let option: echarts.EChartsOption = {
@@ -63,7 +72,7 @@ const drawChart = () => {
         show: false
       },
       z: 10,
-      data: data.value.map(item => item.time)
+      data: props.chartData.map(item => item.time)
     },
     yAxis: {
       type: "value",
@@ -104,7 +113,7 @@ const drawChart = () => {
             ])
           }
         },
-        data: data.value.map(item => item.rainfall)
+        data: props.chartData.map(item => item.chartData)
       }
     ]
   };
@@ -114,10 +123,10 @@ const drawChart = () => {
   myChart.on("click", (params: any) => {
     const dataIndex = params.dataIndex;
     const start = Math.max(dataIndex - zoomSize / 2, 0);
-    const end = Math.min(dataIndex + zoomSize / 2, data.value.length - 1);
+    const end = Math.min(dataIndex + zoomSize / 2, props.chartData.length - 1);
 
-    const startValue = data.value[start].time;
-    const endValue = data.value[end].time;
+    const startValue = props.chartData[start].time;
+    const endValue = props.chartData[end].time;
 
     myChart.dispatchAction({
       type: "dataZoom",

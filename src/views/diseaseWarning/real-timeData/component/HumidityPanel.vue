@@ -5,7 +5,13 @@
       <div class="value">{{ props.airHumidityData }} RH%</div>
     </div>
     <div class="humidity-line-chart">
-      <BarChart chart-item1-text="空气" chart-item2-text="土壤" chart-title="湿度统计" v-model:chart-data="chartData" />
+      <BarChart
+        v-if="chartData.length > 0"
+        chart-item1-text="空气"
+        chart-item2-text="土壤"
+        chart-title="湿度统计"
+        v-model:bar-chart-data="chartData"
+      />
     </div>
     <div class="soil-humidity card">
       <div class="title">土壤湿度</div>
@@ -15,20 +21,10 @@
 </template>
 
 <script setup lang="ts" name="TemperaturePanel">
-import BarChart from "@/views/diseaseWarning/real-timeData/component/BarChart.vue";
-import { ref, onMounted } from "vue";
-
-// 生成模拟数据
-const generateChartData = () => {
-  const data = [];
-  for (let i = 0; i < 12; i++) {
-    const time = `月份${i + 1}`;
-    const data1 = (Math.random() * 30 + 10).toFixed(1); // 生成随机数据1并保留一位小数
-    const data2 = (Math.random() * 30 + 10).toFixed(1); // 生成随机数据2并保留一位小数
-    data.push({ time, chartData: { data1, data2 } });
-  }
-  return data;
-};
+import BarChart, { DataItem } from "@/views/diseaseWarning/real-timeData/component/BarChart.vue";
+import { ref, onMounted, watch } from "vue";
+import { DataHandle } from "@/api/interface";
+import { getCollect } from "@/api/modules/dataHandle";
 
 const props = defineProps({
   airHumidityData: {
@@ -38,16 +34,42 @@ const props = defineProps({
   soilHumidityData: {
     type: Number,
     require: true
+  },
+  lastTime: {
+    type: String
+  },
+  deviceId: {
+    type: String,
+    default: "39"
   }
 });
 
-// 使用 ref 存储生成的数据
-const chartData = ref(generateChartData());
+const getHumidityData = async (deviceId: string) => {
+  const params: DataHandle.ReqCollectMethod = { deviceId: deviceId, hour: "11", columns: "AB1,AI1,createTime" };
+  const { data } = await getCollect(params);
+  // 转换成 DataItem 数组格式
+  const result: DataItem = [];
+  for (const item of data) {
+    const time = item.createTime;
+    const data1 = parseFloat(item.AB1);
+    const data2 = parseFloat(item.AI1);
+    result.push({ time, chartData: { data1, data2 } });
+  }
+  return result;
+};
 
-// 在 mounted 钩子中初始化数据
-onMounted(() => {
-  chartData.value = generateChartData();
+const chartData = ref<DataItem>([]); // 初始化为空数组
+
+onMounted(async () => {
+  chartData.value = await getHumidityData(props.deviceId);
 });
+
+watch(
+  () => props.deviceId,
+  async newDeviceId => {
+    chartData.value = await getHumidityData(newDeviceId);
+  }
+);
 </script>
 
 <style scoped lang="scss">

@@ -5,7 +5,13 @@
       <div class="value">{{ props.airTemperatureData }} ℃</div>
     </div>
     <div class="temperature-line-chart">
-      <BarChart chart-item1-text="空气" chart-item2-text="土壤" chart-title="温度统计" v-model:chart-data="chartData" />
+      <BarChart
+        v-if="chartData.length > 0"
+        chart-item1-text="空气"
+        chart-item2-text="土壤"
+        chart-title="温度统计"
+        v-model:bar-chart-data="chartData"
+      />
     </div>
     <div class="soil-temperature card">
       <div class="title">土壤温度</div>
@@ -15,8 +21,10 @@
 </template>
 
 <script setup lang="ts" name="TemperaturePanel">
-import BarChart from "@/views/diseaseWarning/real-timeData/component/BarChart.vue";
-import { ref, onMounted } from "vue";
+import BarChart, { DataItem } from "@/views/diseaseWarning/real-timeData/component/BarChart.vue";
+import { onMounted, ref, watch } from "vue";
+import { getCollect } from "@/api/modules/dataHandle";
+import { DataHandle } from "@/api/interface";
 
 const props = defineProps({
   airTemperatureData: {
@@ -26,28 +34,42 @@ const props = defineProps({
   soilTemperatureData: {
     type: Number,
     require: true
+  },
+  lastTime: {
+    type: String
+  },
+  deviceId: {
+    type: String,
+    default: "39"
   }
 });
 
-// 生成模拟数据
-const generateChartData = () => {
-  const data = [];
-  for (let i = 0; i < 12; i++) {
-    const time = `时间段${i + 1}`;
-    const data1 = (Math.random() * 30 + 10).toFixed(1); // 生成随机数据1并保留一位小数
-    const data2 = (Math.random() * 30 + 10).toFixed(1); // 生成随机数据2并保留一位小数
-    data.push({ time, chartData: { data1, data2 } });
+const getTemperatureData = async (deviceId: string) => {
+  const params: DataHandle.ReqCollectMethod = { deviceId: deviceId, hour: "11", columns: "AA1,AH1,createTime" };
+  const { data } = await getCollect(params);
+  // 转换成 DataItem 数组格式
+  const result: DataItem = [];
+  for (const item of data) {
+    const time = item.createTime;
+    const data1 = parseFloat(item.AA1);
+    const data2 = parseFloat(item.AH1);
+    result.push({ time, chartData: { data1, data2 } });
   }
-  return data;
+  return result;
 };
 
-// 使用 ref 存储生成的数据
-const chartData = ref(generateChartData());
+const chartData = ref<DataItem>([]); // 初始化为空数组
 
-// 在 mounted 钩子中初始化数据
-onMounted(() => {
-  chartData.value = generateChartData();
+onMounted(async () => {
+  chartData.value = await getTemperatureData(props.deviceId);
 });
+
+watch(
+  () => props.deviceId,
+  async newDeviceId => {
+    chartData.value = await getTemperatureData(newDeviceId);
+  }
+);
 </script>
 
 <style scoped lang="scss">

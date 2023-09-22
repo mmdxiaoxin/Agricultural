@@ -11,12 +11,12 @@
 </template>
 
 <script setup lang="ts">
-import LineChart from "@/views/diseaseWarning/real-timeData/component/LineChart.vue";
+import LineChart from "@/views/diseaseWarning/real-timeData/component/SoilEcChart.vue";
 
 const props = defineProps({
   soilEcData: {
     type: Number,
-    default: 0
+    default: NaN
   }
 });
 </script>

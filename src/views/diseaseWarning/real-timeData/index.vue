@@ -21,14 +21,22 @@
         </span>
       </div>
       <!-- 分割线 -->
-      <div class="divider"></div>
+      <el-divider />
       <!-- 主要数据展示区域 -->
       <div class="siteBoard">
         <div class="temperature card">
-          <TemperaturePanel :air-temperature-data="airTemperatureData" :soil-temperature-data="soilTemperatureData" />
+          <TemperaturePanel
+            :air-temperature-data="airTemperatureData"
+            :soil-temperature-data="soilTemperatureData"
+            :device-id="treeFilterValue.device"
+          />
         </div>
         <div class="humidity card">
-          <HumidityPanel :air-humidity-data="airHumidityData" :soil-humidity-data="soilHumidityData" />
+          <HumidityPanel
+            :air-humidity-data="airHumidityData"
+            :soil-humidity-data="soilHumidityData"
+            :device-id="treeFilterValue.device"
+          />
         </div>
         <div class="weather card">
           <WeatherPanel
@@ -36,15 +44,28 @@
             :light-intensity-data="lightIntensityData"
             :wind-direction-data="windDirectionData"
             :wind-speed-data="windSpeedData"
+            :c-o2-data="CO2Data"
           />
         </div>
         <div class="conductivity card"><SoilEcDataPanel :soil-ec-data="soilEcData" /></div>
         <div class="rain-fall card"><Rainfall :rainfall-data="rainfallData" /></div>
       </div>
-      <div class="dashboard">
-        <!-- 使用 v-for 遍历 deviceDataList 中的数据 -->
-        <div v-for="(item, index) in deviceDataList" :key="index" class="data-card">
-          <DataCard :item="item" />
+      <!-- 分割线 -->
+      <el-divider @click="toggleContent">
+        <el-icon v-if="showContent"><CaretTop /></el-icon>
+        <el-icon v-else><CaretBottom /></el-icon> 数据一览
+      </el-divider>
+      <!-- 根据状态来显示/隐藏内容 -->
+      <div v-if="showContent" class="card">
+        <div class="top-bar">
+          <span class="top-title">数据一览</span>
+        </div>
+        <el-divider />
+        <div class="dashboard">
+          <!-- 遍历 deviceDataList 中的数据 -->
+          <div v-for="(item, index) in deviceDataList" :key="index" class="data-card">
+            <DataCard :item="item" />
+          </div>
         </div>
       </div>
     </div>
@@ -53,7 +74,7 @@
 
 <script setup name="realTimeDataChart" lang="ts">
 import TreeFilter from "@/components/TreeFilter/index.vue";
-import { inject, reactive, nextTick, ref, onMounted } from "vue";
+import { inject, reactive, nextTick, ref, onMounted, onBeforeUnmount } from "vue";
 import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 import { getUserDevice } from "@/api/modules/user";
@@ -63,6 +84,7 @@ import { FullScreen, Refresh } from "@element-plus/icons-vue";
 import { getDevice } from "@/api/modules/dataHandle";
 import DataCard from "./component/DataCard.vue";
 import { DataHandle } from "@/api/interface";
+import { CaretBottom, CaretTop } from "@element-plus/icons-vue";
 import TemperaturePanel from "@/views/diseaseWarning/real-timeData/component/TemperaturePanel.vue";
 import HumidityPanel from "@/views/diseaseWarning/real-timeData/component/HumidityPanel.vue";
 import WeatherPanel from "@/views/diseaseWarning/real-timeData/component/WeatherPanel.vue";
@@ -88,8 +110,15 @@ const windSpeedData = ref();
 const windDirectionData = ref();
 const lightIntensityData = ref();
 const atmosphericPressureData = ref();
+const CO2Data = ref();
 //土壤EC面板需要数据
 const soilEcData = ref();
+//底部展开
+const showContent = ref(false);
+
+const toggleContent = () => {
+  showContent.value = !showContent.value;
+};
 
 const useDeviceData = async (deviceId: string) => {
   try {
@@ -97,7 +126,7 @@ const useDeviceData = async (deviceId: string) => {
     const { data } = await getDevice(params);
     deviceDataList.value = data.deviceDataList;
     currentTime.value = deviceDataList.value[0].createTime;
-
+    console.log(treeFilterValue.device);
     const initData = {
       airTemperature: NaN,
       soilTemperature: NaN,
@@ -108,6 +137,7 @@ const useDeviceData = async (deviceId: string) => {
       windDirection: NaN,
       lightIntensity: NaN,
       atmosphericPressure: NaN,
+      CO2Concentration: NaN,
       soilEc: NaN
     };
 
@@ -140,6 +170,9 @@ const useDeviceData = async (deviceId: string) => {
         case "AC1":
           initData.atmosphericPressure = item.value;
           break;
+        case "BD1":
+          initData.CO2Concentration = item.value;
+          break;
         case "AJ1":
           initData.soilEc = item.value;
           break;
@@ -149,16 +182,17 @@ const useDeviceData = async (deviceId: string) => {
       }
     }
 
-    airTemperatureData.value = initData.airTemperature;
-    soilTemperatureData.value = initData.soilTemperature;
-    airHumidityData.value = initData.airHumidity;
-    soilHumidityData.value = initData.soilHumidity;
-    rainfallData.value = initData.rainfall;
-    windSpeedData.value = initData.windSpeed;
-    windDirectionData.value = initData.windDirection;
-    lightIntensityData.value = initData.lightIntensity;
-    atmosphericPressureData.value = initData.atmosphericPressure;
-    soilEcData.value = initData.soilEc;
+    airTemperatureData.value = parseFloat(String(initData.airTemperature));
+    soilTemperatureData.value = parseFloat(String(initData.soilTemperature));
+    airHumidityData.value = parseFloat(String(initData.airHumidity));
+    soilHumidityData.value = parseFloat(String(initData.soilHumidity));
+    rainfallData.value = parseFloat(String(initData.rainfall));
+    windSpeedData.value = parseFloat(String(initData.windSpeed));
+    windDirectionData.value = parseFloat(String(initData.windDirection));
+    lightIntensityData.value = parseFloat(String(initData.lightIntensity));
+    atmosphericPressureData.value = parseFloat(String(initData.atmosphericPressure));
+    CO2Data.value = parseFloat(String(initData.CO2Concentration));
+    soilEcData.value = parseFloat(String(initData.soilEc));
   } catch (error) {
     ElMessage.error("获取设备数据失败!");
   }
@@ -173,6 +207,19 @@ const debounce = (func: Function, delay: number) => {
       func(...args);
     }, delay);
   };
+};
+
+// 根据窗口宽度变换文本字体大小
+const titleFontSize = ref("var(--title-font-size)");
+const valueFontSize = ref("var(--value-font-size)");
+const updateFontSizes = () => {
+  if (window.innerWidth < 768) {
+    titleFontSize.value = "12px";
+    valueFontSize.value = "16px";
+  } else {
+    titleFontSize.value = "14px";
+    valueFontSize.value = "18px";
+  }
 };
 
 const changeTreeFilter = debounce((val: string) => {
@@ -201,6 +248,12 @@ const maximize = () => {
 
 onMounted(() => {
   useDeviceData(treeFilterValue.device);
+  updateFontSizes();
+  window.addEventListener("resize", updateFontSizes);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", updateFontSizes);
 });
 </script>
 

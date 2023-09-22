@@ -19,30 +19,82 @@
         <el-tab-pane v-for="item in tab" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
       </el-tabs>
       <div class="dashboard">
+        <UniversalLineChart
+          v-if="airTemperatureData && airTemperatureData.length > 0"
+          chart-title="空气温度"
+          chart-unit="℃"
+          :chart-theme="chartTheme3"
+          :chart-data="airTemperatureData"
+        />
+        <UniversalLineChart
+          v-if="soilTemperatureData && soilTemperatureData.length > 0"
+          chart-title="土壤温度"
+          chart-unit="℃"
+          :chart-theme="chartTheme4"
+          :chart-data="soilTemperatureData"
+        />
+        <UniversalLineChart
+          v-if="airHumidityData && airHumidityData.length > 0"
+          chart-title="空气湿度"
+          chart-unit="RH%"
+          :chart-theme="chartTheme2"
+          :chart-data="airHumidityData"
+        />
+        <UniversalLineChart
+          v-if="soilHumidityData && soilHumidityData.length > 0"
+          chart-title="土壤湿度"
+          chart-unit="RH%"
+          :chart-theme="chartTheme5"
+          :chart-data="soilHumidityData"
+        />
+
+        <RainfallChart v-if="rainfallData && rainfallData.length > 0" :chart-data="rainfallData" />
+
+        <UniversalLineChart
+          v-if="windSpeedData && windSpeedData.length > 0"
+          chart-title="风速"
+          chart-unit="m/s"
+          :chart-theme="chartTheme1"
+          :chart-data="windSpeedData"
+        />
+
         <WindDirectionChart />
 
-        <UniversalLineChart chart-title="风速" chart-unit="m/s" :chart-theme="chartTheme1" />
-
-        <UniversalLineChart chart-title="空气湿度" chart-unit="RH%" :chart-theme="chartTheme2" />
-
-        <UniversalLineChart chart-title="空气温度" chart-unit="℃" :chart-theme="chartTheme3" />
-
-        <UniversalLineChart chart-title="土壤温度" chart-unit="℃" :chart-theme="chartTheme4" />
-
-        <UniversalLineChart chart-title="土壤湿度" chart-unit="RH%" :chart-theme="chartTheme5" />
-
-        <UniversalLineChart chart-title="土壤导电率" chart-unit="μs" :chart-theme="chartTheme6" />
-
-        <UniversalLineChart chart-title="光照强度" chart-unit="Klux" :chart-theme="chartTheme7" />
-
-        <RainfallChart />
+        <UniversalLineChart
+          v-if="lightIntensityData && lightIntensityData.length > 0"
+          chart-title="光照强度"
+          chart-unit="Klux"
+          :chart-theme="chartTheme7"
+          :chart-data="lightIntensityData"
+        />
+        <UniversalLineChart
+          v-if="atmosphericPressureData && atmosphericPressureData.length > 0"
+          chart-title="大气压强"
+          chart-unit="hPa"
+          :chart-theme="chartTheme1"
+          :chart-data="atmosphericPressureData"
+        />
+        <UniversalLineChart
+          v-if="CO2Data && CO2Data.length > 0"
+          chart-title="CO2浓度"
+          chart-unit="ppm"
+          :chart-theme="chartTheme2"
+          :chart-data="CO2Data"
+        />
+        <UniversalLineChart
+          v-if="soilEcData && soilEcData.length > 0"
+          chart-title="土壤EC"
+          chart-unit="us"
+          :chart-theme="chartTheme6"
+          :chart-data="soilEcData"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, ref, reactive, nextTick } from "vue";
+import { inject, ref, reactive, nextTick, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import { FullScreen, Refresh } from "@element-plus/icons-vue";
 import { getUserDevice } from "@/api/modules/user";
@@ -53,12 +105,28 @@ import WindDirectionChart from "./components/WindDirectionChart.vue";
 import RainfallChart from "./components/RainfallChart.vue";
 import TreeFilter from "@/components/TreeFilter/index.vue";
 import UniversalLineChart from "@/components/UniversalLineChart/index.vue";
+import { getCollect } from "@/api/modules/dataHandle";
+import { DataHandle } from "@/api/interface";
 
 const tabActive = ref(1);
 const route = useRoute();
-const treeFilterValue = reactive({ device: "1" });
+const treeFilterValue = reactive({ device: "39" });
 const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
+
+const airTemperatureData = ref();
+const soilTemperatureData = ref();
+const airHumidityData = ref();
+const soilHumidityData = ref();
+const rainfallData = ref();
+const windSpeedData = ref();
+const windDirectionData = ref();
+const lightIntensityData = ref();
+const atmosphericPressureData = ref();
+const CO2Data = ref();
+const soilEcData = ref();
+const chartDataList = ref();
+
 const tab = [
   { label: "近24小时", name: 1 },
   { label: "近七日", name: 2 },
@@ -68,10 +136,78 @@ const tab = [
   { label: "近一年", name: 6 }
 ];
 
-const changeTreeFilter = (val: string) => {
+const getChartDataList = async (deviceId: string, hour: string) => {
+  const params = { deviceId, hour };
+  const { data } = await getCollect(params);
+  return data;
+};
+
+const processingData = async () => {
+  try {
+    chartDataList.value = await getChartDataList(treeFilterValue.device, "24");
+    airTemperatureData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.AA1,
+      time: item.createTime
+    }));
+    soilTemperatureData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.AH1,
+      time: item.createTime
+    }));
+    airHumidityData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.AB1,
+      time: item.createTime
+    }));
+    soilHumidityData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.AI1,
+      time: item.createTime
+    }));
+    rainfallData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.AF1,
+      time: item.createTime
+    }));
+    windSpeedData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.AD1,
+      time: item.createTime
+    }));
+    windDirectionData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      roseInfos: item.AE1
+    }));
+    lightIntensityData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.AL1,
+      time: item.createTime
+    }));
+    atmosphericPressureData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.AC1,
+      time: item.createTime
+    }));
+    CO2Data.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.BD1,
+      time: item.createTime
+    }));
+    soilEcData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
+      chartData: item.AJ1,
+      time: item.createTime
+    }));
+  } catch (error) {
+    ElMessage.error("获取设备数据失败!");
+  }
+};
+
+// 防抖函数
+const debounce = (func: Function, delay: number) => {
+  let timer: number | null = null;
+  return (...args: any[]) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
+
+const changeTreeFilter = debounce((val: string) => {
   ElMessage.success(`你选择了 id 为 ${val} 的数据🤔`);
   treeFilterValue.device = val;
-};
+}, 500);
 
 // 刷新当前页
 const refreshCurrentPage: Function = inject("refresh") as Function;
@@ -91,7 +227,7 @@ const maximize = () => {
   globalStore.setGlobalState("maximize", true);
 };
 
-// 图表主题
+// 图表主题渐变生成
 const generateChartTheme = (color1: string, color2: string) => {
   return [
     {
@@ -112,6 +248,10 @@ const chartTheme4 = generateChartTheme("rgb(255, 0, 135)", "rgb(135, 0, 157)");
 const chartTheme5 = generateChartTheme("rgb(255, 191, 0)", "rgb(224, 62, 76)");
 const chartTheme6 = generateChartTheme("rgb(32, 180, 255)", "rgb(3, 228, 201)");
 const chartTheme7 = generateChartTheme("rgb(255, 130, 92)", "rgb(153, 102, 255)");
+
+onMounted(() => {
+  processingData();
+});
 </script>
 
 <style scoped lang="scss">

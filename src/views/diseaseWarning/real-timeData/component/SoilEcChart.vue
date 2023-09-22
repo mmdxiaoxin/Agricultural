@@ -27,7 +27,7 @@ const props = defineProps({
     type: String,
     default: "通用折线图"
   },
-  chartData: {
+  soilEcChartData: {
     type: Array as PropType<DataItem[]>,
     default: () => [
       { time: "01:00", chartData: 830 },
@@ -101,7 +101,7 @@ const drawConductivityChart = () => {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: props.chartData.map(item => item.time) // 使用 props 中的时间数据
+      data: props.soilEcChartData.map(item => item.time) // 使用 props 中的时间数据
     },
     yAxis: {
       type: "value",
@@ -114,7 +114,7 @@ const drawConductivityChart = () => {
         name: "土壤EC",
         type: "line",
         smooth: true,
-        data: props.chartData.map(item => item.chartData) // 使用 props 中的图表数据
+        data: props.soilEcChartData.map(item => item.chartData) // 使用 props 中的图表数据
       }
     ]
   };

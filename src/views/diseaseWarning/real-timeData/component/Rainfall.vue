@@ -12,7 +12,7 @@ const SoilDataPanelRef = ref<HTMLElement>();
 const props = defineProps({
   rainfallData: {
     type: Number,
-    default: 0
+    default: NaN
   }
 });
 

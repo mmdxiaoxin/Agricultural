@@ -16,6 +16,10 @@
       <div class="title">大气压强</div>
       <div class="value">{{ props.atmosphericPressureData }} hPa</div>
     </div>
+    <div class="CO2-data card">
+      <div class="title">CO2浓度</div>
+      <div class="value">{{ props.co2Data }} ppm</div>
+    </div>
   </div>
 </template>
 
@@ -23,19 +27,23 @@
 const props = defineProps({
   windSpeedData: {
     type: Number,
-    default: 0
+    default: NaN
   },
   windDirectionData: {
     type: Number,
-    default: 0
+    default: NaN
   },
   lightIntensityData: {
     type: Number,
-    default: 0
+    default: NaN
   },
   atmosphericPressureData: {
     type: Number,
-    default: 0
+    default: NaN
+  },
+  co2Data: {
+    type: Number,
+    default: NaN
   }
 });
 </script>
@@ -63,7 +71,11 @@ const props = defineProps({
     grid-row: 1/2;
   }
   .meteorological-information {
-    grid-column: 1/7;
+    grid-column: 1/4;
+    grid-row: 2/3;
+  }
+  .CO2-data {
+    grid-column: 4/7;
     grid-row: 2/3;
   }
 }

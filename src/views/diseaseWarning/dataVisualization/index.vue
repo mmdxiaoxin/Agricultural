@@ -18,7 +18,7 @@
       <el-tabs v-model="tabActive" class="demo-tabs">
         <el-tab-pane v-for="item in tab" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
       </el-tabs>
-      <div class="dashboard">
+      <div class="dashboard" :key="uniqueKeyCounter">
         <UniversalLineChart
           v-if="airTemperatureData && airTemperatureData.length > 0"
           chart-title="空气温度"
@@ -58,12 +58,12 @@
           :chart-data="windSpeedData"
         />
 
-        <WindDirectionChart />
+        <WindDirectionChart v-if="windDirectionData && windDirectionData.length > 0" :chart-data="windDirectionData" />
 
         <UniversalLineChart
           v-if="lightIntensityData && lightIntensityData.length > 0"
           chart-title="光照强度"
-          chart-unit="Klux"
+          chart-unit="KLux"
           :chart-theme="chartTheme7"
           :chart-data="lightIntensityData"
         />
@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref, reactive, nextTick, onMounted } from "vue";
+import { inject, ref, reactive, nextTick, onMounted, watch } from "vue";
 import { ElMessage } from "element-plus";
 import { FullScreen, Refresh } from "@element-plus/icons-vue";
 import { getUserDevice } from "@/api/modules/user";
@@ -113,14 +113,14 @@ const route = useRoute();
 const treeFilterValue = reactive({ device: "39" });
 const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
-
+const uniqueKeyCounter = ref(0); // 用于更新图表界面
 const airTemperatureData = ref();
 const soilTemperatureData = ref();
 const airHumidityData = ref();
 const soilHumidityData = ref();
 const rainfallData = ref();
 const windSpeedData = ref();
-const windDirectionData = ref();
+const windDirectionData = ref<Array<number>>();
 const lightIntensityData = ref();
 const atmosphericPressureData = ref();
 const CO2Data = ref();
@@ -135,6 +135,10 @@ const tab = [
   { label: "近半年", name: 5 },
   { label: "近一年", name: 6 }
 ];
+const reRenderTheChartInterface = () => {
+  // 返回一个带有不同计数器值的唯一键
+  return uniqueKeyCounter.value++;
+};
 
 const getChartDataList = async (deviceId: string, hour: string) => {
   const params = { deviceId, hour };
@@ -145,6 +149,7 @@ const getChartDataList = async (deviceId: string, hour: string) => {
 const processingData = async () => {
   try {
     chartDataList.value = await getChartDataList(treeFilterValue.device, "24");
+    console.log(chartDataList.value);
     airTemperatureData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
       chartData: item.AA1,
       time: item.createTime
@@ -169,9 +174,7 @@ const processingData = async () => {
       chartData: item.AD1,
       time: item.createTime
     }));
-    windDirectionData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
-      roseInfos: item.AE1
-    }));
+    windDirectionData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => item.AE1);
     lightIntensityData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
       chartData: item.AL1,
       time: item.createTime
@@ -252,6 +255,14 @@ const chartTheme7 = generateChartTheme("rgb(255, 130, 92)", "rgb(153, 102, 255)"
 onMounted(() => {
   processingData();
 });
+
+watch(
+  () => treeFilterValue.device,
+  () => {
+    processingData();
+    reRenderTheChartInterface();
+  }
+);
 </script>
 
 <style scoped lang="scss">

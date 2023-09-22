@@ -74,7 +74,7 @@
 
 <script setup name="realTimeDataChart" lang="ts">
 import TreeFilter from "@/components/TreeFilter/index.vue";
-import { inject, reactive, nextTick, ref, onMounted, onBeforeUnmount } from "vue";
+import { inject, reactive, nextTick, ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 import { getUserDevice } from "@/api/modules/user";
@@ -250,10 +250,6 @@ onMounted(() => {
   useDeviceData(treeFilterValue.device);
   updateFontSizes();
   window.addEventListener("resize", updateFontSizes);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("resize", updateFontSizes);
 });
 </script>
 

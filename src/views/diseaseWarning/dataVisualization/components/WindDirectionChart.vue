@@ -9,40 +9,19 @@ import { useEcharts } from "@/hooks/useEcharts";
 
 const windDirectionChart = ref(null); // 创建DOM引用
 const roseInfosList = ref([]); // 玫瑰风向图数据
-function getList() {
-  // getWindRoseGraphByConditions(queryParams.value).then(res => {
-  //   if (res.code === 200) {
-  //     /* 由于echars雷达图绘制数据是逆时针的，而后端给我的数据是顺时针的
-  //     因此这里需要将之转换为逆时针，原理是数组除第一个数据其余数组倒置 */
-  //     // 1.获取玫瑰风图数据
-  //     const RoseOriginData = res.data.roseInfos;
-  //     // 获取数组第一个数据和其余数据
-  //     const [RoseFirstData, ...rest] = RoseOriginData;
-  //     roseInfosList.value = [RoseFirstData, ...rest.reverse()];
-  //     // 2.由于时间不确认，所以风图最大值不确认，因此需要根据数组设置最大值（雷达图必须设置每个轴的最大值）
-  //     const roseArrayMaxValue = Math.max(...RoseOriginData);
-  //     // 玫瑰图有5层，如果数组最大数不是5的倍数，那么刻度值就会有小数点，这里需要除5并向上取整，再成5，变成5的倍数，避免刻度有小数点的情况
-  //     const roseMaxValue = Math.ceil(roseArrayMaxValue / 5) * 5;
-  //     init(roseInfosList.value, roseMaxValue);
-  //   }
-  // });
-
-  // 使用模拟的数据代替后端接口返回的数据
-  const mockResponse = {
-    code: 200,
-    data: {
-      roseInfos: [8, 20, 15, 30, 18, 22, 40, 55, 45, 25, 10, 5, 12, 25, 38, 50]
-    }
-  };
-
-  if (mockResponse.code === 200) {
-    const RoseOriginData = mockResponse.data.roseInfos;
-    const [RoseFirstData, ...rest] = RoseOriginData;
-    roseInfosList.value = [RoseFirstData, ...rest.reverse()];
-    const roseArrayMaxValue = Math.max(...RoseOriginData);
-    const roseMaxValue = Math.ceil(roseArrayMaxValue / 5) * 5;
-    init(roseInfosList.value, roseMaxValue);
+const props = defineProps({
+  chartData: {
+    type: Array,
+    default: () => []
   }
+});
+function getList() {
+  const RoseOriginData = props.chartData;
+  const [RoseFirstData, ...rest] = RoseOriginData;
+  roseInfosList.value = [RoseFirstData, ...rest.reverse()];
+  const roseArrayMaxValue = Math.max(...RoseOriginData);
+  const roseMaxValue = Math.ceil(roseArrayMaxValue / 5) * 5;
+  init(roseInfosList.value, roseMaxValue);
 }
 // 通过鼠标坐标计算鼠标在哪个轴
 function getAxisIndex(angle) {

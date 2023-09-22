@@ -23,7 +23,7 @@
       <!-- 分割线 -->
       <el-divider />
       <!-- 主要数据展示区域 -->
-      <div class="siteBoard">
+      <div class="siteBoard" :key="reRenderKey">
         <div class="temperature card">
           <TemperaturePanel
             :air-temperature-data="airTemperatureData"
@@ -74,7 +74,7 @@
 
 <script setup name="realTimeDataChart" lang="ts">
 import TreeFilter from "@/components/TreeFilter/index.vue";
-import { inject, reactive, nextTick, ref, onMounted } from "vue";
+import { inject, reactive, nextTick, ref, onMounted, watch } from "vue";
 import { ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 import { getUserDevice } from "@/api/modules/user";
@@ -96,6 +96,7 @@ const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
 const treeFilterValue = reactive({ device: "39" });
 const deviceDataList = ref<DataHandle.ResRealDeviceData[]>([]); // 后端返回的数据
+const reRenderKey = ref(0); // 用于更新图表界面
 const currentTime = ref(); // 当前时间
 //温度面板需要数据
 const airTemperatureData = ref();
@@ -118,6 +119,10 @@ const showContent = ref(false);
 
 const toggleContent = () => {
   showContent.value = !showContent.value;
+};
+
+const reRenderTheChartInterface = () => {
+  return reRenderKey.value++;
 };
 
 const useDeviceData = async (deviceId: string) => {
@@ -225,8 +230,7 @@ const updateFontSizes = () => {
 const changeTreeFilter = debounce((val: string) => {
   ElMessage.success(`你选择了 id 为 ${val} 的数据🤔`);
   treeFilterValue.device = val;
-  useDeviceData(val);
-}, 500);
+}, 50);
 
 // 刷新当前页
 const refreshCurrentPage: Function = inject("refresh") as Function;
@@ -251,6 +255,14 @@ onMounted(() => {
   updateFontSizes();
   window.addEventListener("resize", updateFontSizes);
 });
+
+watch(
+  () => treeFilterValue.device,
+  () => {
+    useDeviceData(treeFilterValue.device);
+    reRenderTheChartInterface();
+  }
+);
 </script>
 
 <style scoped lang="scss">

@@ -18,7 +18,7 @@
       <el-tabs v-model="tabActive" class="demo-tabs">
         <el-tab-pane v-for="item in tab" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
       </el-tabs>
-      <div class="dashboard" :key="uniqueKeyCounter">
+      <div class="dashboard" :key="reRenderKey">
         <UniversalLineChart
           v-if="airTemperatureData && airTemperatureData.length > 0"
           chart-title="空气温度"
@@ -113,7 +113,7 @@ const route = useRoute();
 const treeFilterValue = reactive({ device: "39" });
 const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
-const uniqueKeyCounter = ref(0); // 用于更新图表界面
+const reRenderKey = ref(0); // 用于更新图表界面
 const airTemperatureData = ref();
 const soilTemperatureData = ref();
 const airHumidityData = ref();
@@ -137,7 +137,7 @@ const tab = [
 ];
 const reRenderTheChartInterface = () => {
   // 返回一个带有不同计数器值的唯一键
-  return uniqueKeyCounter.value++;
+  return reRenderKey.value++;
 };
 
 const getChartDataList = async (deviceId: string, hour: string) => {
@@ -148,7 +148,7 @@ const getChartDataList = async (deviceId: string, hour: string) => {
 
 const processingData = async () => {
   try {
-    chartDataList.value = await getChartDataList(treeFilterValue.device, "24");
+    chartDataList.value = await getChartDataList(treeFilterValue.device, "1680");
     console.log(chartDataList.value);
     airTemperatureData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
       chartData: item.AA1,

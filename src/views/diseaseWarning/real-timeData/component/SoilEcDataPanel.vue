@@ -28,9 +28,17 @@ const props = defineProps({
 });
 
 const getSoilECData = async (deviceId: string) => {
+  // 44号设备和41号设备没有土壤EC数据
+  if (deviceId === "44" || deviceId === "41") {
+    return [];
+  }
   const params: DataHandle.ReqCollectMethod = { deviceId: deviceId, hour: "11", columns: "AJ1,createTime" };
   const { data } = await getCollect(params);
-  return data;
+  const result: DataItem[] = [];
+  data.forEach(item => {
+    result.push({ time: item.createTime, chartData: item.AJ1 });
+  });
+  return result.reverse();
 };
 
 const chartData = ref<DataItem[]>([]); // 初始化为空数组

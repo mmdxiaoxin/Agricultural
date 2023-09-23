@@ -47,7 +47,7 @@
             :c-o2-data="CO2Data"
           />
         </div>
-        <div class="conductivity card"><SoilEcDataPanel :soil-ec-data="soilEcData" /></div>
+        <div class="conductivity card"><SoilEcDataPanel :soil-ec-data="soilEcData" :device-id="treeFilterValue.device" /></div>
         <div class="rain-fall card"><Rainfall :rainfall-data="rainfallData" /></div>
       </div>
       <!-- 分割线 -->

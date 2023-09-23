@@ -7,7 +7,7 @@ import { onMounted, PropType, ref } from "vue";
 import * as echarts from "echarts";
 import { useEcharts } from "@/hooks/useEcharts";
 
-interface DataItem {
+export interface DataItem {
   time: string;
   chartData: number;
 }
@@ -29,32 +29,7 @@ const props = defineProps({
   },
   soilEcChartData: {
     type: Array as PropType<DataItem[]>,
-    default: () => [
-      { time: "01:00", chartData: 830 },
-      { time: "02:00", chartData: 920 },
-      { time: "03:00", chartData: 810 },
-      { time: "04:00", chartData: 820 },
-      { time: "05:00", chartData: 940 },
-      { time: "06:00", chartData: 950 },
-      { time: "07:00", chartData: 950 },
-      { time: "08:00", chartData: 960 },
-      { time: "09:00", chartData: 980 },
-      { time: "10:00", chartData: 980 },
-      { time: "11:00", chartData: 990 },
-      { time: "12:00", chartData: 940 },
-      { time: "13:00", chartData: 1260 },
-      { time: "14:00", chartData: 920 },
-      { time: "15:00", chartData: 940 },
-      { time: "16:00", chartData: 930 },
-      { time: "17:00", chartData: 800 },
-      { time: "18:00", chartData: 990 },
-      { time: "19:00", chartData: 770 },
-      { time: "20:00", chartData: 960 },
-      { time: "21:00", chartData: 870 },
-      { time: "22:00", chartData: 960 },
-      { time: "23:00", chartData: 750 },
-      { time: "00:00", chartData: 840 }
-    ]
+    default: () => []
   },
   chartUnit: {
     type: String,

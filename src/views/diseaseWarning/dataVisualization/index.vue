@@ -15,7 +15,7 @@
           <el-button type="primary" :icon="FullScreen" @click="maximize"> 全屏 </el-button>
         </span>
       </div>
-      <el-tabs v-model="tabActive" class="demo-tabs">
+      <el-tabs v-model="tabActive">
         <el-tab-pane v-for="item in tab" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
       </el-tabs>
       <div class="dashboard" :key="reRenderKey">
@@ -108,9 +108,10 @@ import UniversalLineChart from "@/components/UniversalLineChart/index.vue";
 import { getCollect } from "@/api/modules/dataHandle";
 import { DataHandle } from "@/api/interface";
 
-const tabActive = ref(1);
+const tabActive = ref("first");
 const route = useRoute();
 const treeFilterValue = reactive({ device: "39" });
+const hour = ref("24");
 const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
 const reRenderKey = ref(0); // 用于更新图表界面
@@ -128,12 +129,11 @@ const soilEcData = ref();
 const chartDataList = ref();
 
 const tab = [
-  { label: "近24小时", name: 1 },
-  { label: "近七日", name: 2 },
-  { label: "近一月", name: 3 },
-  { label: "近三月", name: 4 },
-  { label: "近半年", name: 5 },
-  { label: "近一年", name: 6 }
+  { label: "近24小时", name: "first" },
+  { label: "近七日", name: "second" },
+  { label: "近一月", name: "third" },
+  { label: "近三月", name: "fourth" },
+  { label: "近半年", name: "fifth" }
 ];
 const reRenderTheChartInterface = () => {
   // 返回一个带有不同计数器值的唯一键
@@ -148,8 +148,7 @@ const getChartDataList = async (deviceId: string, hour: string) => {
 
 const processingData = async () => {
   try {
-    chartDataList.value = await getChartDataList(treeFilterValue.device, "1680");
-    console.log(chartDataList.value);
+    chartDataList.value = await getChartDataList(treeFilterValue.device, hour.value);
     airTemperatureData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
       chartData: item.AA1,
       time: item.createTime
@@ -191,15 +190,16 @@ const processingData = async () => {
       chartData: item.AJ1,
       time: item.createTime
     }));
+    reRenderTheChartInterface();
   } catch (error) {
     ElMessage.error("获取设备数据失败!");
   }
 };
 
 // 防抖函数
-const debounce = (func: Function, delay: number) => {
-  let timer: number | null = null;
-  return (...args: any[]) => {
+const debounce = <T extends (...args: any[]) => void>(func: T, delay: number) => {
+  let timer: NodeJS.Timeout | null = null;
+  return (...args: Parameters<T>) => {
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       func(...args);
@@ -260,8 +260,40 @@ watch(
   () => treeFilterValue.device,
   () => {
     processingData();
-    reRenderTheChartInterface();
   }
+);
+
+watch(
+  () => tabActive.value,
+  newValue => {
+    switch (newValue) {
+      case "first":
+        // 近24小时
+        hour.value = "24";
+        break;
+      case "second":
+        // 近七日
+        hour.value = "168";
+        break;
+      case "third":
+        // 近一月
+        hour.value = "720";
+        break;
+      case "fourth":
+        // 近三月
+        hour.value = "2160";
+        break;
+      case "fifth":
+        // 近半年
+        hour.value = "4320";
+        break;
+      default:
+        hour.value = "24";
+        break;
+    }
+    processingData();
+  },
+  { immediate: true }
 );
 </script>
 

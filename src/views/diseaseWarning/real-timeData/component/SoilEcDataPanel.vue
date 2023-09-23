@@ -1,7 +1,7 @@
 <template>
   <div class="conductivity-panel">
     <div class="conductivity-chart">
-      <LineChart chart-title="土壤EC" chart-unit="us" />
+      <SoilEcChart chart-title="土壤EC" v-if="chartData.length > 0" chart-unit="us" v-model:soil-ec-chart-data="chartData" />
     </div>
     <div class="current-value card">
       <div class="title">当前EC</div>
@@ -11,14 +11,42 @@
 </template>
 
 <script setup lang="ts">
-import LineChart from "@/views/diseaseWarning/real-timeData/component/SoilEcChart.vue";
+import SoilEcChart, { DataItem } from "@/views/diseaseWarning/real-timeData/component/SoilEcChart.vue";
+import { DataHandle } from "@/api/interface";
+import { getCollect } from "@/api/modules/dataHandle";
+import { onMounted, ref, watch } from "vue";
 
 const props = defineProps({
   soilEcData: {
     type: Number,
     default: NaN
+  },
+  deviceId: {
+    type: String,
+    default: "39"
   }
 });
+
+const getSoilECData = async (deviceId: string) => {
+  const params: DataHandle.ReqCollectMethod = { deviceId: deviceId, hour: "11", columns: "AJ1,createTime" };
+  const { data } = await getCollect(params);
+  return data;
+};
+
+const chartData = ref<DataItem[]>([]); // 初始化为空数组
+
+onMounted(async () => {
+  chartData.value = await getSoilECData(props.deviceId);
+  console.log(chartData.value);
+});
+
+watch(
+  () => props.deviceId,
+  async newDeviceId => {
+    chartData.value = await getSoilECData(newDeviceId);
+    console.log(chartData.value);
+  }
+);
 </script>
 
 <style scoped lang="scss">

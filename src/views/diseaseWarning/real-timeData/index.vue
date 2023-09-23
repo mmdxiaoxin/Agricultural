@@ -131,7 +131,6 @@ const useDeviceData = async (deviceId: string) => {
     const { data } = await getDevice(params);
     deviceDataList.value = data.deviceDataList;
     currentTime.value = deviceDataList.value[0].createTime;
-    console.log(treeFilterValue.device);
     const initData = {
       airTemperature: NaN,
       soilTemperature: NaN,
@@ -198,15 +197,16 @@ const useDeviceData = async (deviceId: string) => {
     atmosphericPressureData.value = parseFloat(String(initData.atmosphericPressure));
     CO2Data.value = parseFloat(String(initData.CO2Concentration));
     soilEcData.value = parseFloat(String(initData.soilEc));
+    reRenderTheChartInterface();
   } catch (error) {
     ElMessage.error("获取设备数据失败!");
   }
 };
 
 // 防抖函数
-const debounce = (func: Function, delay: number) => {
-  let timer: number | null = null;
-  return (...args: any[]) => {
+const debounce = <T extends (...args: any[]) => void>(func: T, delay: number) => {
+  let timer: NodeJS.Timeout | null = null;
+  return (...args: Parameters<T>) => {
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       func(...args);
@@ -260,7 +260,6 @@ watch(
   () => treeFilterValue.device,
   () => {
     useDeviceData(treeFilterValue.device);
-    reRenderTheChartInterface();
   }
 );
 </script>

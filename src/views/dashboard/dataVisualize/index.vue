@@ -10,7 +10,7 @@
               <div class="img-box">
                 <img src="./images/book-sum.png" alt="" />
               </div>
-              <span class="left-number">4个</span>
+              <span class="left-number">{{ 4 }}个</span>
             </div>
           </el-col>
           <el-col class="mb40" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
@@ -19,28 +19,28 @@
                 <div class="traffic-img">
                   <img src="./images/add_person.png" alt="" />
                 </div>
-                <span class="item-value">2682</span>
+                <span class="item-value">{{ 2682 }}</span>
                 <span class="traffic-name sle">设备记录总数</span>
               </div>
               <div class="gitHub-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/add_team.png" alt="" />
                 </div>
-                <span class="item-value">8</span>
+                <span class="item-value">{{ 8 }}</span>
                 <span class="traffic-name sle">站点总数</span>
               </div>
               <div class="today-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/today.png" alt="" />
                 </div>
-                <span class="item-value">426</span>
+                <span class="item-value">{{ 426 }}</span>
                 <span class="traffic-name sle">今日设备记录</span>
               </div>
               <div class="yesterday-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/book_sum.png" alt="" />
                 </div>
-                <span class="item-value">623</span>
+                <span class="item-value">{{ 623 }}</span>
                 <span class="traffic-name sle">昨日设备记录</span>
               </div>
             </div>

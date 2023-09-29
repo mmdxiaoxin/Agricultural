@@ -1,5 +1,4 @@
 <template>
-  <!-- Gitee / GitHub 访问量占比 -->
   <div ref="echartsRef" class="echarts"></div>
 </template>
 <script setup lang="ts" name="pie">

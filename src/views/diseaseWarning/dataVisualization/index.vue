@@ -115,6 +115,7 @@ const hour = ref("24");
 const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
 const reRenderKey = ref(0); // 用于更新图表界面
+
 const airTemperatureData = ref();
 const soilTemperatureData = ref();
 const airHumidityData = ref();
@@ -136,7 +137,6 @@ const tab = [
   { label: "近半年", name: "fifth" }
 ];
 const reRenderTheChartInterface = () => {
-  // 返回一个带有不同计数器值的唯一键
   return reRenderKey.value++;
 };
 
@@ -149,6 +149,21 @@ const getChartDataList = async (deviceId: string, hour: string) => {
 const processingData = async () => {
   try {
     chartDataList.value = await getChartDataList(treeFilterValue.device, hour.value);
+    if (!chartDataList.value) {
+      airTemperatureData.value = [];
+      soilTemperatureData.value = [];
+      airHumidityData.value = [];
+      soilHumidityData.value = [];
+      rainfallData.value = [];
+      windSpeedData.value = [];
+      windDirectionData.value = [];
+      lightIntensityData.value = [];
+      atmosphericPressureData.value = [];
+      CO2Data.value = [];
+      soilEcData.value = [];
+      reRenderTheChartInterface();
+      return;
+    }
     airTemperatureData.value = chartDataList.value.map((item: DataHandle.ResCollectData) => ({
       chartData: item.AA1,
       time: item.createTime
@@ -208,7 +223,7 @@ const debounce = <T extends (...args: any[]) => void>(func: T, delay: number) =>
 };
 
 const changeTreeFilter = debounce((val: string) => {
-  ElMessage.success(`你选择了 id 为 ${val} 的数据🤔`);
+  ElMessage.success(`站点切换成功!`);
   treeFilterValue.device = val;
 }, 500);
 

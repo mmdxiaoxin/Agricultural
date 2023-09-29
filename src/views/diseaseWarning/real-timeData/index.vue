@@ -11,7 +11,7 @@
       <div class="top-bar">
         <!-- 主标题 -->
         <span class="top-title">实时数据</span>
-        <span>
+        <span class="top-time">
           <!-- 数据最后更新时间 -->
           数据最后更新时间：{{ currentTime }}
         </span>
@@ -53,7 +53,8 @@
       <!-- 分割线 -->
       <el-divider @click="toggleContent">
         <el-icon v-if="showContent"><CaretTop /></el-icon>
-        <el-icon v-else><CaretBottom /></el-icon> 数据一览
+        <el-icon v-else><CaretBottom /></el-icon>
+        <span style="font-weight: bold; color: var(--el-text-color-regular)">数据一览</span>
       </el-divider>
       <!-- 根据状态来显示/隐藏内容 -->
       <div v-if="showContent" class="card">
@@ -228,7 +229,7 @@ const updateFontSizes = () => {
 };
 
 const changeTreeFilter = debounce((val: string) => {
-  ElMessage.success(`你选择了 id 为 ${val} 的数据🤔`);
+  ElMessage.success(`站点切换成功!`);
   treeFilterValue.device = val;
 }, 50);
 

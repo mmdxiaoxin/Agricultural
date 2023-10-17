@@ -40,8 +40,8 @@
                 <div class="traffic-img">
                   <img src="./images/book_sum.png" alt="" />
                 </div>
-                <span class="item-value">{{ 0 }}</span>
-                <span class="traffic-name sle">异常设备记录</span>
+                <span class="item-value">{{ 4 }}</span>
+                <span class="traffic-name sle">当前在线设备</span>
               </div>
             </div>
           </el-col>
@@ -77,20 +77,20 @@ const deviceCount = ref(NaN);
 const siteCount = ref(NaN);
 const totalNumberOfDeviceRecords = ref(NaN);
 const curveRef = ref();
-const pieData = ref();
-const curveData = ref();
 
 const useDashboardData = async () => {
   try {
     const { data } = await getDashboard();
-    curveData.value = data.siteValues;
-    console.log(curveData.value);
+    const curveData = data.siteValues;
+    curveRef.value.initChart(curveData);
     deviceCount.value = parseInt(String(data.deviceCount));
-    console.log(deviceCount.value);
     totalNumberOfDeviceRecords.value = parseInt(String(data.totalDeviceDataCount));
-    console.log(totalNumberOfDeviceRecords.value);
+    const pieData = [
+      { value: totalNumberOfDeviceRecords.value, name: "正常记录" },
+      { value: 0, name: "异常记录" }
+    ];
+    pieRef.value.initChart(pieData);
     siteCount.value = parseInt(String(data.siteCount));
-    console.log(siteCount.value);
   } catch (error) {
     ElMessage.error("获取设备数据失败!");
   }
@@ -98,8 +98,6 @@ const useDashboardData = async () => {
 
 onMounted(() => {
   useDashboardData();
-  pieRef.value.initChart(pieData);
-  curveRef.value.initChart(curveData);
 });
 </script>
 

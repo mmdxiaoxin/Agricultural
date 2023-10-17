@@ -10,7 +10,7 @@
               <div class="img-box">
                 <img src="./images/book-sum.png" alt="" />
               </div>
-              <span class="left-number">{{ 4 }}个</span>
+              <span class="left-number">{{ deviceCount }}个</span>
             </div>
           </el-col>
           <el-col class="mb40" :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
@@ -19,29 +19,29 @@
                 <div class="traffic-img">
                   <img src="./images/add_person.png" alt="" />
                 </div>
-                <span class="item-value">{{ 2682 }}</span>
+                <span class="item-value">{{ totalNumberOfDeviceRecords }}</span>
                 <span class="traffic-name sle">设备记录总数</span>
               </div>
               <div class="gitHub-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/add_team.png" alt="" />
                 </div>
-                <span class="item-value">{{ 8 }}</span>
+                <span class="item-value">{{ siteCount }}</span>
                 <span class="traffic-name sle">站点总数</span>
               </div>
               <div class="today-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/today.png" alt="" />
                 </div>
-                <span class="item-value">{{ 426 }}</span>
+                <span class="item-value">{{ 0 }}</span>
                 <span class="traffic-name sle">今日设备记录</span>
               </div>
               <div class="yesterday-traffic traffic-box">
                 <div class="traffic-img">
                   <img src="./images/book_sum.png" alt="" />
                 </div>
-                <span class="item-value">{{ 623 }}</span>
-                <span class="traffic-name sle">昨日设备记录</span>
+                <span class="item-value">{{ 0 }}</span>
+                <span class="traffic-name sle">异常设备记录</span>
               </div>
             </div>
           </el-col>
@@ -58,11 +58,6 @@
     </div>
     <div class="card bottom-box">
       <div class="bottom-title">数据来源</div>
-      <div class="bottom-tabs">
-        <el-tabs v-model="tabActive" class="demo-tabs">
-          <el-tab-pane v-for="item in tab" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
-        </el-tabs>
-      </div>
       <div class="curve-echarts">
         <Curve ref="curveRef" />
       </div>
@@ -74,34 +69,38 @@
 import { ref, onMounted } from "vue";
 import Pie from "./components/pie.vue";
 import Curve from "./components/curve.vue";
+import { getDashboard } from "@/api/modules/dataHandle";
+import { ElMessage } from "element-plus";
 
-const tabActive = ref(1);
 const pieRef = ref();
+const deviceCount = ref(NaN);
+const siteCount = ref(NaN);
+const totalNumberOfDeviceRecords = ref(NaN);
 const curveRef = ref();
+const pieData = ref();
+const curveData = ref();
+
+const useDashboardData = async () => {
+  try {
+    const { data } = await getDashboard();
+    curveData.value = data.siteValues;
+    console.log(curveData.value);
+    deviceCount.value = parseInt(String(data.deviceCount));
+    console.log(deviceCount.value);
+    totalNumberOfDeviceRecords.value = parseInt(String(data.totalDeviceDataCount));
+    console.log(totalNumberOfDeviceRecords.value);
+    siteCount.value = parseInt(String(data.siteCount));
+    console.log(siteCount.value);
+  } catch (error) {
+    ElMessage.error("获取设备数据失败!");
+  }
+};
 
 onMounted(() => {
+  useDashboardData();
   pieRef.value.initChart(pieData);
   curveRef.value.initChart(curveData);
 });
-
-const tab = [
-  { label: "近24小时", name: 1 },
-  { label: "近七日", name: 2 },
-  { label: "近一月", name: 3 },
-  { label: "近三月", name: 4 },
-  { label: "近半年", name: 5 },
-  { label: "近一年", name: 6 }
-];
-const pieData = [
-  { value: 3684, name: "正常记录" },
-  { value: 23, name: "异常记录" }
-];
-const curveData = [
-  { value: 30, spotName: "武功猕猴桃试验站" },
-  { value: 90, spotName: "泾阳蔬菜示范站" },
-  { value: 10, spotName: "临渭葡萄研究所" },
-  { value: 70, spotName: "白水苹果试验站" }
-];
 </script>
 
 <style scoped lang="scss">

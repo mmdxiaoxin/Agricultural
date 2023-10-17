@@ -20,3 +20,8 @@ export const getDevice = (params: DataHandle.ReqDeviceMethod) => {
 export const getCollect = (params: DataHandle.ReqCollectMethod) => {
   return http.get<DataHandle.ResCollectData[]>(PORT1 + `/data/show`, params, { noLoading: true });
 };
+
+//获取仪表盘数据
+export const getDashboard = () => {
+  return http.get<DataHandle.ResDashboardData>(PORT1 + `/device/count`);
+};

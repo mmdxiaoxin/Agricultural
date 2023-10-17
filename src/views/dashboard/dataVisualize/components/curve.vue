@@ -62,7 +62,7 @@ const initChart = (data: any) => {
         type: "category",
         data: data.map((val: any) => {
           return {
-            value: val.spotName
+            value: val.name
           };
         }),
         axisTick: {

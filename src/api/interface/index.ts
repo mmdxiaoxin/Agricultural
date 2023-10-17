@@ -145,4 +145,16 @@ export namespace DataHandle {
     id?: string; //采集数据id
     createTime: string; //采集时间
   }
+
+  interface SiteValue {
+    name: string; //站点名称
+    value: number; //站点数据
+  }
+
+  export interface ResDashboardData {
+    deviceCount: number; //设备总数
+    siteCount: number; //站点总数
+    siteValues: SiteValue[]; //站点数据
+    totalDeviceDataCount: number; //数据总数
+  }
 }

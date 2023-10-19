@@ -40,7 +40,7 @@
                 <div class="traffic-img">
                   <img src="./images/book_sum.png" alt="" />
                 </div>
-                <span class="item-value">{{ 4 }}</span>
+                <span class="item-value">{{ deviceCount }}</span>
                 <span class="traffic-name sle">当前在线设备</span>
               </div>
             </div>

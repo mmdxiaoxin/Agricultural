@@ -2,11 +2,13 @@
 html.dark {
   /* wangEditor */
   --w-e-toolbar-color: #eeeeee;
-  --w-e-toolbar-bg-color: #141414;
-  --w-e-textarea-bg-color: #141414;
+  --w-e-toolbar-bg-color: #282c34;
+  --w-e-textarea-bg-color: #282c34;
   --w-e-textarea-color: #eeeeee;
   --w-e-toolbar-active-bg-color: #464646;
   --w-e-toolbar-border-color: var(--el-border-color-darker);
+  --el-bg-color: #282c34;
+  --el-bg-color-page: #262931;
   .w-e-bar-item button:hover,
   .w-e-menu-tooltip-v5::before {
     color: #eeeeee;
@@ -14,12 +16,26 @@ html.dark {
 
   /* login */
   .login-container {
-    background-color: #191919 !important;
+    background-color: #21252b !important;
     .login-box {
       background-color: rgb(0 0 0 / 80%) !important;
       .login-form {
         box-shadow: rgb(255 255 255 / 12%) 0 2px 10px 2px !important;
         .logo-text {
+          color: var(--el-text-color-primary) !important;
+        }
+      }
+    }
+  }
+
+  /* register */
+  .register-container {
+    background-color: #282c34 !important;
+    .register-box {
+      background-color: rgb(0 0 0 / 80%) !important;
+      .register-form {
+        box-shadow: rgb(255 255 255 / 12%) 0 2px 10px 2px !important;
+        .register-text {
           color: var(--el-text-color-primary) !important;
         }
       }

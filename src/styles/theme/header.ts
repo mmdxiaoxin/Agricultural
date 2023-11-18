@@ -17,7 +17,7 @@ export const headerTheme: Record<Theme.ThemeType, { [key: string]: string }> = {
   },
   dark: {
     "--el-header-logo-text-color": "#dadada",
-    "--el-header-bg-color": "#141414",
+    "--el-header-bg-color": "#21252b",
     "--el-header-text-color": "#e5eaf3",
     "--el-header-text-color-regular": "#cfd3dc",
     "--el-header-border-color": "#414243"

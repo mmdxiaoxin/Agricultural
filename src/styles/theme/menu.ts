@@ -20,7 +20,7 @@ export const menuTheme: Record<Theme.ThemeType, { [key: string]: string }> = {
     "--el-menu-horizontal-sub-item-height": "50px"
   },
   dark: {
-    "--el-menu-bg-color": "#141414",
+    "--el-menu-bg-color": "#21252b",
     "--el-menu-hover-bg-color": "#000000",
     "--el-menu-active-bg-color": "#000000",
     "--el-menu-text-color": "#bdbdc0",

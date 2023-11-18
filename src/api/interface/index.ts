@@ -46,6 +46,15 @@ export namespace Login {
   }
 }
 
+//注册模块
+export namespace Register {
+  export interface ReqRegisterForm {
+    username: string;
+    password: string;
+    confirm: string;
+  }
+}
+
 // 用户管理模块
 export namespace User {
   export interface ReqUserParams extends ReqPage {

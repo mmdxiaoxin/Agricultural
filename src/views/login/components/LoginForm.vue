@@ -19,8 +19,21 @@
       </el-input>
     </el-form-item>
   </el-form>
+  <div class="login-tip">
+    <!-- 注册账号链接 -->
+    <div class="register-link">
+      <span class="link-text">还没有账号？</span>
+      <router-link to="/register" class="register-button">立即注册</router-link>
+    </div>
+
+    <!-- 忘记密码链接 -->
+    <div class="forgot-password-link">
+      <span class="link-text">忘记密码？</span>
+      <router-link to="/forgot-password" class="forgot-password-button">找回密码</router-link>
+    </div>
+  </div>
   <div class="login-btn">
-    <el-button :icon="CircleClose" round size="large" @click="resetForm(loginFormRef)"> 重置 </el-button>
+    <el-button :icon="CircleClose" round size="large" @click="resetForm(loginFormRef)"> 重置</el-button>
     <el-button :icon="UserFilled" round size="large" type="primary" :loading="loading" @click="login(loginFormRef)">
       登录
     </el-button>

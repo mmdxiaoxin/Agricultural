@@ -1,0 +1,53 @@
+.site-description {
+  height: 100%;
+  width: 100%;
+
+  .site-content {
+    width: calc(100% - 230px);
+
+    .site-header {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+    }
+
+    .content-view {
+      min-height: 300px;
+      border-radius: 4px;
+      position: relative;
+
+      /* 添加伪元素 */
+      &::before {
+        content: "点击这里可以编辑项目概览内容";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.8);
+        opacity: 0; /* 初始时不可见 */
+        pointer-events: none; /* 防止干扰用户交互 */
+        z-index: 1;
+        transition: opacity 0.3s; /* 添加渐变效果 */
+        color: var(--el-color-info-dark-2);
+      }
+
+      &:hover::before {
+        opacity: 1; /* 鼠标悬停时显示 */
+      }
+
+      &:hover {
+        border: 1px solid #ebeef5;
+      }
+    }
+  }
+
+  .site-aside {
+    height: 100%;
+    width: 200px;
+    margin-left: 20px;
+  }
+}

@@ -86,6 +86,8 @@ export namespace User {
   export interface ResDeviceList {
     id: string;
     name: string;
+    isDevice: object;
+    isSite: object;
     children?: ResDeviceList[];
   }
 

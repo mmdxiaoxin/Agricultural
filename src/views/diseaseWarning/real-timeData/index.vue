@@ -7,7 +7,8 @@
       :default-value="treeFilterValue.device"
       @change="changeTreeFilter"
     />
-    <div class="top-box card">
+    <SiteOverview v-if="isSite" :site-name="siteName" />
+    <div class="top-box card" v-if="isDevice">
       <div class="top-bar">
         <!-- 主标题 -->
         <span class="top-title">实时数据</span>
@@ -91,6 +92,7 @@ import HumidityPanel from "@/views/diseaseWarning/real-timeData/component/Humidi
 import WeatherPanel from "@/views/diseaseWarning/real-timeData/component/WeatherPanel.vue";
 import SoilEcDataPanel from "@/views/diseaseWarning/real-timeData/component/SoilEcDataPanel.vue";
 import Rainfall from "@/views/diseaseWarning/real-timeData/component/Rainfall.vue";
+import SiteOverview from "@/components/SiteOverview/index.vue";
 
 const route = useRoute();
 const globalStore = useGlobalStore();
@@ -117,6 +119,15 @@ const CO2Data = ref();
 const soilEcData = ref();
 //底部展开
 const showContent = ref(false);
+//判断站点或者设备
+const isSite = ref(false);
+const isDevice = ref(true);
+//站点名称
+const siteName = ref("");
+const judgeList = (data: any) => {
+  isSite.value = !!data.isSite;
+  isDevice.value = !!data.isDevice;
+};
 
 const toggleContent = () => {
   showContent.value = !showContent.value;
@@ -228,9 +239,11 @@ const updateFontSizes = () => {
   }
 };
 
-const changeTreeFilter = debounce((val: string) => {
+const changeTreeFilter = debounce((val: { id: string; treeCurrentData: any }) => {
   ElMessage.success(`站点切换成功!`);
-  treeFilterValue.device = val;
+  treeFilterValue.device = val.id;
+  judgeList(val.treeCurrentData);
+  siteName.value = val.treeCurrentData.name;
 }, 50);
 
 // 刷新当前页
@@ -260,7 +273,7 @@ onMounted(() => {
 watch(
   () => treeFilterValue.device,
   () => {
-    useDeviceData(treeFilterValue.device);
+    if (isDevice.value) useDeviceData(treeFilterValue.device);
   }
 );
 </script>

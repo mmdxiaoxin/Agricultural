@@ -37,6 +37,7 @@
 <script setup lang="ts" name="TreeFilter">
 import { ref, watch, onBeforeMount, nextTick } from "vue";
 import { ElTree } from "element-plus";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
 // 接收父组件参数并设置默认值
 interface TreeFilterProps {
@@ -62,6 +63,7 @@ const defaultProps = {
 const treeRef = ref<InstanceType<typeof ElTree>>();
 const treeData = ref<{ [key: string]: any }[]>([]);
 const treeAllData = ref<{ [key: string]: any }[]>([]);
+const treeCurrentData = ref<TreeNodeData>();
 
 const selected = ref();
 const setSelected = () => {
@@ -76,6 +78,7 @@ onBeforeMount(async () => {
     treeData.value = data;
     treeAllData.value = [...data];
   }
+  treeCurrentData.value = treeRef.value?.getCurrentNode();
 });
 
 // 使用 nextTick 防止打包后赋值不生效，开发环境是正常的
@@ -123,7 +126,9 @@ const emit = defineEmits<FilterEmits>();
 // 单选
 const handleNodeClick = (data: { [key: string]: any }) => {
   if (props.multiple) return;
-  emit("change", data[props.id]);
+  treeCurrentData.value = treeRef.value?.getCurrentNode();
+  const payload = { id: data[props.id], treeCurrentData: treeCurrentData.value };
+  emit("change", payload);
 };
 
 // 多选

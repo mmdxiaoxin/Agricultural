@@ -7,7 +7,8 @@
       :default-value="treeFilterValue.device"
       @change="changeTreeFilter"
     />
-    <div class="top-box card">
+    <SiteOverview v-if="isSite" :site-name="siteName" />
+    <div class="top-box card" v-if="isDevice">
       <div class="top-bar">
         <span>数据可视化</span>
         <span>
@@ -107,6 +108,7 @@ import TreeFilter from "@/components/TreeFilter/index.vue";
 import UniversalLineChart from "@/components/UniversalLineChart/index.vue";
 import { getCollect } from "@/api/modules/dataHandle";
 import { DataHandle } from "@/api/interface";
+import SiteOverview from "@/components/SiteOverview/index.vue";
 
 const tabActive = ref("first");
 const route = useRoute();
@@ -128,6 +130,16 @@ const atmosphericPressureData = ref();
 const CO2Data = ref();
 const soilEcData = ref();
 const chartDataList = ref();
+//判断站点或者设备
+const isSite = ref(false);
+const isDevice = ref(true);
+//站点名称
+const siteName = ref("");
+
+const judgeList = (data: any) => {
+  isSite.value = !!data.isSite;
+  isDevice.value = !!data.isDevice;
+};
 
 const tab = [
   { label: "近24小时", name: "first" },
@@ -222,10 +234,12 @@ const debounce = <T extends (...args: any[]) => void>(func: T, delay: number) =>
   };
 };
 
-const changeTreeFilter = debounce((val: string) => {
+const changeTreeFilter = debounce((val: { id: string; treeCurrentData: any }) => {
   ElMessage.success(`站点切换成功!`);
-  treeFilterValue.device = val;
-}, 500);
+  treeFilterValue.device = val.id;
+  judgeList(val.treeCurrentData);
+  siteName.value = val.treeCurrentData.name;
+}, 50);
 
 // 刷新当前页
 const refreshCurrentPage: Function = inject("refresh") as Function;
@@ -274,7 +288,7 @@ onMounted(() => {
 watch(
   () => treeFilterValue.device,
   () => {
-    processingData();
+    if (isDevice.value) processingData();
   }
 );
 

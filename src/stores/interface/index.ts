@@ -29,6 +29,11 @@ export interface GlobalState {
 export interface UserState {
   token: string;
   userInfo: { name: string };
+  phone: string;
+  name: string;
+  description: string;
+  avatar: string;
+  email: string;
 }
 
 /* tabsMenuProps */

@@ -21,69 +21,77 @@
       </el-tabs>
       <div class="dashboard" :key="reRenderKey">
         <UniversalLineChart
-          v-if="airTemperatureData && airTemperatureData.length > 0"
+          v-if="airTemperatureData && airTemperatureData.length > 0 && airTemperatureData[0].chartData !== undefined"
           chart-title="空气温度"
           chart-unit="℃"
           :chart-theme="chartTheme3"
           :chart-data="airTemperatureData"
         />
         <UniversalLineChart
-          v-if="soilTemperatureData && soilTemperatureData.length > 0"
+          v-if="soilTemperatureData && soilTemperatureData.length > 0 && soilTemperatureData[0].chartData !== undefined"
           chart-title="土壤温度"
           chart-unit="℃"
           :chart-theme="chartTheme4"
           :chart-data="soilTemperatureData"
         />
         <UniversalLineChart
-          v-if="airHumidityData && airHumidityData.length > 0"
+          v-if="airHumidityData && airHumidityData.length > 0 && airHumidityData[0].chartData !== undefined"
           chart-title="空气湿度"
           chart-unit="RH%"
           :chart-theme="chartTheme2"
           :chart-data="airHumidityData"
         />
         <UniversalLineChart
-          v-if="soilHumidityData && soilHumidityData.length > 0"
+          v-if="soilHumidityData && soilHumidityData.length > 0 && soilHumidityData[0].chartData !== undefined"
           chart-title="土壤湿度"
           chart-unit="RH%"
           :chart-theme="chartTheme5"
           :chart-data="soilHumidityData"
         />
 
-        <RainfallChart v-if="rainfallData && rainfallData.length > 0" :chart-data="rainfallData" />
+        <RainfallChart
+          v-if="rainfallData && rainfallData.length > 0 && rainfallData[0].chartData !== undefined"
+          :chart-data="rainfallData"
+        />
 
         <UniversalLineChart
-          v-if="windSpeedData && windSpeedData.length > 0"
+          v-if="windSpeedData && windSpeedData.length > 0 && windSpeedData[0].chartData !== undefined"
           chart-title="风速"
           chart-unit="m/s"
           :chart-theme="chartTheme1"
           :chart-data="windSpeedData"
         />
 
-        <WindDirectionChart v-if="windDirectionData && windDirectionData.length > 0" :chart-data="windDirectionData" />
+        <WindDirectionChart
+          v-if="windDirectionData && windDirectionData.length > 0 && windDirectionData[0] !== undefined"
+          :chart-data="windDirectionData"
+        />
 
         <UniversalLineChart
-          v-if="lightIntensityData && lightIntensityData.length > 0"
+          v-if="lightIntensityData && lightIntensityData.length > 0 && lightIntensityData[0].chartData !== undefined"
           chart-title="光照强度"
           chart-unit="KLux"
           :chart-theme="chartTheme7"
           :chart-data="lightIntensityData"
         />
         <UniversalLineChart
-          v-if="atmosphericPressureData && atmosphericPressureData.length > 0"
+          v-if="
+            atmosphericPressureData && atmosphericPressureData.length > 0 && atmosphericPressureData[0].chartData !== undefined
+          "
           chart-title="大气压强"
           chart-unit="hPa"
           :chart-theme="chartTheme1"
           :chart-data="atmosphericPressureData"
         />
         <UniversalLineChart
-          v-if="CO2Data && CO2Data.length > 0"
+          v-if="CO2Data && CO2Data.length > 0 && CO2Data[0].chartData !== undefined"
           chart-title="CO2浓度"
           chart-unit="ppm"
           :chart-theme="chartTheme2"
           :chart-data="CO2Data"
         />
         <UniversalLineChart
-          v-if="soilEcData && soilEcData.length > 0"
+          v-if="soilEcData && soilEcData.length > 0 && soilEcData[0].chartData !== undefined"
           chart-title="土壤EC"
           chart-unit="us"
           :chart-theme="chartTheme6"

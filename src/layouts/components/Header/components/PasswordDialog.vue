@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineExpose, reactive } from "vue";
+import { ref, reactive } from "vue";
 import type { FormInstance } from "element-plus";
 
 const dialogVisible = ref(false);
@@ -45,19 +45,31 @@ const resetDialog = (formEl: FormInstance | undefined) => {
   dialogVisible.value = false;
 };
 
+const checkPasswordConfirmation = (rule: any, value: string, callback: (error?: Error) => void) => {
+  if (value !== passwordForm.newPassword) {
+    callback(new Error("两次输入的密码不一致"));
+  } else {
+    callback();
+  }
+};
+
 // 定义验证规则
 const rules = {
   oldPassword: [
-    { required: true, message: "请输入原密码", trigger: "blur" }
-    // 添加更多验证规则
+    { required: true, message: "请输入原密码", trigger: "blur" },
+    { min: 6, max: 20, message: "密码长度在6到20个字符之间", trigger: "blur" }
+    // 添加其他规则，如正则表达式检查、特殊字符要求等
   ],
   newPassword: [
-    { required: true, message: "请输入新密码", trigger: "blur" }
-    // 添加更多验证规则
+    { required: true, message: "请输入新密码", trigger: "blur" },
+    { min: 6, max: 20, message: "密码长度在6到20个字符之间", trigger: "blur" },
+    { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,20}$/, message: "密码必须包含大小写字母和数字", trigger: "blur" }
+    // 添加其他规则
   ],
   confirmPassword: [
-    { required: true, message: "请确认新密码", trigger: "blur" }
-    // 添加更多验证规则
+    { required: true, message: "请确认新密码", trigger: "blur" },
+    { validator: checkPasswordConfirmation, trigger: "blur" }
+    // 添加其他规则
   ]
 };
 

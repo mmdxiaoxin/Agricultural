@@ -1,5 +1,5 @@
 <template>
-  <el-form v-model="plantForm" class="diseaseIdentify-container card">
+  <div class="diseaseIdentify-container card">
     <div class="diseaseIdentify-container-left card">
       <!--  模型选择    -->
       <div class="l1">
@@ -31,76 +31,90 @@
       </div>
       <!-- 文件上传     -->
       <div class="l3">
-        <h3>文件上传</h3>
-        <el-form-item prop="plantImage">
-          <UploadImg v-model:image-url="plantForm.plantImage" width="235px" height="135px" :file-size="3">
-            <template #empty>
-              <el-icon><Picture /></el-icon>
-              <span>请上传图像</span>
+        <div class="l3-title"><h3>文件上传</h3></div>
+        <div class="l3-main">
+          <el-upload
+            ref="uploadRef"
+            class="upload-demo"
+            drag
+            :file-list="fileList"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :auto-upload="false"
+          >
+            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+            <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+            <template #tip>
+              <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
             </template>
-            <template #tip> 图像大小不能超过 3M </template>
-          </UploadImg>
-        </el-form-item>
-        <el-form-item>
-          <el-button> 取消 </el-button>
-          <el-button type="primary">提交</el-button>
-        </el-form-item>
+          </el-upload>
+          <el-button type="success" @click="handleSubmit">提交</el-button>
+        </div>
       </div>
     </div>
+    <!--  模型处理结果   -->
     <div class="diseaseIdentify-container-right card">
-      <el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-click="handleClick">
+      <!--  处理结果   -->
+      <el-tabs v-model="activeName" type="card">
         <template #addIcon>
           <el-icon><Select /></el-icon>
         </template>
         <el-tab-pane label="模型处理结果" name="handle" class="result-panel">
-          <el-image
-            style="width: 250px; height: 250px"
-            v-for="(url, index) in srcList"
-            :src="url"
-            :key="index"
-            :zoom-rate="1.2"
-            :max-scale="7"
-            :min-scale="0.2"
-            :preview-src-list="srcList"
-            :initial-index="0"
-            fit="cover"
-          >
-            <template #error>
-              <div class="image-slot">
-                <el-icon><icon-picture />加载失败</el-icon>
-              </div>
+          <el-card class="r1-card" shadow="hover" v-for="(item, index) in modelProcessingResults" :key="index">
+            <template #header>
+              <div class="r1-card-header">{{ item.description }}</div>
             </template>
-          </el-image>
+            <el-image
+              class="r1-card-image"
+              :src="item.src"
+              :zoom-rate="1.2"
+              :max-scale="7"
+              :min-scale="0.2"
+              :preview-src-list="modelProcessingResults.map(item => item.src)"
+              :initial-index="index"
+              fit="cover"
+            >
+              <template #error>
+                <div class="image-slot">
+                  <el-icon><icon-picture /></el-icon>
+                </div>
+              </template>
+            </el-image>
+          </el-card>
         </el-tab-pane>
-        <el-tab-pane label="模型诊断结果" name="diagnosis">待更新。。。</el-tab-pane>
+        <el-tab-pane label="模型诊断结果" name="diagnosis">
+          <!--   诊断结果     -->
+          待更新。。。
+        </el-tab-pane>
       </el-tabs>
     </div>
-  </el-form>
+  </div>
 </template>
 
 <script setup lang="ts" name="diseaseIdentification">
 import { ref } from "vue";
 import { Select } from "@element-plus/icons-vue";
-import type { TabsPaneContext } from "element-plus";
-import UploadImg from "@/components/Upload/Img.vue";
+import type { UploadFile, UploadFiles, UploadProps } from "element-plus";
+import { UploadFilled } from "@element-plus/icons-vue";
+import { ElMessageBox } from "element-plus";
+import { Picture as IconPicture } from "@element-plus/icons-vue";
+import type { UploadInstance } from "element-plus";
 
 // 测试图片
-const srcList = [
-  "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
-  "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
-  "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg",
-  "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg"
+const modelProcessingResults = [
+  { src: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg", description: "RGB还原" },
+  { src: "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg", description: "图像分割" },
+  { src: "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg", description: "去除背景" },
+  { src: "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg0", description: "测试内容" }
 ];
 
 //测试模型选项
 const modelOption = [
-  { value: "1", label: "模型1" },
-  { value: "2", label: "模型2" },
-  { value: "3", label: "模型3" },
-  { value: "4", label: "模型4" }
+  { value: "1", label: "Net2_59" },
+  { value: "2", label: "Res_RGB" }
 ];
 
-//测试预处理函数
+//预处理函数配置
 const preprocessingOption = [
   { value: "1", label: "NONE", description: "什么都不做" },
   { value: "2", label: "MMS", description: "最大最小值归一化" },
@@ -114,61 +128,35 @@ const preprocessingOption = [
   { value: "9", label: "DT", description: "趋势校正(DT)" },
   { value: "9", label: "DT2", description: "改进的趋势校正" }
 ];
+//标签页
 const activeName = ref("handle");
+
+//模型选择
 const modelValue = ref("");
+
+//光谱处理
 const spectrumRadio = ref("");
-const plantForm = ref({ plantImage: "" });
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event);
+
+//文件上传
+const uploadRef = ref<UploadInstance>();
+const fileList = ref([]);
+
+const handleRemove: UploadProps["onRemove"] = (file, uploadFiles) => {
+  console.log(file, uploadFiles);
+};
+
+const handleSubmit = () => {
+  uploadRef.value!.submit();
+};
+
+const beforeRemove: UploadProps["beforeRemove"] = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+  console.log(uploadFile, uploadFiles);
+  return ElMessageBox.confirm(`Cancel the transfer of ${uploadFile.name} ?`).then(
+    () => true,
+    () => false
+  );
 };
 </script>
 <style scoped lang="scss">
-.diseaseIdentify-container {
-  display: flex;
-  height: 100%;
-
-  .diseaseIdentify-container-left {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    width: 35%;
-
-    .l1 {
-      height: 100px;
-    }
-
-    .l2 {
-      min-height: 200px;
-
-      .l2-item-group {
-        height: 80%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: flex-start;
-
-        .l2-items {
-          width: 20%;
-          margin-bottom: 20px;
-        }
-      }
-    }
-
-    .l3 {
-      height: 100px;
-    }
-  }
-
-  .diseaseIdentify-container-right {
-    width: 64%;
-    margin-left: 1%;
-
-    .result-panel {
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
-}
+@import "./index";
 </style>

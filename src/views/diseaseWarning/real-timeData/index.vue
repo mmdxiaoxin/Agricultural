@@ -97,7 +97,7 @@ import SiteOverview from "@/components/SiteOverview/index.vue";
 const route = useRoute();
 const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
-const treeFilterValue = reactive({ device: "39" });
+const treeFilterValue = reactive({ device: "1" });
 const deviceDataList = ref<DataHandle.ResRealDeviceData[]>([]); // 后端返回的数据
 const reRenderKey = ref(0); // 用于更新图表界面
 const currentTime = ref(); // 当前时间

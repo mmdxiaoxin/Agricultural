@@ -6,6 +6,7 @@
       :request-api="getUserDevice"
       :default-value="treeFilterValue.device"
       @change="changeTreeFilter"
+      v-debounce="changeTreeFilter"
     />
     <SiteOverview v-if="isSite" :site-name="siteName" />
     <div class="top-box card" v-if="isDevice">
@@ -117,10 +118,19 @@ import UniversalLineChart from "@/components/UniversalLineChart/index.vue";
 import { getCollect } from "@/api/modules/dataHandle";
 import { DataHandle } from "@/api/interface";
 import SiteOverview from "@/components/SiteOverview/index.vue";
+import {
+  chartTheme1,
+  chartTheme2,
+  chartTheme3,
+  chartTheme4,
+  chartTheme5,
+  chartTheme6,
+  chartTheme7
+} from "@/views/diseaseWarning/dataVisualization/chartThemes";
 
 const tabActive = ref("first");
 const route = useRoute();
-const treeFilterValue = reactive({ device: "39" });
+const treeFilterValue = reactive({ device: "1" });
 const hour = ref("24");
 const globalStore = useGlobalStore();
 const keepAliveStore = useKeepAliveStore();
@@ -231,23 +241,12 @@ const processingData = async () => {
   }
 };
 
-// 防抖函数
-const debounce = <T extends (...args: any[]) => void>(func: T, delay: number) => {
-  let timer: NodeJS.Timeout | null = null;
-  return (...args: Parameters<T>) => {
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-};
-
-const changeTreeFilter = debounce((val: { id: string; treeCurrentData: any }) => {
+const changeTreeFilter = (val: { id: string; treeCurrentData: any }) => {
   ElMessage.success(`站点切换成功!`);
   treeFilterValue.device = val.id;
   judgeList(val.treeCurrentData);
   siteName.value = val.treeCurrentData.name;
-}, 50);
+};
 
 // 刷新当前页
 const refreshCurrentPage: Function = inject("refresh") as Function;
@@ -266,28 +265,6 @@ const refresh = () => {
 const maximize = () => {
   globalStore.setGlobalState("maximize", true);
 };
-
-// 图表主题渐变生成
-const generateChartTheme = (color1: string, color2: string) => {
-  return [
-    {
-      offset: 0,
-      color: color1
-    },
-    {
-      offset: 1,
-      color: color2
-    }
-  ];
-};
-
-const chartTheme1 = generateChartTheme("rgb(128, 255, 165)", "rgb(1, 191, 236)");
-const chartTheme2 = generateChartTheme("rgb(0, 221, 255)", "rgb(77, 119, 255)");
-const chartTheme3 = generateChartTheme("rgb(55, 162, 255)", "rgb(116, 21, 219)");
-const chartTheme4 = generateChartTheme("rgb(255, 0, 135)", "rgb(135, 0, 157)");
-const chartTheme5 = generateChartTheme("rgb(255, 191, 0)", "rgb(224, 62, 76)");
-const chartTheme6 = generateChartTheme("rgb(32, 180, 255)", "rgb(3, 228, 201)");
-const chartTheme7 = generateChartTheme("rgb(255, 130, 92)", "rgb(153, 102, 255)");
 
 onMounted(() => {
   processingData();

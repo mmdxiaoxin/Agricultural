@@ -151,7 +151,7 @@ const handleSubmit = () => {
 
 const beforeRemove: UploadProps["beforeRemove"] = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
   console.log(uploadFile, uploadFiles);
-  return ElMessageBox.confirm(`Cancel the transfer of ${uploadFile.name} ?`).then(
+  return ElMessageBox.confirm(`确定取消上传 ${uploadFile.name} ?`).then(
     () => true,
     () => false
   );

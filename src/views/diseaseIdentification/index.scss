@@ -46,14 +46,15 @@
         }
 
         .r1-card-image {
-          height: 250px; /* 控制图片的高度 */
+          height: 220px; /* 控制图片的高度 */
+          width: 320px;
 
           .image-slot {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 250px;
-            width: 375px;
+            height: 220px;
+            width: inherit;
             background: var(--el-fill-color-light);
             color: var(--el-text-color-secondary);
             font-size: 30px;

@@ -52,7 +52,6 @@
 
 <script setup lang="ts">
 import { inject, ref, reactive, nextTick, watch, computed, onBeforeMount } from "vue";
-import { ElMessage } from "element-plus";
 import { FullScreen, Refresh } from "@element-plus/icons-vue";
 import { getUserDevice } from "@/api/modules/user";
 import { useGlobalStore } from "@/stores/modules/global";
@@ -141,12 +140,12 @@ const judgeList = (data: any) => {
 
 //树形过滤器
 const changeTreeFilter = (val: { id: string; treeCurrentData: any }) => {
-  ElMessage.success(`站点切换成功!`);
   treeFilterValue.deviceId = val.id;
   judgeList(val.treeCurrentData);
   siteName.value = val.treeCurrentData.name;
-  useChartData();
-  reRenderKey.value++;
+  if (isDevice.value) {
+    useChartData();
+  }
 };
 
 // 刷新当前页
@@ -241,7 +240,6 @@ watch(
         break;
     }
     useChartData();
-    reRenderKey.value++;
   },
   { immediate: true }
 );

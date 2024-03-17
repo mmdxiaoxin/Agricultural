@@ -1,5 +1,5 @@
 <template>
-  <div ref="pieChartRef" class="chart-container"></div>
+  <div ref="pieChartRef" class="probability-chart"></div>
 </template>
 
 <script setup lang="ts">
@@ -80,8 +80,8 @@ watch(
 </script>
 
 <style scoped lang="scss">
-.chart-container {
-  width: 100%;
-  height: 100%;
+.probability-chart {
+  width: 800px;
+  height: 500px;
 }
 </style>

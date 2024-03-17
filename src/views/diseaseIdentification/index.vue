@@ -2,7 +2,7 @@
   <div class="disease-identification card">
     <div class="left-panel card">
       <!--  模型选择    -->
-      <div class="l1">
+      <div class="l_panel-model">
         <h3>模型选择</h3>
         <el-form-item>
           <el-select v-model="modelValue" placeholder="Select" size="large" style="width: 240px" @change="changeSelector">
@@ -11,10 +11,10 @@
         </el-form-item>
       </div>
       <!--  光谱处理    -->
-      <div class="l2">
+      <div class="l_panel-spectrum">
         <h3>光谱处理(预处理)</h3>
         <el-form-item>
-          <el-radio-group v-model="spectrumRadio" class="l2-item-group" @change="changeRadio($event)">
+          <el-radio-group v-model="spectrumRadio" class="spectrum-group" @change="changeRadio($event)">
             <el-popover
               v-for="option in preprocessingOption"
               :key="option.value"
@@ -23,14 +23,14 @@
               :content="option.description"
             >
               <template #reference>
-                <el-radio :label="option.label" border class="l2-items" />
+                <el-radio :label="option.label" border class="spectrum-items" />
               </template>
             </el-popover>
           </el-radio-group>
         </el-form-item>
       </div>
       <!-- 文件上传     -->
-      <div class="l3">
+      <div class="l_panel-upload">
         <div class="l3-title"><h3>文件上传</h3></div>
         <div class="l3-main">
           <el-upload
@@ -59,17 +59,14 @@
     <!--  模型处理结果   -->
     <div class="right-panel card">
       <!--  处理结果   -->
-      <el-tabs v-model="activeName" type="card" class="r-panel">
-        <template #addIcon>
-          <el-icon><Select /></el-icon>
-        </template>
-        <el-tab-pane label="模型处理结果" name="handle" class="result-panel">
-          <el-card class="r1-card" shadow="hover" v-for="(item, index) in modelProcessingResults" :key="index">
+      <el-tabs v-model="activeName" type="card" class="r_panel" tab-position="top">
+        <el-tab-pane label="模型处理结果" name="handle" class="r_panel-result">
+          <el-card class="result-card" shadow="hover" v-for="(item, index) in modelProcessingResults" :key="index">
             <template #header>
-              <div class="r1-card-header">{{ item.description }}</div>
+              <div class="card-header">{{ item.description }}</div>
             </template>
             <el-image
-              class="r1-card-image"
+              class="card-content"
               :src="item.src"
               :zoom-rate="1.2"
               :max-scale="7"
@@ -79,7 +76,7 @@
               fit="cover"
             >
               <template #error>
-                <div class="image-slot">
+                <div class="card-slot">
                   <el-icon>
                     <icon-picture />
                   </el-icon>
@@ -88,9 +85,11 @@
             </el-image>
           </el-card>
         </el-tab-pane>
-        <el-tab-pane label="模型诊断结果" name="diagnosis" class="diagnosis-panel">
+        <el-tab-pane label="模型诊断结果" name="diagnosis" class="r_panel-diagnosis">
           <!--   诊断结果     -->
-          <ProbabilityPieChart :data="probabilityData" class="predict-result" />
+          <div class="diagnosis-chart">
+            <ProbabilityPieChart :data="probabilityData" class="diagnosis" />
+          </div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -99,7 +98,6 @@
 
 <script setup lang="ts" name="diseaseIdentification">
 import { ref } from "vue";
-import { Select } from "@element-plus/icons-vue";
 import type { UploadFile, UploadFiles, UploadProps, UploadUserFile } from "element-plus";
 import { UploadFilled } from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -148,8 +146,8 @@ const fileList = ref<UploadUserFile[]>([]);
 
 //文件上传成功
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const handleSuccess: UploadProps["onSuccess"] = (response, file, uploadFiles) => {
-  ElMessageBox.alert(`上传成功: ${file.name}`);
+const handleSuccess: UploadProps["onSuccess"] = (response, uploadFile, uploadFiles) => {
+  ElMessage.success(`上传成功`);
 };
 
 //文件上传

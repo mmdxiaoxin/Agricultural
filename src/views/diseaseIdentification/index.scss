@@ -1,70 +1,78 @@
-.diseaseIdentify-container {
+@import "@/styles/chartStyle";
+
+.disease-identification {
   display: flex;
   height: 100%;
+  gap: 10px;
 
-  .diseaseIdentify-container-left {
+  .left-panel {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    width: 35%;
+    width: 300px; /* 左侧容器宽度 */
 
-    .l2 {
-      .l2-item-group {
-        height: 80%;
+    .l_panel-model {
+
+    }
+
+    .l_panel-spectrum {
+      .spectrum-group {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         align-content: flex-start;
 
-        .l2-items {
-          width: 20%;
-          margin-bottom: 20px;
+        .spectrum-items {
+          width: 37%;
+          margin-bottom: 5px;
         }
       }
+
     }
 
-    .l3 {
-      margin-bottom: 20px;
+    .l_panel-upload {
+
     }
   }
 
-  .diseaseIdentify-container-right {
-    width: 64%;
-    margin-left: 1%;
+  .right-panel {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 300px);
 
-    .result-panel {
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      justify-content: space-between;
+    .r_panel {
 
-      .r1-card {
-        margin-bottom: 20px;
+      width: 100%;
 
-        .r1-card-header {
-          padding: 10px; /* 控制标题栏内边距 */
-        }
+      .r_panel-result {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-between;
 
-        .r1-card-image {
-          height: 220px; /* 控制图片的高度 */
-          width: 320px;
+        .result-card {
+          margin-bottom: 20px;
+          flex-basis: 49%;
 
-          .image-slot {
-            display: flex;
-            justify-content: center;
+          .card-content, .card-slot {
+            width: 100%;
+            height: 100%;
             align-items: center;
-            height: 220px;
-            width: inherit;
-            background: var(--el-fill-color-light);
-            color: var(--el-text-color-secondary);
-            font-size: 30px;
           }
+        }
+      }
 
-          .image-slot el-icon {
-            color: red; /* 设置加载失败图标的颜色 */
-          }
+      .r_panel-diagnosis {
+        width: 100%;
+        height: 65vh;
+
+        .diagnosis-chart {
+          display: flex;
+          justify-content: space-evenly;
+          align-items: center;
         }
       }
     }
   }
 }
+
+

@@ -1,11 +1,11 @@
 <template>
-  <div class="diseaseIdentify-container card">
-    <div class="diseaseIdentify-container-left card">
+  <div class="disease-identification card">
+    <div class="left-panel card">
       <!--  模型选择    -->
       <div class="l1">
         <h3>模型选择</h3>
         <el-form-item>
-          <el-select v-model="modelValue" placeholder="Select" size="large" style="width: 240px">
+          <el-select v-model="modelValue" placeholder="Select" size="large" style="width: 240px" @change="changeSelector">
             <el-option v-for="item in modelOption" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -14,7 +14,7 @@
       <div class="l2">
         <h3>光谱处理(预处理)</h3>
         <el-form-item>
-          <el-radio-group v-model="spectrumRadio" class="l2-item-group">
+          <el-radio-group v-model="spectrumRadio" class="l2-item-group" @change="changeRadio($event)">
             <el-popover
               v-for="option in preprocessingOption"
               :key="option.value"
@@ -38,14 +38,18 @@
             class="upload-demo"
             drag
             :file-list="fileList"
+            :on-success="handleSuccess"
+            :http-request="uploadFile"
             :on-remove="handleRemove"
             :before-remove="beforeRemove"
             :auto-upload="false"
           >
-            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+            <el-icon class="el-icon--upload">
+              <upload-filled />
+            </el-icon>
             <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
             <template #tip>
-              <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
+              <div class="el-upload__tip">暂时只支持单文件上传</div>
             </template>
           </el-upload>
           <el-button type="success" @click="handleSubmit">提交</el-button>
@@ -53,9 +57,9 @@
       </div>
     </div>
     <!--  模型处理结果   -->
-    <div class="diseaseIdentify-container-right card">
+    <div class="right-panel card">
       <!--  处理结果   -->
-      <el-tabs v-model="activeName" type="card">
+      <el-tabs v-model="activeName" type="card" class="r-panel">
         <template #addIcon>
           <el-icon><Select /></el-icon>
         </template>
@@ -76,15 +80,17 @@
             >
               <template #error>
                 <div class="image-slot">
-                  <el-icon><icon-picture /></el-icon>
+                  <el-icon>
+                    <icon-picture />
+                  </el-icon>
                 </div>
               </template>
             </el-image>
           </el-card>
         </el-tab-pane>
-        <el-tab-pane label="模型诊断结果" name="diagnosis">
+        <el-tab-pane label="模型诊断结果" name="diagnosis" class="diagnosis-panel">
           <!--   诊断结果     -->
-          待更新。。。
+          <ProbabilityPieChart :data="probabilityData" class="predict-result" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -94,52 +100,75 @@
 <script setup lang="ts" name="diseaseIdentification">
 import { ref } from "vue";
 import { Select } from "@element-plus/icons-vue";
-import type { UploadFile, UploadFiles, UploadProps } from "element-plus";
+import type { UploadFile, UploadFiles, UploadProps, UploadUserFile } from "element-plus";
 import { UploadFilled } from "@element-plus/icons-vue";
-import { ElMessageBox } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { Picture as IconPicture } from "@element-plus/icons-vue";
 import type { UploadInstance } from "element-plus";
+import { uploadTheFileToBePredicted } from "@/api/modules/upload";
+import { modelOption, modelProcessingResults, preprocessingOption } from "@/views/diseaseIdentification/common";
+import { selectMethod, selectModel } from "@/api/modules/predict";
+import ProbabilityPieChart from "@/views/diseaseIdentification/components/ProbabilityPieChart.vue";
 
-// 测试图片
-const modelProcessingResults = [
-  { src: "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg", description: "RGB还原" },
-  { src: "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg", description: "图像分割" },
-  { src: "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg", description: "去除背景" },
-  { src: "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg0", description: "测试内容" }
-];
-
-//测试模型选项
-const modelOption = [
-  { value: "1", label: "Net2_59" },
-  { value: "2", label: "Res_RGB" }
-];
-
-//预处理函数配置
-const preprocessingOption = [
-  { value: "1", label: "NONE", description: "什么都不做" },
-  { value: "2", label: "MMS", description: "最大最小值归一化" },
-  { value: "3", label: "SS", description: "标准差标准化" },
-  { value: "4", label: "CT", description: "均值中心化" },
-  { value: "5", label: "SNV", description: "标准正态变换" },
-  { value: "6", label: "MA", description: "移动平均平滑" },
-  { value: "7", label: "SG", description: "Savitzky-Golay平滑滤波" },
-  { value: "8", label: "D1", description: "一阶导数" },
-  { value: "9", label: "D2", description: "二阶导数" },
-  { value: "9", label: "DT", description: "趋势校正(DT)" },
-  { value: "9", label: "DT2", description: "改进的趋势校正" }
-];
 //标签页
 const activeName = ref("handle");
 
 //模型选择
 const modelValue = ref("");
+const changeSelector = async (value: any) => {
+  await selectModel({ model: value })
+    .then(() => {
+      ElMessage.success("模型选择成功");
+    })
+    .catch(reason => {
+      ElMessage.error(`模型选择失败, 失败原因${reason}`);
+    });
+};
 
 //光谱处理
 const spectrumRadio = ref("");
+const changeRadio = async (value: any) => {
+  console.log(probabilityData.value);
+  await selectMethod({ method: value })
+    .then(() => {
+      ElMessage.success("预处理函数选择成功");
+    })
+    .catch(reason => {
+      ElMessage.error(`选择失败败, 失败原因${reason}`);
+    });
+};
 
 //文件上传
+interface UploadFileOption {
+  file: File;
+}
+
 const uploadRef = ref<UploadInstance>();
-const fileList = ref([]);
+const fileList = ref<UploadUserFile[]>([]);
+
+//文件上传成功
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const handleSuccess: UploadProps["onSuccess"] = (response, file, uploadFiles) => {
+  ElMessageBox.alert(`上传成功: ${file.name}`);
+};
+
+//文件上传
+const uploadFile = async (files: UploadFileOption) => {
+  let formData = new FormData();
+  formData.append("input_image", files.file);
+  try {
+    const { data } = await uploadTheFileToBePredicted(formData);
+    console.log(data);
+    fileList.value.push(files.file);
+    probabilityData.value = data.predictions;
+    console.log(probabilityData);
+    ElMessage.success("上传成功");
+    console.log(data);
+  } catch (e) {
+    ElMessage.error("上传失败");
+    console.log(e);
+  }
+};
 
 const handleRemove: UploadProps["onRemove"] = (file, uploadFiles) => {
   console.log(file, uploadFiles);
@@ -156,6 +185,9 @@ const beforeRemove: UploadProps["beforeRemove"] = (uploadFile: UploadFile, uploa
     () => false
   );
 };
+
+//模型处理结果
+const probabilityData = ref();
 </script>
 <style scoped lang="scss">
 @import "./index";

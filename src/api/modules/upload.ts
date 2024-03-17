@@ -14,3 +14,8 @@ export const uploadImg = (params: FormData) => {
 export const uploadVideo = (params: FormData) => {
   return http.post<Upload.ResFileUrl>(PORT1 + `/file/upload/video`, params);
 };
+
+//高光谱文件上传
+export const uploadTheFileToBePredicted = (params: FormData) => {
+  return http.post<Upload.ResPredictInfo>(PORT1 + `/predict/upload-file`, params);
+};

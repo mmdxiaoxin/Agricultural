@@ -28,6 +28,10 @@ export namespace Upload {
   export interface ResFileUrl {
     fileUrl: string;
   }
+
+  export interface ResPredictInfo {
+    predictions: Object[];
+  }
 }
 
 // 登录模块

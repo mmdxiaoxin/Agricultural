@@ -70,8 +70,8 @@ import {
   chartTheme5,
   chartTheme6,
   chartTheme7
-} from "@/views/diseaseWarning/dataVisualization/config/chartThemes";
-import { tab } from "@/views/diseaseWarning/dataVisualization/config";
+} from "@/views/diseaseWarning/dataVisualization/common";
+import { tab } from "@/views/diseaseWarning/dataVisualization/common";
 import { getCollect } from "@/api/modules/dataHandle";
 
 interface ChartData {

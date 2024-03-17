@@ -26,3 +26,47 @@
   width: 800px;
   height: 300px;
 }
+
+.chart-container-high-wide {
+  @extend .chart-container;
+  width: 800px;
+  height: 600px;
+}
+
+.chart-container-large {
+  @extend .chart-container;
+  width: 1000px;
+  height: 600px;
+}
+
+.chart-container-round {
+  @extend .chart-container;
+  border-radius: 50%;
+}
+
+.chart-container-green {
+  @extend .chart-container;
+  background-color: #6fbf73;
+}
+
+.chart-container-blue {
+  @extend .chart-container;
+  background-color: #7eb5e8;
+}
+
+.chart-container-red {
+  @extend .chart-container;
+  background-color: #e87979;
+}
+
+.chart-container-dark {
+  @extend .chart-container;
+  background-color: #333;
+  color: #fff;
+}
+
+.chart-container-light {
+  @extend .chart-container;
+  background-color: #f4f4f4;
+}
+

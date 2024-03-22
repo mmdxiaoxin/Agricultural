@@ -35,19 +35,18 @@
         <div class="l3-main">
           <el-upload
             ref="uploadRef"
-            class="upload-demo"
             drag
+            :limit="1"
             :file-list="fileList"
+            :on-exceed="handleExceed"
             :on-success="handleSuccess"
             :http-request="uploadFile"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
             :auto-upload="false"
           >
             <el-icon class="el-icon--upload">
               <upload-filled />
             </el-icon>
-            <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+            <div class="el-upload__text">将文件拖到此处 or <em>单击以上传</em></div>
             <template #tip>
               <div class="el-upload__tip">暂时只支持单文件上传</div>
             </template>
@@ -98,9 +97,9 @@
 
 <script setup lang="ts" name="diseaseIdentification">
 import { ref } from "vue";
-import type { UploadFile, UploadFiles, UploadProps, UploadUserFile } from "element-plus";
+import type { UploadProps, UploadRawFile, UploadUserFile } from "element-plus";
 import { UploadFilled } from "@element-plus/icons-vue";
-import { ElMessage, ElMessageBox } from "element-plus";
+import { ElMessage, ElMessageBox, genFileId } from "element-plus";
 import { Picture as IconPicture } from "@element-plus/icons-vue";
 import type { UploadInstance } from "element-plus";
 import { uploadTheFileToBePredicted } from "@/api/modules/upload";
@@ -121,6 +120,11 @@ const changeSelector = async (value: any) => {
     .catch(reason => {
       ElMessage.error(`模型选择失败, 失败原因${reason}`);
     });
+  fileList.value.forEach(item => {
+    if (item.status === "success") {
+      item.status = "ready";
+    }
+  });
 };
 
 //光谱处理
@@ -134,6 +138,11 @@ const changeRadio = async (value: any) => {
     .catch(reason => {
       ElMessage.error(`选择失败败, 失败原因${reason}`);
     });
+  fileList.value.forEach(item => {
+    if (item.status === "success") {
+      item.status = "ready";
+    }
+  });
 };
 
 //文件上传
@@ -156,29 +165,27 @@ const uploadFile = async (files: UploadFileOption) => {
   formData.append("input_image", files.file);
   try {
     const { data } = await uploadTheFileToBePredicted(formData);
-    console.log(data);
     fileList.value.push(files.file);
     probabilityData.value = data.predictions;
-    console.log(probabilityData);
-    ElMessage.success("上传成功");
-    console.log(data);
   } catch (e) {
     ElMessage.error("上传失败");
-    console.log(e);
   }
 };
 
-const handleRemove: UploadProps["onRemove"] = (file, uploadFiles) => {
-  console.log(file, uploadFiles);
+const handleExceed: UploadProps["onExceed"] = files => {
+  uploadRef.value!.clearFiles();
+  const file = files[0] as UploadRawFile;
+  file.uid = genFileId();
+  uploadRef.value!.handleStart(file);
 };
 
 const handleSubmit = () => {
   uploadRef.value!.submit();
 };
 
-const beforeRemove: UploadProps["beforeRemove"] = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-  console.log(uploadFile, uploadFiles);
-  return ElMessageBox.confirm(`确定取消上传 ${uploadFile.name} ?`).then(
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const beforeRemove: UploadProps["beforeRemove"] = (uploadFile, uploadFiles) => {
+  return ElMessageBox.confirm(`确定删除记录 ${uploadFile.name} ?`).then(
     () => true,
     () => false
   );

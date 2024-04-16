@@ -31,6 +31,10 @@ export namespace Upload {
 
   export interface ResPredictInfo {
     predictions: Object[];
+    NoBackgroundImage: string;
+    maskImage: string;
+    spectral_curve_image: string;
+    rgbImage: string;
   }
 }
 

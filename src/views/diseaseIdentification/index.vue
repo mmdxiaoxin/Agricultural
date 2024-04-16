@@ -60,7 +60,7 @@
       <!--  处理结果   -->
       <el-tabs v-model="activeName" type="card" class="r_panel" tab-position="top">
         <el-tab-pane label="模型处理结果" name="handle" class="r_panel-result">
-          <el-card class="result-card" shadow="hover" v-for="(item, index) in modelProcessingResults" :key="index">
+          <el-card class="result-card" shadow="hover" v-for="(item, index) in ProcessingResults" :key="index">
             <template #header>
               <div class="card-header">{{ item.description }}</div>
             </template>
@@ -70,7 +70,7 @@
               :zoom-rate="1.2"
               :max-scale="7"
               :min-scale="0.2"
-              :preview-src-list="modelProcessingResults.map(item => item.src)"
+              :preview-src-list="ProcessingResults.map(item => item.src)"
               :initial-index="index"
               fit="cover"
             >
@@ -103,7 +103,7 @@ import { ElMessage, ElMessageBox, genFileId } from "element-plus";
 import { Picture as IconPicture } from "@element-plus/icons-vue";
 import type { UploadInstance } from "element-plus";
 import { uploadTheFileToBePredicted } from "@/api/modules/upload";
-import { modelOption, modelProcessingResults, preprocessingOption } from "@/views/diseaseIdentification/common";
+import { modelOption, preprocessingOption } from "@/views/diseaseIdentification/common";
 import { selectMethod, selectModel } from "@/api/modules/predict";
 import ProbabilityPieChart from "@/views/diseaseIdentification/components/ProbabilityPieChart.vue";
 
@@ -112,6 +112,10 @@ const activeName = ref("handle");
 
 //模型选择
 const modelValue = ref("");
+
+//模型处理结果
+const probabilityData = ref();
+
 const changeSelector = async (value: any) => {
   await selectModel({ model: value })
     .then(() => {
@@ -130,7 +134,6 @@ const changeSelector = async (value: any) => {
 //光谱处理
 const spectrumRadio = ref("");
 const changeRadio = async (value: any) => {
-  console.log(probabilityData.value);
   await selectMethod({ method: value })
     .then(() => {
       ElMessage.success("预处理函数选择成功");
@@ -152,6 +155,7 @@ interface UploadFileOption {
 
 const uploadRef = ref<UploadInstance>();
 const fileList = ref<UploadUserFile[]>([]);
+const ProcessingResults = ref<Array<{ src: string; description: string }>>([]);
 
 //文件上传成功
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -163,10 +167,19 @@ const handleSuccess: UploadProps["onSuccess"] = (response, uploadFile, uploadFil
 const uploadFile = async (files: UploadFileOption) => {
   let formData = new FormData();
   formData.append("input_image", files.file);
+  ProcessingResults.value = [];
   try {
     const { data } = await uploadTheFileToBePredicted(formData);
     fileList.value.push(files.file);
     probabilityData.value = data.predictions;
+    console.log(typeof probabilityData.value);
+    ProcessingResults.value.push({ src: "data:image/png;base64," + data.rgbImage, description: "RGB还原" });
+    if (data.maskImage != null)
+      ProcessingResults.value.push({ src: "data:image/png;base64," + data.maskImage, description: "掩膜图像" });
+    if (data.NoBackgroundImage != null)
+      ProcessingResults.value.push({ src: "data:image/png;base64," + data.NoBackgroundImage, description: "背景去除" });
+    if (data.spectral_curve_image != null)
+      ProcessingResults.value.push({ src: "data:image/png;base64," + data.spectral_curve_image, description: "光谱曲线" });
   } catch (e) {
     ElMessage.error("上传失败");
   }
@@ -190,9 +203,6 @@ const beforeRemove: UploadProps["beforeRemove"] = (uploadFile, uploadFiles) => {
     () => false
   );
 };
-
-//模型处理结果
-const probabilityData = ref();
 </script>
 <style scoped lang="scss">
 @import "./index";

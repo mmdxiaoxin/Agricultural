@@ -91,6 +91,48 @@
     flex-direction: row;
     justify-content: space-around;
   }
+
+  .warn-notification {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .warn-item {
+      width: 33%;
+      height: 100%;
+      margin-right: 5px;
+      font-family: "黑体", serif;
+      font-size: 20px;
+
+      .warn-img {
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          height: 100%;
+        }
+      }
+      .card-header {
+        display: flex;
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--el-color-primary);
+        margin-bottom: 10px;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-items: center;
+
+        span {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
 }
 
 .title {

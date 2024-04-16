@@ -23,6 +23,48 @@
       </div>
       <!-- 分割线 -->
       <el-divider />
+
+      <el-divider @click="toggleContent2">
+        <el-icon v-if="showContent2"><CaretTop /></el-icon>
+        <el-icon v-else><CaretBottom /></el-icon>
+        <span style="font-weight: bold; color: var(--el-text-color-regular)">病害预警</span>
+      </el-divider>
+      <!-- 根据状态来显示/隐藏内容 -->
+      <div v-if="showContent2" class="card">
+        <div class="warn-notification">
+          <el-card class="warn-item" shadow="hover">
+            <template #header>
+              <div class="card-header">
+                <span>作物:</span>
+                <el-select v-model="value" placeholder="Select" style="flex: 1">
+                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+                </el-select>
+              </div>
+            </template>
+            <div class="warn-img">
+              <img src="src/assets/images/知识图谱.svg" alt="知识图谱" />
+            </div>
+          </el-card>
+          <el-card class="warn-item" shadow="hover">
+            <template #header>
+              <div class="card-header">
+                <span>易感病害</span>
+              </div>
+            </template>
+            褐斑病<br />斑点落叶病
+          </el-card>
+          <el-card class="warn-item" shadow="hover">
+            <template #header>
+              <div class="card-header">
+                <span>防治措施推荐</span>
+              </div>
+            </template>
+            多菌灵可湿性粉剂<br />
+            福美锌可湿性粉剂<br />
+            增施磷肥和钾肥
+          </el-card>
+        </div>
+      </div>
       <!-- 主要数据展示区域 -->
       <div class="siteBoard" :key="reRenderKey">
         <div class="temperature card">
@@ -119,11 +161,28 @@ const CO2Data = ref();
 const soilEcData = ref();
 //底部展开
 const showContent = ref(false);
+const showContent2 = ref(false);
 //判断站点或者设备
 const isSite = ref(false);
 const isDevice = ref(true);
 //站点名称
 const siteName = ref("");
+
+const value = ref("苹果");
+const options = [
+  {
+    value: "苹果",
+    label: "苹果"
+  },
+  {
+    value: "葡萄",
+    label: "葡萄"
+  },
+  {
+    value: "猕猴桃",
+    label: "猕猴桃"
+  }
+];
 const judgeList = (data: any) => {
   isSite.value = !!data.isSite;
   isDevice.value = !!data.isDevice;
@@ -131,6 +190,10 @@ const judgeList = (data: any) => {
 
 const toggleContent = () => {
   showContent.value = !showContent.value;
+};
+
+const toggleContent2 = () => {
+  showContent2.value = !showContent2.value;
 };
 
 const reRenderTheChartInterface = () => {

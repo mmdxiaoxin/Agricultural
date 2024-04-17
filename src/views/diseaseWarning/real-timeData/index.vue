@@ -30,38 +30,45 @@
         <span style="font-weight: bold; color: var(--el-text-color-regular)">病害预警</span>
       </el-divider>
       <!-- 根据状态来显示/隐藏内容 -->
-      <div v-if="showContent2" class="card">
+      <div class="card" v-if="showContent2">
         <div class="warn-notification">
+          <!-- 选择作物 -->
           <el-card class="warn-item" shadow="hover">
             <template #header>
               <div class="card-header">
                 <span>作物:</span>
-                <el-select v-model="value" placeholder="Select" style="flex: 1">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+                <el-select v-model="selectedPlant" placeholder="选择" style="flex: 1">
+                  <el-option v-for="option in plantOptions" :key="option.value" :label="option.label" :value="option.value" />
                 </el-select>
               </div>
             </template>
             <div class="warn-img">
-              <img src="src/assets/images/知识图谱.svg" alt="知识图谱" />
+              <img src="src/assets/images/knowledge_graph.svg" alt="知识图谱" />
             </div>
           </el-card>
-          <el-card class="warn-item" shadow="hover">
+
+          <!-- 根据选定的作物显示易感病害 -->
+          <el-card class="warn-item" shadow="hover" v-if="selectedPlant && diseaseOptions[selectedPlant]">
             <template #header>
               <div class="card-header">
                 <span>易感病害</span>
               </div>
             </template>
-            褐斑病<br />斑点落叶病
+            <div v-for="disease in diseaseOptions[selectedPlant].diseases" :key="disease">
+              {{ disease }}
+            </div>
           </el-card>
-          <el-card class="warn-item" shadow="hover">
+
+          <!-- 根据选定的作物显示防治措施推荐 -->
+          <el-card class="warn-item" shadow="hover" v-if="selectedPlant && diseaseOptions[selectedPlant]">
             <template #header>
               <div class="card-header">
                 <span>防治措施推荐</span>
               </div>
             </template>
-            多菌灵可湿性粉剂<br />
-            福美锌可湿性粉剂<br />
-            增施磷肥和钾肥
+            <div v-for="prevention in diseaseOptions[selectedPlant].prevention" :key="prevention">
+              {{ prevention }}
+            </div>
           </el-card>
         </div>
       </div>
@@ -135,6 +142,7 @@ import WeatherPanel from "@/views/diseaseWarning/real-timeData/component/Weather
 import SoilEcDataPanel from "@/views/diseaseWarning/real-timeData/component/SoilEcDataPanel.vue";
 import Rainfall from "@/views/diseaseWarning/real-timeData/component/Rainfall.vue";
 import SiteOverview from "@/components/SiteOverview/index.vue";
+import { diseaseOptions, plantOptions } from "@/views/diseaseWarning/real-timeData/common";
 
 const route = useRoute();
 const globalStore = useGlobalStore();
@@ -168,21 +176,8 @@ const isDevice = ref(true);
 //站点名称
 const siteName = ref("");
 
-const value = ref("苹果");
-const options = [
-  {
-    value: "苹果",
-    label: "苹果"
-  },
-  {
-    value: "葡萄",
-    label: "葡萄"
-  },
-  {
-    value: "猕猴桃",
-    label: "猕猴桃"
-  }
-];
+const selectedPlant = ref<string>("apple");
+
 const judgeList = (data: any) => {
   isSite.value = !!data.isSite;
   isDevice.value = !!data.isDevice;

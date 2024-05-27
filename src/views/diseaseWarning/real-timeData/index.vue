@@ -323,7 +323,7 @@ const maximize = () => {
 };
 
 onMounted(() => {
-  useDeviceData(treeFilterValue.device);
+  setInterval(useDeviceData, 5000, treeFilterValue.device);
   updateFontSizes();
   window.addEventListener("resize", updateFontSizes);
 });

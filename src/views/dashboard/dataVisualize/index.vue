@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts" name="dataVisualize">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import Pie from "./components/pie.vue";
 import Curve from "./components/curve.vue";
 import { getDashboard } from "@/api/modules/dataHandle";
@@ -95,10 +95,7 @@ const useDashboardData = async () => {
     ElMessage.error("获取设备数据失败!");
   }
 };
-
-onMounted(() => {
-  useDashboardData();
-});
+useDashboardData();
 </script>
 
 <style scoped lang="scss">

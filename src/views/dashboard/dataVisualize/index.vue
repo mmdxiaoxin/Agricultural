@@ -33,7 +33,7 @@
                 <div class="traffic-img">
                   <img src="./images/today.png" alt="" />
                 </div>
-                <span class="item-value">{{ 0 }}</span>
+                <span class="item-value">{{ todaySDeviceRecords }}</span>
                 <span class="traffic-name sle">今日设备记录</span>
               </div>
               <div class="yesterday-traffic traffic-box">
@@ -73,11 +73,15 @@ import { getDashboard } from "@/api/modules/dataHandle";
 import { ElMessage } from "element-plus";
 
 const pieRef = ref();
-const deviceCount = ref(NaN);
-const siteCount = ref(NaN);
-const totalNumberOfDeviceRecords = ref(NaN);
+
+// 数据初始化
+const deviceCount = ref(0);
+const todaySDeviceRecords = ref(0);
+const siteCount = ref(0);
+const totalNumberOfDeviceRecords = ref(0);
 const curveRef = ref();
 
+// 获取数据
 const useDashboardData = async () => {
   try {
     const { data } = await getDashboard();
